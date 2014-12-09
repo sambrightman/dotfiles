@@ -1,0 +1,72 @@
+[alias]
+        a = add .
+        ac = !git a && git ci
+	ai = add --interactive
+	ap = add --patch
+	br = branch -vv
+	brav = branch --all -vv
+	ca = commit --amend
+	co = checkout
+	cob = checkout -b
+	ci = commit -m
+	cia = commit -C HEAD@{1}
+	ciae = commit -c HEAD@{1}
+	dc = diff --cached
+	du = !git diff --pretty=authoneline --reverse $(git ub)..
+	lg = log --pretty=authoneline
+	lga = log -n1 HEAD@{1}
+	lgf = log --pretty=authonelinefull
+	lgu = !git log --pretty=authoneline --reverse $(git ub)..
+	pp = !"git lgu; echo; git du --stat"
+	pr = !"if ! git diff-files --quiet; then git stash && git pull --rebase && git stash pop; else git pull --rebase; fi"
+	ra = rebase --abort
+	rb = rebase
+	rc = rebase --continue
+	rs = rebase --skip
+	ri = rebase --interactive
+        rl = reflog --pretty=refonelinefull
+	rsh = reset HEAD
+	rsa = reset --hard
+	rsp = reset --patch
+	rss = reset --soft
+	rso = remote show origin
+	sl = stash list --pretty=stashoneline
+	sp = stash pop
+	ss = stash show -p
+	st = status
+        bb = !echo $(git cb)_bb
+        cb = rev-parse --abbrev-ref HEAD
+	ub = rev-parse --abbrev-ref --symbolic-full-name @{u}
+        qb = !git br $(git bb)
+        qd = !git br -D $(git bb)
+        db = !git diff $(git bb)
+        name = show --name-only
+      	graph = log --graph --all --pretty=graphtight --abbrev-commit --date=relative
+        biggraph = log --graph --all --pretty=graphloose --abbrev-commit
+	tagdates = log --tags --simplify-by-decoration --pretty=\"format:%ci %d\"
+	conflicts = diff --name-only --diff-filter=U
+        contains = branch -a --contains
+	alias = !git config --list | grep alias
+[pretty]
+	graphtight = %C(bold red)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)- %an%C(reset)%C(bold yellow)%d%C(reset)
+	graphloose = %C(bold red)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n          %C(white)%s%C(reset) %C(bold white)- %an%C(reset)
+	authoneline = %C(bold red)%h %C(reset)%s %C(bold green)%aN %C(bold magenta)(%ar)%C(reset)%C(yellow)%d%C(reset)
+	authonelinefull = %C(bold red)%h %C(reset)%s %C(bold green)%aN %C(bold magenta)(%aD)%C(reset)%C(yellow)%d%C(reset)
+	stashoneline = %C(bold red)%h %C(bold green)%gd %C(reset)%s %C(bold green)%aN %C(bold magenta)(%ar)%C(reset)%C(yellow)%d%C(reset)
+	refonelinefull = %C(auto)%h %gd: %gs %C(bold magenta)(%aD)%C(reset)
+[user]
+	name = Sam Brightman
+	email = sam.brightman@imc.nl
+[core]
+	editor = emacsclient -q	-a \\\"\\\" -t
+#	less = less -S  # remove if happy with new wrapping behaviour
+[color]
+	ui = true
+[pager]
+	blame = less -S
+[push]
+	default = simple
+[pull]
+	rebase = true
+[branch]
+	autosetupmerge = always
