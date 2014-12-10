@@ -8,7 +8,7 @@ function require() {
     fi
 }
 
-require $(brew --prefix)/etc/bash_completion
+require $(/usr/local/bin/brew --prefix)/etc/bash_completion
 
 # manage prompt myself so that it works in new shells
 VIRTUAL_ENV_DISABLE_PROMPT=true
