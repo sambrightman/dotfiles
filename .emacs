@@ -5,7 +5,6 @@
     "Directory beneath which additional per-user Emacs-specific files are placed. Various programs in Emacs store information in this directory. Note that this should end with a directory separator. See also 'locate-user-emacs-file'."))
 
 (let ((default-directory user-emacs-directory))
-      (normal-top-level-add-to-load-path '("."))
       (normal-top-level-add-subdirs-to-load-path))
 (setq custom-theme-load-path load-path)
 (byte-recompile-directory user-emacs-directory 0)
