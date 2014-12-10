@@ -217,6 +217,8 @@ function symlinks() {
 		local source_pointer=$(greadlink -f ${f})
 		if [ "${pointer}" != "${source_pointer}" ]; then
 		    echo ${target} points to ${pointer} not ${source_pointer}
+		else
+		    echo ${target} already points to ${source_pointer}
 		fi
 	    fi
 	    local diff
