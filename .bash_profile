@@ -185,6 +185,58 @@ function mgs() {
     mvn clean generate-sources $*
 }
 
+function symlinks() {
+    if [ $# -lt 2 ]; then
+	echo "usage: dotfiles [-n] sourcedir targetdir"
+	echo "options:"
+	echo "	-n	dryrun"
+	return
+    fi
+
+    if [ $1 == "-n" ]; then
+	local dryrun="true"
+	shift
+    fi
+
+    local sourcedir=$1 && shift
+    local targetdir=$1 && shift
+
+    if [ ! -d "${sourcedir}" -o ! -d "${targetdir}" ]; then
+	echo both arguments should be directories
+	return
+    fi
+
+    local f
+    for f in $(find ${sourcedir} -mindepth 1 -maxdepth 1 -not \( -type d -a \( -name .git -o -name .svn \) \) ); do
+	local target=${targetdir}/$(basename ${f})
+	if [ -L "${target}" -o -e "${target}" ]; then
+	    if [ ! -L "${target}" ]; then
+		echo ${target} is not a symlink
+	    else
+		local pointer=$(greadlink -f ${target})
+		local source_pointer=$(greadlink -f ${f})
+		if [ "${pointer}" != "${source_pointer}" ]; then
+		    echo ${target} points to ${pointer} not ${source_pointer}
+		fi
+	    fi
+	    local diff
+	    diff=$(diff -ru ${f} ${target})
+	    if [ $? -ne 0 ]; then
+		echo ${target} is different from ${f}:
+		echo
+		echo "${diff}"
+	    fi
+	else
+	    echo linking ${f} to ${target}
+	    if [ -n "${dryrun}" ]; then
+		echo "gln -rs \"${f}\" \"${target}\""
+	    else
+		gln -rs "${f}" "${target}"
+	    fi
+	fi
+    done
+}
+
 function jarbomb() {
     if [ $# -lt 4 ]; then
 	echo usage: jarbomb host image deployment file [file...]
