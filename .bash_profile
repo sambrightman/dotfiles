@@ -325,6 +325,8 @@ export GOPATH=~/dev/go
 export JAVA_HOME=$(/usr/libexec/java_home)
 export MONO_GAC_PREFIX="/usr/local"
 
+alias reload_prefs='killall cfprefsd'
+
 require ~/.bash_imc
 
 # makes Ctrl-O work
