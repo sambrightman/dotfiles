@@ -208,6 +208,8 @@ function symlinks() {
     fi
 
     local f
+    local old_ifs=${IFS}
+    IFS=$'\n'
     for f in $(find ${sourcedir} -mindepth 1 -maxdepth 1 -not \( -type d -a \( -name .git -o -name .svn \) \) ); do
 	local target=${targetdir}/$(basename ${f})
 	if [ -L "${target}" -o -e "${target}" ]; then
@@ -238,6 +240,7 @@ function symlinks() {
 	    fi
 	fi
     done
+    IFS=${old_ifs}
 }
 
 function jarbomb() {
