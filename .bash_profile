@@ -298,6 +298,24 @@ function wol() {
     echo $wol_packet | xxd -r -p | nc -c -v -u -n ${ip} 9
 }
 
+function gerritify() {
+    if [ $# -lt 1 ]; then
+	echo usage: gerritify gerrit_name [remote_name] [gerrit_host] [gerrit_port]
+	return
+    fi
+    local gerrit_name=${1}
+    local remote_name=${2:-gerrit}
+    local gerrit_host=${3:-gerrit}
+    local gerrit_port=${4:-29418}
+
+    #local url=$(git ls-remote --get-url | python -c 'import sys; from urlparse import urlparse; print "\n".join(urlparse(line)._replace(netloc="%s:%s" % (sys.argv[1], sys.argv[2])).geturl() for line in sys.stdin)' ${gerrit_host} ${gerrit_port})
+
+    scp -P ${gerrit_port} -p ${gerrit_host}:hooks/commit-msg .git/hooks/
+    git remote add ${remote_name} ssh://${gerrit_host}:${gerrit_port}/${gerrit_name}
+    git config remote.${remote_name}.push HEAD:refs/for/master
+    git remote show ${remote_name}
+}
+
 require "$HOME/.rvm/scripts/rvm"
 
 export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/x86_64-apple-darwin13.4.0/4.9.1/:${DYLD_LIBRARY_PATH}
