@@ -302,6 +302,7 @@ export HOMEBREW_GITHUB_API_TOKEN='dd0c8b079f06ad87f50684133a119d3ce98f7269'
 export GOPATH=~/dev/go
 
 export JAVA_HOME=$(/usr/libexec/java_home)
+export MONO_GAC_PREFIX="/usr/local"
 
 require ~/.bash_imc
 
