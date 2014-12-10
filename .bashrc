@@ -1,5 +1,5 @@
 function require() {
-    filename=${1:?usage: require filename} && shift
+    filename=${1:?usage: require filename [command=source]} && shift
     func=${1:-source}
     if [ -f $filename ]; then
 	eval $func $filename
@@ -8,7 +8,7 @@ function require() {
     fi
 }
 
-require $(/usr/local/bin/brew --prefix)/etc/bash_completion
+require $(brew --prefix)/etc/bash_completion
 
 # manage prompt myself so that it works in new shells
 VIRTUAL_ENV_DISABLE_PROMPT=true

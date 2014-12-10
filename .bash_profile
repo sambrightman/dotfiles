@@ -57,6 +57,7 @@ alias ls='gls --color'
 alias la='ls -lart'
 alias cp='cp -i'
 alias mv='mv -i'
+alias bp='emacs ~/.bash_profile'
 
 function dircolors() { gdircolors $@; }
 eval $(require ~/.dircolors dircolors)
