@@ -321,7 +321,7 @@ function gerritify() {
 
 require "$HOME/.rvm/scripts/rvm"
 
-export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/x86_64-apple-darwin13.4.0/4.9.1/:${DYLD_LIBRARY_PATH}
+export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/x86_64-apple-darwin13.4.0/4.9.2/:${DYLD_LIBRARY_PATH}
 export HOMEBREW_GITHUB_API_TOKEN='dd0c8b079f06ad87f50684133a119d3ce98f7269'
 export GOPATH=~/dev/go
 
