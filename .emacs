@@ -9,6 +9,8 @@
 (setq custom-theme-load-path load-path)
 (byte-recompile-directory user-emacs-directory 0)
 
+(setq vc-follow-symlinks t)
+
 ;; from home/on Emacs 24 maybe not necessary?
 ;; (setq url-proxy-services '(("no_proxy" . "trading.imc.intra")
 ;;                            ("http" . "unixproxy:3128")))
