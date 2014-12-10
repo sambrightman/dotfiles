@@ -6,6 +6,7 @@
 	br = branch -vv
 	brav = branch --all -vv
 	ca = commit --amend
+	ce = config --global --edit
 	co = checkout
 	cob = checkout -b
 	ci = commit -m
