@@ -54,6 +54,7 @@ function killemacs() {
 export LESS='-FRX'
 alias grep='grep --color'
 alias ls='gls --color'
+alias la='ls -lart'
 alias cp='cp -i'
 alias mv='mv -i'
 
