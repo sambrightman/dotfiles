@@ -70,3 +70,5 @@
 	rebase = true
 [branch]
 	autosetupmerge = always
+[credential]
+	helper = osxkeychain
