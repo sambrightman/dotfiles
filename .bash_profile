@@ -73,6 +73,13 @@ function gitd() {
     git --work-tree=$dir --git-dir=$dir/.git $@
 }
 
+function gi() {
+    local repo
+    for repo in $*; do
+	gitd ${repo} ls-remote --get-url
+    done
+}
+
 alias cdgit='cd "$(git rev-parse --show-toplevel)"'
 
 export CODE_DIR="$HOME/code"
