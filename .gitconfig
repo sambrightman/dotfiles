@@ -10,11 +10,13 @@
 	ce = config --global --edit
 	co = checkout
 	cob = checkout -b
-	ci = commit -m
+	ci = commit
+	cm = commit -m
 	cia = commit -C HEAD@{1}
 	ciae = commit -c HEAD@{1}
 	dc = diff --cached
 	du = !git diff --pretty=authoneline --reverse $(git ub)..
+	fu = commit --amend --no-edit
 	lg = log --pretty=authoneline
 	lga = log -n1 HEAD@{1}
 	lgf = log --pretty=authonelinefull
