@@ -18,6 +18,10 @@
 ;;(global-hl-line-mode t)
 ;;(set-face-background 'hl-line "orange") 
 
+;; (require 'cask "~/.cask/cask.el")
+;; (cask-initialize)
+;; (pallet-mode t)
+
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
@@ -151,3 +155,45 @@
 ;;   (load-default-theme)
 
 ;; (load-default-theme)
+
+;; ; NEW STUFF
+
+;; ;; Emacs 24.4 has this
+;; (unless (fboundp 'with-eval-after-load)
+;;   (defmacro with-eval-after-load (file &rest body)
+;;     `(eval-after-load ,file
+;;        `(funcall (function ,(lambda () ,@body))))))
+
+;; ;; IDE-like
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; (add-hook 'after-init-hook #'global-company-mode)
+;; (with-eval-after-load 'company
+;; 		      (add-to-list 'company-backends 'company-go))
+
+;; (setq company-tooltip-limit 20)                      ; bigger popup window
+;; (setq company-idle-delay .2)                         ; decrease delay before autocompletion popup shows
+;; ;; (setq company-echo-delay 0)                          ; remove annoying blinking
+;; ;; (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
+;; (setq company-show-numbers t)
+;; (custom-set-faces
+;;  '(company-tooltip
+;;    ((t (:background "blue" :foreground "black")))))
+
+;; (yas-global-mode)
+;; (let ((base-dir (concat (file-name-as-directory user-emacs-directory) "snippets")))
+;;       (add-to-list 'yas-snippet-dirs base-dir)
+;;       (dolist (f (directory-files base-dir))
+;; 	(let ((filename (concat (file-name-as-directory base-dir) f)))
+;; 	  (when (or (and (file-directory-p filename)
+;; 			 (not (equal f ".."))
+;; 			 (not (equal f "."))))
+;; 		    (add-to-list 'yas-snippet-dirs filename)))))
+
+;; ;; Go
+;; (with-eval-after-load 'go-mode
+;; 		      (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
+;; 		      (local-set-key (kbd "C-c i") 'go-goto-imports)
+;; 		      (local-set-key (kbd "M-.") 'godef-jump))
+;; (add-hook 'go-mode-hook 'go-eldoc-setup)
+;; (require 'go-flycheck)
