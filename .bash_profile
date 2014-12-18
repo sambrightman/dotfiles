@@ -58,6 +58,8 @@ alias la='ls -lart'
 alias cp='cp -i'
 alias mv='mv -i'
 alias bp='emacs ~/.bash_profile'
+alias gc='emacs ~/.gitconfig'
+alias em='emacs ~/.emacs'
 
 function dircolors() { gdircolors $@; }
 eval $(require ~/.dircolors dircolors)
