@@ -90,15 +90,30 @@ function multi_pull() {
 	echo pulling $p
 	pushd . >/dev/null
 	cd $p
-	git pr
+	vc_pull
 	if [ $? != 0 ]; then
-	    failures+=" $(basename $p)"
+	    failures+=" $(basename $(dirname $p))/$(basename $p)"
 	fi
 	popd >/dev/null
     done
     for failure in $failures; do
 	echo FAILED FAILED FAILED $failure FAILED FAILED FAILED
     done
+}
+
+function vc_pull() {
+    # good luck	with anything other than Git/SVN
+    if [ -d .git ]; then
+	git pr
+    elif [ -d .svn ]; then
+	svn -q up
+    elif [ -d .hg ]; then
+	hg pull -u
+    elif [ -d .bzr ]; then
+	bzr pull && bzr rebase :parent
+    elif [ -d .cvs ]; then
+	cvs -q update -A
+    fi
 }
 
 function pvirtualenv() {
