@@ -1,6 +1,6 @@
 [alias]
-        a = add .
-        ac = !git a && git ci
+	a = add
+	ac = !git a . && git cm
 	ai = add --interactive
 	ap = add --patch
 	at = !"function append_ticket() { if [ $# -gt 0 ]; then git ca -m \"$1 $(git lgs)\n\n$(git lgb)\"; else echo 'supply some ticket(s) to prepend to the summary'; fi; }; append_ticket"
