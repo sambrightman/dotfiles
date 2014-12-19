@@ -163,6 +163,7 @@ function prmvirtualenv() {
 
 shopt -s histappend
 shopt -s cmdhist
+shopt -s direxpand
 export HISTSIZE=100000
 export HISTFILESIZE=100000
 
