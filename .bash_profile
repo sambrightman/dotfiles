@@ -60,6 +60,8 @@ alias mv='mv -i'
 alias bp='emacs ~/.bash_profile'
 alias gc='emacs ~/.gitconfig'
 alias em='emacs ~/.emacs'
+alias f='find . -name'
+alias ff='find . -iname'
 
 function dircolors() { gdircolors $@; }
 eval $(require ~/.dircolors dircolors)
