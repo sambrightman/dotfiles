@@ -7,6 +7,7 @@
 (depends-on "auto-compile")
 (depends-on "cask")
 (depends-on "color-theme")
+(depends-on "color-theme-solarized")
 (depends-on "company")
 (depends-on "company-go")
 (depends-on "dash")
