@@ -1,3 +1,13 @@
+;;; .emacs --- Personal Emacs configuration
+
+;;; Commentary:
+
+;;; For Emacs 24.3 and up using Cask package management.
+;;; Toggle to non-Cask below.
+;;; Remove with-eval-after-load when on 24.4.
+
+;;; Code:
+
 ;; load-path
 (let ((default-directory user-emacs-directory))
   (normal-top-level-add-subdirs-to-load-path))
@@ -13,15 +23,21 @@
 
 
 ;; Packaging
-(require 'package)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(package-initialize)
 
-;; (require 'cask "~/.cask/cask.el")
-;; (cask-initialize)
-;; (pallet-mode t)
+;; built-in
+
+;; (require 'package)
+;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+;; (package-initialize)
+
+;; cask-based
+;; FIXME: path
+
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+(pallet-mode t)
 
 
 ;; Theme
@@ -132,8 +148,8 @@
 
 
 ;; MATLAB
-(require 'matlab-load)
-(matlab-cedet-setup)
+;; (require 'matlab-load)
+;; (matlab-cedet-setup)
 
 
 ;; Groovy
@@ -169,10 +185,14 @@
 ;; YAS
 (yas-global-mode)
 (let ((base-dir (concat (file-name-as-directory user-emacs-directory) "snippets")))
+  (unless (file-directory-p base-dir)
+          (make-directory base-dir))
   (add-to-list 'yas-snippet-dirs base-dir)
   (dolist (f (directory-files base-dir))
 	(let ((filename (concat (file-name-as-directory base-dir) f)))
-	  (when (or (and (file-directory-p filename)
+	  (when (and (file-directory-p filename)
                      (not (equal f ".."))
-                     (not ((eq )ual f "."))))
+                     (not (equal f ".")))
         (add-to-list 'yas-snippet-dirs filename)))))
+
+;;; .emacs ends here
