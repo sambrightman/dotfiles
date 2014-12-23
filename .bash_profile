@@ -22,16 +22,16 @@ function proxy() {
     local keys=( http_proxy https_proxy all_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY )
     local key
     for key in ${keys[*]}; do
-	if [ $proxy_host = "off" ]; then
-	    eval unset $key
-	    # eval unset GIT_PROXY_COMMAND
-	else
-	    eval export $key=http://$proxy_host:$proxy_port/
-	    # echo "echo \$*" > $gitproxy
-	    # echo "nc -x$proxy_host:$proxy_port -X5 \$*" >> $gitproxy
-	    # chmod +x $gitproxy
-	    # eval export GIT_PROXY_COMMAND=$gitproxy
-	fi
+        if [ $proxy_host = "off" ]; then
+            eval unset $key
+            # eval unset GIT_PROXY_COMMAND
+        else
+            eval export $key=http://$proxy_host:$proxy_port/
+            # echo "echo \$*" > $gitproxy
+            # echo "nc -x$proxy_host:$proxy_port -X5 \$*" >> $gitproxy
+            # chmod +x $gitproxy
+            # eval export GIT_PROXY_COMMAND=$gitproxy
+        fi
     done
 }
 
@@ -80,7 +80,7 @@ function gitd() {
 function gi() {
     local repo
     for repo in $*; do
-	gitd ${repo} ls-remote --get-url
+        gitd ${repo} ls-remote --get-url
     done
 }
 
@@ -91,32 +91,32 @@ export CODE_DIR="$HOME/code"
 function multi_pull() {
     local failures
     for p in $@; do
-	echo pulling $p
-	pushd . >/dev/null
-	cd $p
-	vc_pull
-	if [ $? != 0 ]; then
-	    failures+=" $(basename $(dirname $p))/$(basename $p)"
-	fi
-	popd >/dev/null
+        echo pulling $p
+        pushd . >/dev/null
+        cd $p
+        vc_pull
+        if [ $? != 0 ]; then
+            failures+=" $(basename $(dirname $p))/$(basename $p)"
+        fi
+        popd >/dev/null
     done
     for failure in $failures; do
-	echo FAILED FAILED FAILED $failure FAILED FAILED FAILED
+        echo FAILED FAILED FAILED $failure FAILED FAILED FAILED
     done
 }
 
 function vc_pull() {
-    # good luck	with anything other than Git/SVN
+    # good luck with anything other than Git/SVN
     if [ -d .git ]; then
-	git pr
+        git pr
     elif [ -d .svn ]; then
-	svn -q up
+        svn -q up
     elif [ -d .hg ]; then
-	hg pull -u
+        hg pull -u
     elif [ -d .bzr ]; then
-	bzr pull && bzr rebase :parent
+        bzr pull && bzr rebase :parent
     elif [ -d .cvs ]; then
-	cvs -q update -A
+        cvs -q update -A
     fi
 }
 
@@ -128,9 +128,9 @@ function pvirtualenv() {
 function pworkon() {
     local name=$1 && shift
     if [ -n "${name}" -a -d "${PWORKON_HOME}/${name}" ]; then
-	require ${PWORKON_HOME}/${name}/bin/activate
+        require ${PWORKON_HOME}/${name}/bin/activate
     else
-	echo "${name} is not a pvirtualenv"
+        echo "${name} is not a pvirtualenv"
     fi
 }
 
@@ -138,7 +138,7 @@ function plsvirtualenv() {
     local saved=$(shopt -p nullglob)
     shopt -s nullglob
     for d in ${PWORKON_HOME}/*; do
-	echo $(basename $d)
+        echo $(basename $d)
     done
     eval $saved
 }
@@ -146,20 +146,20 @@ function plsvirtualenv() {
 function pcdvirtualenv() {
     local name=$1 && shift
     if [ -n "${name}" -a -d "${PWORKON_HOME}/${name}" ]; then
-	cd ${PWORKON_HOME}/${name}
+        cd ${PWORKON_HOME}/${name}
     elif [ -z "${name}" ]; then
-	cd ${PWORKON_HOME}
+        cd ${PWORKON_HOME}
     else
-	echo "${name} is not a pvirtualenv"
+        echo "${name} is not a pvirtualenv"
     fi
 }
 
 function prmvirtualenv() {
     local name=$1 && shift
     if [ -n "${name}" -a -d "${PWORKON_HOME}/${name}" ]; then
-	rm -rf ${PWORKON_HOME}/${name}
+        rm -rf ${PWORKON_HOME}/${name}
     else
-	echo "${name} is not a pvirtualenv"
+        echo "${name} is not a pvirtualenv"
     fi
 }
 
@@ -191,7 +191,7 @@ function grepsrc() {
 function findsrc() {
     local paths=$1 && shift;
     while [ $# -gt 0 -a "${1##-}" == "$1" ]; do
-	paths="${paths} $1" && shift
+        paths="${paths} $1" && shift
     done
     echo find ${paths} \( "$@" \) -a -not -path '*/target/*' -a -not -path '*/.git/*' -a -not -path '*/.svn/*' >&2
     find ${paths} \( "$@" \) -a -not -path '*/target/*' -a -not -path '*/.git/*' -a -not -path '*/.svn/*'
@@ -215,97 +215,97 @@ function mgs() {
 
 function symlinks() {
     if [ $# -lt 2 ]; then
-	echo "usage: dotfiles [-n] sourcedir targetdir"
-	echo "options:"
-	echo "	-n	dryrun"
-	return
+        echo "usage: dotfiles [-n] sourcedir targetdir"
+        echo "options:"
+        echo "  -n      dryrun"
+        return
     fi
 
     if [ $1 == "-n" ]; then
-	local dryrun="true"
-	shift
+        local dryrun="true"
+        shift
     fi
 
     local sourcedir=$1 && shift
     local targetdir=$1 && shift
 
     if [ ! -d "${sourcedir}" -o ! -d "${targetdir}" ]; then
-	echo both arguments should be directories
-	return
+        echo both arguments should be directories
+        return
     fi
 
     local f
     local old_ifs=${IFS}
     IFS=$'\n'
     for f in $(find ${sourcedir} -mindepth 1 -maxdepth 1 -not \( -type d -a \( -name .git -o -name .svn \) \) ); do
-	local target=${targetdir}/$(basename ${f})
-	if [ -L "${target}" -o -e "${target}" ]; then
-	    if [ ! -L "${target}" ]; then
-		echo ${target} is not a symlink
-	    else
-		local pointer=$(greadlink -f ${target})
-		local source_pointer=$(greadlink -f ${f})
-		if [ "${pointer}" != "${source_pointer}" ]; then
-		    echo ${target} points to ${pointer} not ${source_pointer}
-		else
-		    echo ${target} already points to ${source_pointer}
-		fi
-	    fi
-	    local diff
-	    diff=$(diff -ru ${f} ${target})
-	    if [ $? -ne 0 ]; then
-		echo ${target} is different from ${f}:
-		echo
-		echo "${diff}"
-	    fi
-	else
-	    echo linking ${f} to ${target}
-	    if [ -n "${dryrun}" ]; then
-		echo "gln -rs \"${f}\" \"${target}\""
-	    else
-		gln -rs "${f}" "${target}"
-	    fi
-	fi
+        local target=${targetdir}/$(basename ${f})
+        if [ -L "${target}" -o -e "${target}" ]; then
+            if [ ! -L "${target}" ]; then
+                echo ${target} is not a symlink
+            else
+                local pointer=$(greadlink -f ${target})
+                local source_pointer=$(greadlink -f ${f})
+                if [ "${pointer}" != "${source_pointer}" ]; then
+                    echo ${target} points to ${pointer} not ${source_pointer}
+                else
+                    echo ${target} already points to ${source_pointer}
+                fi
+            fi
+            local diff
+            diff=$(diff -ru ${f} ${target})
+            if [ $? -ne 0 ]; then
+                echo ${target} is different from ${f}:
+                echo
+                echo "${diff}"
+            fi
+        else
+            echo linking ${f} to ${target}
+            if [ -n "${dryrun}" ]; then
+                echo "gln -rs \"${f}\" \"${target}\""
+            else
+                gln -rs "${f}" "${target}"
+            fi
+        fi
     done
     IFS=${old_ifs}
 }
 
 function jarbomb() {
     if [ $# -lt 4 ]; then
-	echo usage: jarbomb host image deployment file [file...]
-	return
+        echo usage: jarbomb host image deployment file [file...]
+        return
     fi
     host=$1 && shift;
     image=$1 && shift;
     deployment=$1 && shift;
 
     if [ "$image" == "trading" ]; then
-	scp $@ root@$host:/home/images/${deployment}/system/lib/
+        scp $@ root@$host:/home/images/${deployment}/system/lib/
     else
-	scp $@ root@$host:/home/images/${image}/${deployment}/system/lib/
+        scp $@ root@$host:/home/images/${image}/${deployment}/system/lib/
     fi
 }
 
 function jarclusterbomb() {
     if [ $# -lt 4 ]; then
-	echo usage: jarclusterbomb host image deployment projectroot module [module...]
-	return
+        echo usage: jarclusterbomb host image deployment projectroot module [module...]
+        return
     fi
     host=$1 && shift;
     image=$1 && shift;
     deployment=$1 && shift;
     root=$1 && shift;
     modules=$@
-    
+
     if [ ${#modules} -eq 0 ]; then
-	modules=$(find ${root} -mindepth 2 -maxdepth 2 -name target -a -type d | awk -F/ '{ print $(NF - 1) }')
+        modules=$(find ${root} -mindepth 2 -maxdepth 2 -name target -a -type d | awk -F/ '{ print $(NF - 1) }')
     fi
 
     local version=$(xpath ${root}/pom.xml '/project/version/text()' 2>/dev/null)
     local tempdir=$(mktemp -d -t jarclusterbomb)
     local module
     for module in ${modules}; do
-	cp ${root}/${module}/target/${module}-${version}.jar ${tempdir}/${module}.jar
+        cp ${root}/${module}/target/${module}-${version}.jar ${tempdir}/${module}.jar
     done
 
     jarbomb ${host} ${image} ${deployment} ${tempdir}/*
@@ -330,8 +330,8 @@ function wol() {
 
 function gerritify() {
     if [ $# -lt 1 ]; then
-	echo usage: gerritify gerrit_name [remote_name] [gerrit_host] [gerrit_port]
-	return
+        echo usage: gerritify gerrit_name [remote_name] [gerrit_host] [gerrit_port]
+        return
     fi
     local gerrit_name=${1}
     local remote_name=${2:-gerrit}
