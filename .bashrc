@@ -2,9 +2,9 @@ function require() {
     filename=${1:?usage: require filename [command=source]} && shift
     func=${1:-source}
     if [ -f $filename ]; then
-	eval $func $filename
+        eval $func $filename
     else
-	echo require: $filename does not exist
+        echo require: $filename does not exist
     fi
 }
 
