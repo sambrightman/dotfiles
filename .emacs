@@ -4,7 +4,7 @@
 
 ;;; For Emacs 24.3 and up using Cask package management.
 ;;; Toggle to non-Cask below.
-;;; Remove with-eval-after-load when on 24.4.
+;;; Remove with-eval-after-load definition when on 24.4.
 
 ;;; Code:
 
@@ -22,6 +22,10 @@
        `(funcall (function ,(lambda () ,@body))))))
 
 
+;; before packaging to ensure updates are loaded over .elc
+(setq load-prefer-newer t)
+
+
 ;; Packaging
 
 ;; built-in
@@ -33,7 +37,6 @@
 ;; (package-initialize)
 
 ;; cask-based
-;; FIXME: path
 
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
@@ -41,17 +44,14 @@
 
 
 ;; Theme
-(defun load-default-theme ()
-  (interactive)
-  (load-theme 'solarized-dark t))
 (if (daemonp)
     (add-hook 'after-make-frame-functions
               (lambda (f)
                 (with-selected-frame f
-                  (load-default-theme))))
-  (load-default-theme))
+                  (load-theme 'solarized-dark t))))
+  (load-theme 'solarized-dark t))
 ;;(global-hl-line-mode t)
-;;(set-face-background 'hl-line "orange") 
+;;(set-face-background 'hl-line "orange")
 
 
 ;; General
@@ -65,7 +65,7 @@
 (column-number-mode)
 (electric-pair-mode)
 (global-auto-revert-mode 1)
-(setq auto-revert-interval 2)
+(setq-default auto-revert-interval 2)
 (setq frame-title-format
       (concat  "%b - emacs@" (system-name)))
 (setq diff-switches "-u")
@@ -82,16 +82,14 @@
 
 
 ;; auto-compile
-(require 'auto-compile)
-(auto-compile-on-load-mode 1)
 (auto-compile-on-save-mode 1)
+(auto-compile-on-load-mode 1)
 
 
 ;; Web
-;; what the advantage?
-;;(require 'nxhtml)
 (add-to-list 'auto-mode-alist '(".*\.tmpl\\'" . nxml-mode))
-(setq nxml-child-indent 4)
+(with-eval-after-load 'nxml-mode
+  (setq-default nxml-child-indent 4))
 
 
 ;; YAML
@@ -103,46 +101,43 @@
 
 
 ;; Perl
+(require 'cperl-mode)
 (defalias 'perl-mode 'cperl-mode)
-(custom-set-faces
- '(cperl-array-face ((t (:weight normal))) t)
- '(cperl-hash-face ((t (:weight normal))) t))
-;; closer match with Marcin, not perfect
-(defun mama-perl-indent-setup ()
-  (cperl-set-style "gnu")
-  (setq cperl-indent-level 0)
-  (setq cperl-brace-offset 3)
-  (setq cperl-continued-brace-offset 0)
-  ;; (setq cperl-label-offset -2)
-  (setq cperl-continued-statement-offset 0)
-  ;; (setq cperl-merge-trailing-else nil)
-  ;; (setq cperl-extra-newline-before-brace t)
-  ;; (setq cperl-extra-newline-before-brace-multiline nil)
-  ;; extra
-  (setq cperl-autoindent-on-semi t)
-  (setq indent-tabs-mode t))
-(add-hook 'cperl-mode-hook 'mama-perl-indent-setup)
+(add-hook 'cperl-mode-hook (lambda ()
+                             (setq mode-name "CPerl-mama")
+                             (cperl-set-style "gnu")
+                             (setq cperl-indent-level 0)
+                             (setq cperl-brace-offset 3)
+                             (setq cperl-continued-brace-offset 0)
+                             ;; (setq cperl-label-offset -2)
+                             (setq cperl-continued-statement-offset 0)
+                             ;; (setq cperl-merge-trailing-else nil)
+                             ;; (setq cperl-extra-newline-before-brace t)
+                             ;; (setq cperl-extra-newline-before-brace-multiline nil)
+                             (setq cperl-autoindent-on-semi t)
+                             (setq indent-tabs-mode t)
+                             (custom-set-faces
+                              '(cperl-array-face ((t (:weight normal))) t)
+                              '(cperl-hash-face ((t (:weight normal))) t))))
 
 
 ;; Python
-(setq epy-load-yasnippet-p t)
-(require 'epy-init)
-(defun sabr-python-mode ()
-  (interactive)
+(with-eval-after-load 'python
+  ;; see https://github.com/capitaomorte/yasnippet/issues/546
+  (setq-default epy-load-yasnippet-p t)
+  (require 'epy-init)
   (epy-setup-checker (concat (expand-file-name "~/dev/pycheckers.sh") " %f"))
-  (epy-setup-ipython)
   (epy-django-snippets)
-  (linum-mode 0)
-  ;; using electric-pair-mode instead
-  (setq skeleton-pair nil)
+  (epy-setup-ipython)
   (require 'highlight-indentation)
-  (highlight-indentation))
-(add-hook 'python-mode-hook 'sabr-python-mode)
+  (linum-mode 0)
+  (setq-default skeleton-pair nil))
+(add-hook 'python-mode-hook 'highlight-indentation)
 
 
 ;; Shell
-(setq sh-indent-comment t)
-(setq sh-basic-offset 4)
+(setq-default sh-indent-comment t)
+(setq-default sh-basic-offset 4)
 (add-to-list 'auto-mode-alist `(,(expand-file-name "~/code/shrek/") . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.bash.*" . sh-mode))
 
@@ -174,25 +169,26 @@
 ;; Company
 (add-hook 'after-init-hook #'global-company-mode)
 (with-eval-after-load 'company
-  (add-to-list 'company-backends 'company-go))
-(setq company-tooltip-limit 20)
-(setq company-idle-delay .2)
-(setq company-show-numbers t)
-(custom-set-faces
- '(company-tooltip
-   ((t (:background "blue" :foreground "black")))))
+  (add-to-list 'company-backends 'company-go)
+  (setq-default company-tooltip-limit 20)
+  (setq-default company-idle-delay .2)
+  (setq-default company-show-numbers t)
+  (custom-set-faces
+   '(company-tooltip
+     ((t (:background "blue" :foreground "black"))))))
 
 ;; YAS
-(yas-global-mode)
-(let ((base-dir (concat (file-name-as-directory user-emacs-directory) "snippets")))
-  (unless (file-directory-p base-dir)
-          (make-directory base-dir))
-  (add-to-list 'yas-snippet-dirs base-dir)
-  (dolist (f (directory-files base-dir))
-	(let ((filename (concat (file-name-as-directory base-dir) f)))
-	  (when (and (file-directory-p filename)
-                     (not (equal f ".."))
-                     (not (equal f ".")))
-        (add-to-list 'yas-snippet-dirs filename)))))
+(add-hook 'after-init-hook #'yas-global-mode)
+(with-eval-after-load 'yasnippet
+  (let ((base-dir (concat (file-name-as-directory user-emacs-directory) "snippets")))
+    (unless (file-directory-p base-dir)
+      (make-directory base-dir))
+    (add-to-list 'yas-snippet-dirs base-dir)
+    (dolist (f (directory-files base-dir))
+      (let ((filename (concat (file-name-as-directory base-dir) f)))
+        (when (and (file-directory-p filename)
+                   (not (equal f ".."))
+                   (not (equal f ".")))
+          (add-to-list 'yas-snippet-dirs filename))))))
 
 ;;; .emacs ends here
