@@ -31,7 +31,7 @@
 	rc = rebase --continue
 	rs = rebase --skip
 	ri = rebase --interactive
-        rl = reflog --pretty=refonelinefull
+	rl = reflog --pretty=refonelinefull
 	rsh = reset HEAD
 	rsa = reset --hard
 	rsp = reset --patch
@@ -41,18 +41,18 @@
 	sp = stash pop
 	ss = stash show -p
 	st = status
-        bb = !echo $(git cb)_bb
-        cb = rev-parse --abbrev-ref HEAD
+	bb = !echo $(git cb)_bb
+	cb = rev-parse --abbrev-ref HEAD
 	ub = rev-parse --abbrev-ref --symbolic-full-name @{u}
-        qb = !git br $(git bb)
-        qd = !git br -D $(git bb)
-        db = !git diff $(git bb)
-        name = show --name-only
-      	graph = log --graph --all --pretty=graphtight --abbrev-commit --date=relative
-        biggraph = log --graph --all --pretty=graphloose --abbrev-commit
+	qb = !git br $(git bb)
+	qd = !git br -D $(git bb)
+	db = !git diff $(git bb)
+	name = show --name-only
+	graph = log --graph --all --pretty=graphtight --abbrev-commit --date=relative
+	biggraph = log --graph --all --pretty=graphloose --abbrev-commit
 	tagdates = log --tags --simplify-by-decoration --pretty=\"format:%ci %d\"
 	conflicts = diff --name-only --diff-filter=U
-        contains = branch -a --contains
+	contains = branch -a --contains
 	alias = !"function some_filter() { if [ $# -gt 0 ]; then grep $*; else cat; fi; }; git config --list | grep alias | some_filter"
 [pretty]
 	graphtight = %C(bold red)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)- %an%C(reset)%C(bold yellow)%d%C(reset)
@@ -65,8 +65,7 @@
 	name = Sam Brightman
 	email = sam.brightman@imc.nl
 [core]
-	editor = emacsclient -q	-a \\\"\\\" -t
-#	less = less -S  # remove if happy with new wrapping behaviour
+	editor = emacsclient -q -a \\\"\\\" -t
 [color]
 	ui = true
 [pager]
