@@ -79,6 +79,7 @@
 (setq ido-everywhere t)
 (setq ido-use-filename-at-point 'guess)
 (setq ido-ignore-extensions t)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 
 ;; auto-compile
