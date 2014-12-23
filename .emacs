@@ -123,7 +123,6 @@
 
 ;; Python
 (with-eval-after-load 'python
-  ;; see https://github.com/capitaomorte/yasnippet/issues/546
   (setq-default epy-load-yasnippet-p t)
   (require 'epy-init)
   (epy-setup-checker (concat (expand-file-name "~/dev/pycheckers.sh") " %f"))
