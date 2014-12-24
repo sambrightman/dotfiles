@@ -25,7 +25,7 @@
 	lgi = !git log --pretty=authoneline ..$(git ub)
 	lgu = !git log --pretty=authoneline --reverse $(git ub)..
 	pp = !"git lgu; echo; git du --stat"
-	pr = git pull --rebase
+	pr = pull --rebase
 	ra = rebase --abort
 	rb = rebase
 	rc = rebase --continue
