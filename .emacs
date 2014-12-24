@@ -70,6 +70,7 @@
       (concat  "%b - emacs@" (system-name)))
 (setq diff-switches "-u")
 (setq vc-follow-symlinks t)
+(setq gc-cons-threshold (* 20 (* 1024 1024)))
 
 
 ;; Ido
