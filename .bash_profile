@@ -353,6 +353,7 @@ require $(brew --prefix nvm)/nvm.sh
 export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/x86_64-apple-darwin13.4.0/4.9.2/:${DYLD_LIBRARY_PATH}
 export HOMEBREW_GITHUB_API_TOKEN='dd0c8b079f06ad87f50684133a119d3ce98f7269'
 export GOPATH=~/dev/go
+export PATH=${PATH}:${GOPATH}/bin
 
 export JAVA_HOME=$(/usr/libexec/java_home)
 export MONO_GAC_PREFIX="/usr/local"
