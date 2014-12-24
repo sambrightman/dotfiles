@@ -195,4 +195,7 @@
                    (not (equal f ".")))
           (add-to-list 'yas-snippet-dirs filename))))))
 
+;; Magit
+(global-set-key (kbd "C-c C-m") 'magit-status)
+
 ;;; .emacs ends here
