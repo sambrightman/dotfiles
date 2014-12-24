@@ -38,4 +38,4 @@
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
 ;;;pallet-ignore
-(depends-on "go-flycheck", :git "https://github.com/dougm/goflymake.git")
+(depends-on "go-flycheck" :git "https://github.com/dougm/goflymake.git")
