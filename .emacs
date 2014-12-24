@@ -81,6 +81,9 @@
 (setq ido-use-filename-at-point 'guess)
 (setq ido-ignore-extensions t)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(flx-ido-mode 1)
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
 
 
 ;; auto-compile
