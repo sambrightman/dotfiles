@@ -9,9 +9,6 @@ export PROJECT_HOME=$HOME/dev
 # perl
 export PWORKON_HOME=~/.pvirtualenvs
 
-export PROMPT_COMMAND="history -a"
-export HISTCONTROL=ignoreboth
-
 function proxy() {
     local proxy_host=${1:-proxy}
     local proxy_port=3128
@@ -165,6 +162,8 @@ function prmvirtualenv() {
 shopt -s histappend
 shopt -s cmdhist
 shopt -s direxpand
+export PROMPT_COMMAND="history -a"
+export HISTCONTROL=ignoreboth
 export HISTSIZE=100000
 export HISTFILESIZE=100000
 
