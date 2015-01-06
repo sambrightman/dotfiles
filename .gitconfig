@@ -63,7 +63,7 @@
 	refonelinefull = %C(auto)%h %gd: %gs %C(bold magenta)(%aD)%C(reset)
 [user]
 	name = Sam Brightman
-	email = sam.brightman@imc.nl
+	# email from include
 [core]
 	editor = emacsclient -q -a \\\"\\\" -t
 [color]
@@ -81,3 +81,5 @@
 [rebase]
 	autosquash = true
 	autostash = true
+[include]
+	path = .gitconfig_user
