@@ -38,6 +38,7 @@
 	rsp = reset --patch
 	rss = reset --soft
 	rso = remote show origin
+	sd = stash drop
 	sl = stash list --pretty=stashoneline
 	sp = stash pop
 	ss = stash show -p
