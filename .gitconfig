@@ -3,7 +3,7 @@
 	ac = !git a . && git cm
 	ai = add --interactive
 	ap = add --patch
-	at = !"function append_ticket() { if [ $# -gt 0 ]; then git ca -m \"$1 $(git lgs)\n\n$(git lgb)\"; else echo 'supply some ticket(s) to prepend to the summary'; fi; }; append_ticket"
+	at = !"append_ticket() { if [ $# -gt 0 ]; then git ca -m \"$1 $(git lgs)\n\n$(git lgb)\"; else echo 'supply some ticket(s) to prepend to the summary'; fi; }; append_ticket"
 	br = branch -vv
 	brav = branch --all -vv
 	ca = commit --amend
@@ -20,8 +20,8 @@
 	lg = log --pretty=authoneline
 	lga = log -n1 HEAD@{1}
 	lgf = log --pretty=authonelinefull
-	lgs = !"function log_summary() { git log -n1 --format=%s HEAD~${1:-0}; }; log_summary"
-	lgb = !"function log_body() { git log -n1 --format=%b HEAD~${1:-0}; }; log_body"
+	lgs = !"log_summary() { git log -n1 --format=%s HEAD~${1:-0}; }; log_summary"
+	lgb = !"log_body() { git log -n1 --format=%b HEAD~${1:-0}; }; log_body"
 	lgi = !git log --pretty=authoneline ..$(git ub)
 	lgu = !git log --pretty=authoneline --reverse $(git ub)..
 	pp = !"git lgu; echo; git du --stat"
@@ -53,7 +53,7 @@
 	tagdates = log --tags --simplify-by-decoration --pretty=\"format:%ci %d\"
 	conflicts = diff --name-only --diff-filter=U
 	contains = branch -a --contains
-	alias = !"function some_filter() { if [ $# -gt 0 ]; then grep $*; else cat; fi; }; git config --list | grep alias | some_filter"
+	alias = !"some_filter() { if [ $# -gt 0 ]; then grep $*; else cat; fi; }; git config --list | grep alias | some_filter"
 [pretty]
 	graphtight = %C(bold red)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)- %an%C(reset)%C(bold yellow)%d%C(reset)
 	graphloose = %C(bold red)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n          %C(white)%s%C(reset) %C(bold white)- %an%C(reset)
