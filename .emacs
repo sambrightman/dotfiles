@@ -63,6 +63,7 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (column-number-mode)
+(show-paren-mode)
 (electric-pair-mode)
 (global-auto-revert-mode 1)
 (setq-default auto-revert-interval 2)
