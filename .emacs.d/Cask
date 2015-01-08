@@ -67,6 +67,7 @@
 (depends-on "s")
 (depends-on "sass-mode")
 (depends-on "shut-up")
+(depends-on "smex")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
 ;;;pallet-ignore
