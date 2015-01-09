@@ -87,6 +87,7 @@
 (setq ido-use-faces nil)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 
 ;; auto-compile
