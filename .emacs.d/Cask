@@ -19,6 +19,7 @@
 (depends-on "dash")
 (depends-on "epl")
 (depends-on "ess")
+(depends-on "expand-region")
 (depends-on "f")
 (depends-on "flx")
 (depends-on "flx-ido")
