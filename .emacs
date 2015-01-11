@@ -164,11 +164,14 @@
 
 ;; Go
 (with-eval-after-load 'go-mode
-  (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
-  (local-set-key (kbd "C-c i") 'go-goto-imports)
-  (local-set-key (kbd "M-.") 'godef-jump)
   (require 'go-flycheck))
-(add-hook 'go-mode-hook 'go-eldoc-setup)
+(add-hook 'go-mode-hook (lambda ()
+                          (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
+                          (local-set-key (kbd "C-c i") 'go-goto-imports)
+                          (local-set-key (kbd "M-.") 'godef-jump)
+                          (go-eldoc-setup)
+                          (setq gofmt-command "goimports")
+                          (add-hook 'before-save-hook 'gofmt-before-save nil t)))
 
 
 ;; IDE-like
