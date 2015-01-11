@@ -58,7 +58,6 @@
 (depends-on "markdown-mode")
 (depends-on "matlab-mode")
 (depends-on "merlin")
-(depends-on "mode-compile")
 (depends-on "package-build")
 (depends-on "packed")
 (depends-on "pallet")
