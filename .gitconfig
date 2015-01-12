@@ -79,10 +79,6 @@
 	rebase = true
 [branch]
 	autosetupmerge = always
-[credential]
-	helper = osxkeychain
-[credential "https://github.com"]
-	username = sambrightman
 [rebase]
 	autosquash = true
 	autostash = true
