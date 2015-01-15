@@ -26,7 +26,7 @@
 	lgi = !git log --pretty=authoneline ..$(git ub)
 	lgu = !git log --pretty=authoneline --reverse $(git ub)..
 	pp = !"git lgu; echo; git du --stat"
-	pr = pull --rebase
+	pr = !"if ! git diff-files --quiet; then git stash && git pull --rebase && git stash pop; else git pull --rebase; fi"
 	ra = rebase --abort
 	rb = rebase
 	rc = rebase --continue
