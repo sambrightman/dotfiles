@@ -73,6 +73,11 @@
 (setq vc-follow-symlinks t)
 (setq gc-cons-threshold (* 20 (* 1024 1024)))
 (global-set-key (kbd "C-=") 'er/expand-region)
+(defun find-tag-no-prompt ()
+  "Jump to the tag at point without prompting."
+  (interactive)
+  (find-tag (find-tag-default)))
+(global-set-key (kbd "M-.") 'find-tag-no-prompt)
 
 
 ;; Ido
