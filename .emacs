@@ -72,6 +72,7 @@
 (setq diff-switches "-u")
 (setq vc-follow-symlinks t)
 (setq gc-cons-threshold (* 20 (* 1024 1024)))
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 
 ;; Ido
@@ -87,7 +88,6 @@
 (setq ido-use-faces nil)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(global-set-key (kbd "C-=") 'er/expand-region)
 
 
 ;; auto-compile
