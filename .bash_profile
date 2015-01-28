@@ -353,7 +353,7 @@ export HOMEBREW_GITHUB_API_TOKEN='dd0c8b079f06ad87f50684133a119d3ce98f7269'
 export GOPATH=~/dev/go
 export PATH=${PATH}:${GOPATH}/bin
 
-export JAVA_HOME=$(/usr/libexec/java_home)
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
 export MONO_GAC_PREFIX="/usr/local"
 
 alias reload_prefs='killall cfprefsd'
