@@ -72,7 +72,8 @@
 (setq diff-switches "-u")
 (setq vc-follow-symlinks t)
 (setq gc-cons-threshold (* 20 (* 1024 1024)))
-(global-set-key (kbd "C-=") 'er/expand-region)
+;; suggested key is C-=, this overwrites
+(global-set-key (kbd "C-M-w") 'er/expand-region)
 (defun find-tag-no-prompt ()
   "Jump to the tag at point without prompting."
   (interactive)
@@ -207,7 +208,33 @@
                    (not (equal f ".")))
           (add-to-list 'yas-snippet-dirs filename))))))
 
+
 ;; Magit
 (global-set-key (kbd "C-c C-m") 'magit-status)
+
+
+;; Ace Jump
+(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+
+
+;; Jump Char
+(global-set-key (kbd "M-m") 'jump-char-forward)
+(global-set-key (kbd "M-S-m") 'jump-char-backward)
+
+;; FIXME: jump char, mc and er (above)
+;; shift, angle bracket and hyper not working
+
+;; Multiple cursors
+;; suggested key is C-S-c C-S-c, this overwrites
+(global-set-key (kbd "C-M-m") 'mc/mark-all-dwim)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C->") 'mc/mark-all-like-this)
+(global-set-key (kbd "H-SPC") 'set-rectangular-region-anchor)
+
+;; Mwim
+(global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
+(global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)
+
 
 ;;; .emacs ends here
