@@ -178,6 +178,10 @@ function grepr() {
     grep -r --color --exclude-dir=.svn --exclude-dir=.git "$@"
 }
 
+function grepR() {
+    grep -R --color --exclude-dir=.svn --exclude-dir=.git "$@"
+}
+
 function greppom() {
     grep -r --color --exclude-dir=.svn --exclude-dir=.git --include pom.xml "$@"
 }
