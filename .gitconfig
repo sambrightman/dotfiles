@@ -17,6 +17,7 @@
 	ciae = commit -c HEAD@{1}
 	dc = diff --cached
 	du = !git diff --pretty=authoneline --reverse $(git ub)..
+	ffm = merge --ff-only
 	fu = commit --amend --no-edit
 	lg = log --pretty=authoneline
 	lga = log -n1 HEAD@{1}
@@ -26,7 +27,6 @@
 	lgi = !git log --pretty=authoneline ..$(git ub)
 	lgu = !git log --pretty=authoneline --reverse $(git ub)..
 	me = !"git lg --author=\"$(git config user.name)\""
-	mff = merge --ff-only
 	pp = !"git lgu; echo; git du --stat"
 	pr = !"if ! git diff-files --quiet; then git stash && git pull --rebase && git stash pop; else git pull --rebase; fi"
 	ra = rebase --abort
