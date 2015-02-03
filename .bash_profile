@@ -83,6 +83,7 @@ function gi() {
 alias cdgit='cd "$(git rev-parse --show-toplevel)"'
 
 export CODE_DIR="$HOME/code"
+export DEV_DIR="$HOME/dev"
 
 function multi_pull() {
     local failures
@@ -118,7 +119,7 @@ function vc_pull() {
 
 function pvirtualenv() {
     local name=$1 && shift
-    ~/dev/penv/penv.pl ${PWORKON_HOME}/${name} $*
+    ${DEV_DIR}/penv/penv.pl ${PWORKON_HOME}/${name} $*
 }
 
 function pworkon() {
@@ -354,7 +355,7 @@ require $(brew --prefix nvm)/nvm.sh
 
 export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/4.9/:${DYLD_LIBRARY_PATH}
 export HOMEBREW_GITHUB_API_TOKEN='dd0c8b079f06ad87f50684133a119d3ce98f7269'
-export GOPATH=~/dev/go
+export GOPATH=${DEV_DIR}/go
 export PATH=${PATH}:${GOPATH}/bin
 
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
