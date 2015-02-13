@@ -6,6 +6,7 @@
 (depends-on "ace-jump-mode")
 (depends-on "ascope")
 (depends-on "auto-compile")
+(depends-on "auto-complete")
 (depends-on "cask")
 (depends-on "clojure-mode")
 (depends-on "clojure-snippets")
