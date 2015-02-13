@@ -42,6 +42,7 @@
 	rso = remote show origin
 	sd = stash drop
 	sl = stash list --pretty=stashoneline
+	sm = submodule
 	sp = stash pop
 	ss = stash show -p
 	st = status
