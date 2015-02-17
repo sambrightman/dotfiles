@@ -368,6 +368,8 @@ export PATH=${PATH}:${GOPATH}/bin
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
 export MONO_GAC_PREFIX="/usr/local"
 
+export FZF_DEFAULT_OPTS='-x'
+
 alias reload_prefs='killall cfprefsd'
 
 require ~/.bash_imc
