@@ -349,6 +349,13 @@ function gerritify() {
     git remote show ${remote_name}
 }
 
+function an() {
+    local field_num=$1 && shift
+    local field_sep=$1
+
+    awk -F"${field_sep:- }" "{ print \$${field_num} }" $@
+}
+
 require "$HOME/.rvm/scripts/rvm"
 export NVM_DIR=~/.nvm
 require $(brew --prefix nvm)/nvm.sh
