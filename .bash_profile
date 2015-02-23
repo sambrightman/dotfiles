@@ -351,7 +351,7 @@ function gerritify() {
 
 function an() {
     local field_num=$1 && shift
-    local field_sep=$1
+    local field_sep=$1 && shift
 
     awk -F"${field_sep:- }" "{ print \$${field_num} }" $@
 }
