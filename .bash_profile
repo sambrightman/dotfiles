@@ -218,7 +218,7 @@ function mgs() {
 
 function symlinks() {
     if [ $# -lt 2 ]; then
-        echo "usage: dotfiles [-n] sourcedir targetdir"
+        echo "usage: symlinks [-n] sourcedir targetdir"
         echo "options:"
         echo "  -n      dryrun"
         return
