@@ -320,7 +320,7 @@ function crucible_scan() {
 }
 
 function gen_tags() {
-    ctags -R -e . ${VIRTUAL_ENV:-} $*
+    ctags -R -e $* . ${VIRTUAL_ENV:-}
 }
 
 function wol() {
