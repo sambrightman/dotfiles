@@ -379,5 +379,24 @@ stty discard undef
 
 # for snipcap
 
-function ut() { time=$1 && shift; day_offset=$1 && shift; extra_seconds=$1 && shift; date +%s -d "$time $day_offset days ago $extra_seconds seconds"; }
-function datef() { local time=$1 && shift; local length=$1 && shift; local day_offset=${1:-0} && shift; echo "-a $(ut $time $day_offset 0) -b $(ut $time $day_offset $length)"; }
+function mydate() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        gdate "$@"
+    else
+        date "$@"
+    fi
+}
+
+function ut() {
+    local time=$1 && shift;
+    local day_offset=$1 && shift;
+    local extra_seconds=$1 && shift;
+    mydate +%s -d "$time $day_offset days ago $extra_seconds seconds";
+}
+
+function datef() {
+    local time=$1 && shift;
+    local length=$1 && shift;
+    local day_offset=${1:-0} && shift;
+    echo "-a $(ut $time $day_offset 0) -b $(ut $time $day_offset $length)";
+}
