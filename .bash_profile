@@ -361,7 +361,6 @@ export NVM_DIR=~/.nvm
 require $(brew --prefix nvm)/nvm.sh
 
 export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/4.9/:${DYLD_LIBRARY_PATH}
-export HOMEBREW_GITHUB_API_TOKEN='dd0c8b079f06ad87f50684133a119d3ce98f7269'
 export GOPATH=${DEV_DIR}/go
 export PATH=${PATH}:${GOPATH}/bin
 
@@ -373,6 +372,7 @@ export FZF_DEFAULT_OPTS='-x'
 alias reload_prefs='killall cfprefsd'
 
 require ~/.bash_imc
+require ~/.bash_tokens
 
 # makes Ctrl-O work
 stty discard undef
