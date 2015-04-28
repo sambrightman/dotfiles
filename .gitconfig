@@ -7,6 +7,11 @@
     authors = shortlog -s -n --all
 	br = branch -vv
 	brav = branch --all -vv
+	bss = bisect start
+	bsb = bisect bad
+	bsg = bisect good
+	bsl = bisect log
+	bsr = bisect run
 	ca = commit --amend
 	caa = !"amend_author() { local author=\"$1\" && shift; git ca --no-edit --author \"$author\" $@; git rc; }; amend_author"
 	ce = config --global --edit
