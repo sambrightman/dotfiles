@@ -46,10 +46,13 @@
 ;; Theme
 (if (daemonp)
     (add-hook 'after-make-frame-functions
-              (lambda (f)
-                (with-selected-frame f
-                  (load-theme 'solarized-dark t))))
-  (load-theme 'solarized-dark t))
+              (lambda (frame)
+                (with-selected-frame frame
+                  (let ((mode 'dark))
+                    (set-frame-parameter frame 'background-mode mode)
+                    (set-terminal-parameter frame 'background-mode mode))
+                  (load-theme 'solarized t))))
+  (load-theme 'solarized t))
 ;;(global-hl-line-mode t)
 ;;(set-face-background 'hl-line "orange")
 
