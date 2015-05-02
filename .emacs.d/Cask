@@ -4,7 +4,6 @@
 (source org)
 
 (depends-on "ace-jump-mode")
-(depends-on "ascope")
 (depends-on "auto-compile")
 (depends-on "auto-complete")
 (depends-on "cask")
@@ -50,7 +49,6 @@
 (depends-on "magit")
 (depends-on "magit-gerrit")
 (depends-on "magit-gh-pulls")
-(depends-on "magit-push-remote")
 (depends-on "markdown-mode")
 (depends-on "matlab-mode")
 (depends-on "multiple-cursors")
