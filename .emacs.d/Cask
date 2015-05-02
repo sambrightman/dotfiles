@@ -57,6 +57,7 @@
 (depends-on "mwim")
 (depends-on "pallet")
 (depends-on "php-mode")
+(depends-on "puppet-mode")
 (depends-on "sass-mode")
 (depends-on "smex")
 (depends-on "yaml-mode")
