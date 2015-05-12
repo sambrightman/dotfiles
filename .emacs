@@ -214,6 +214,7 @@
 
 ;; Magit
 (global-set-key (kbd "C-c C-m") 'magit-status)
+(setq magit-last-seen-setup-instructions "1.4.0")
 
 
 ;; Ace Jump
