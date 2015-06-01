@@ -356,6 +356,8 @@ function an() {
     awk -F"${field_sep:- }" "{ print \$${field_num} }" $@
 }
 
+export PATH=~/bin:${PATH}
+
 require "$HOME/.rvm/scripts/rvm"
 export NVM_DIR=~/.nvm
 require $(brew --prefix nvm)/nvm.sh
