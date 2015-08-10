@@ -117,6 +117,18 @@ function vc_pull() {
     fi
 }
 
+function runin() {
+    local venv=$1 && shift
+    local old_venv=$(basename ${VIRTUAL_ENV:-} 2>/dev/null)
+    workon ${venv}
+    command $@
+    if [ -z "${old_venv}" ]; then
+        deactivate
+    else
+        workon ${old_venv}
+    fi
+}
+
 function pvirtualenv() {
     local name=$1 && shift
     ${DEV_DIR}/penv/penv.pl ${PWORKON_HOME}/${name} $*
