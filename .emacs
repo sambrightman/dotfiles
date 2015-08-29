@@ -164,6 +164,10 @@
 ;; (matlab-cedet-setup)
 
 
+;; R/S-plus
+(require 'ess-site)
+
+
 ;; Groovy
 (add-hook 'groovy-mode-hook
           '(lambda ()
