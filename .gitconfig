@@ -78,6 +78,8 @@
 [user]
 	name = Sam Brightman
 	# email from include
+[include]
+	path = .gitconfig_user
 [core]
 #	editor = emacsclient -q -a \\\"\\\" -t
 	editor = emacs
@@ -94,5 +96,3 @@
 [rebase]
 	autosquash = true
 	autostash = true
-[include]
-	path = .gitconfig_user
