@@ -34,17 +34,15 @@ function proxy() {
 # for Solarized in emacs
 export TERM=xterm
 
-export EMACSCLIENT='/usr/local/bin/emacsclient -q -a "" -t'
-#export EMACSCLIENT='/usr/bin/emacs'
-export EDITOR=${EMACSCLIENT}
+export EDITOR=~/bin/emacswrapper
 function emacs() {
-    eval ${EMACSCLIENT} $@
+    eval $EDITOR "$@"
 }
 function stopemacs() {
-    /usr/local/bin/emacsclient -q -e "(save-buffers-kill-emacs)" $@
+    emacsclient -e "(save-buffers-kill-emacs)"
 }
 function killemacs() {
-    /usr/local/bin/emacsclient -q -e "(kill-emacs)" $@
+    emacsclient -e "(kill-emacs)"
 }
 
 export LESS='-FRX'
