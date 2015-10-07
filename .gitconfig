@@ -53,6 +53,7 @@
 	sm = submodule
 	sp = stash pop
 	ss = stash show -p
+	sv = stash save -k -u
 	st = status
 	bb = !echo $(git cb)_bb
 	cb = rev-parse --abbrev-ref HEAD
