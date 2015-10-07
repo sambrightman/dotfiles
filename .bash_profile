@@ -414,3 +414,7 @@ function datef() {
     local day_offset=${1:-0} && shift;
     echo "-a $(ut $time $day_offset 0) -b $(ut $time $day_offset $length)";
 }
+
+function javakill() {
+    pkill -f JavaAppletPlugin
+}
