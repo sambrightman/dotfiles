@@ -219,7 +219,7 @@
 ;; Magit
 (global-set-key (kbd "C-c C-m") 'magit-status)
 (with-eval-after-load 'magit-mode
-  (setq-default magit-last-seen-setup-instructions "1.4.0"))
+  (setq magit-last-seen-setup-instructions "1.4.0"))
 
 
 ;; Ace Jump
