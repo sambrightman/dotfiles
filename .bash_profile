@@ -415,4 +415,5 @@ function datef() {
 
 function javakill() {
     pkill -f JavaAppletPlugin
+    pkill -f java.*capsule
 }
