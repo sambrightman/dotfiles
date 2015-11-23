@@ -1,4 +1,4 @@
-#!/bin/bash --login
+#!/usr/bin/env bash --login
 
 workon emacs-for-python
 flake8 --ignore=E501 --max-complexity=10 "$1"
