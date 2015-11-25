@@ -376,10 +376,27 @@ export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/5/:${DYLD_LIBRARY_PATH}
 export GOPATH=${DEV_DIR}/go
 export PATH=${PATH}:${GOPATH}/bin
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
 export MONO_GAC_PREFIX="/usr/local"
-export MAVEN_OPTS="-Xms512M -Xmx1024M -XX:MaxPermSize=512M"
 export FZF_DEFAULT_OPTS='--extended-exact --multi --select-1'
+
+function jvm() {
+    local version=$1 && shift
+    local java_home
+
+    java_home=$(/usr/libexec/java_home -v 1.$version)
+    local exists=$?
+
+    local maven_opts="-Xms512M -Xmx1024M"
+    if [ "$version" -lt 8 ]; then
+        maven_opts+=" -XX:MaxPermSize=512M"
+    fi
+    if [ $exists -eq 0 ]; then
+        export JAVA_HOME=$java_home
+        export MAVEN_OPTS=$maven_opts
+    fi
+}
+
+jvm 7
 
 alias reload_prefs='killall cfprefsd'
 
