@@ -399,8 +399,13 @@ function jvm() {
 jvm 7
 
 alias reload_prefs='killall cfprefsd'
+
 alias svnpe='svn propedit svn:log --revprop -r'
+alias svnps="svn propset svn:executable '*'"
 alias svnmcp='svn merge -r COMMITTED:PREV .'
+alias svnlv='svn log -v . | less'
+alias svnl='svn log -c'
+alias svnd='svn diff -c'
 
 require ~/.bash_imc
 require ~/.bash_tokens
