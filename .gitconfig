@@ -36,7 +36,7 @@
 	ma = merge --abort
 	me = !"git lg --author=\"$(git config user.name)\""
 	pp = !"git lgu; echo; git du --stat"
-	pr = !"if ! git diff-files --quiet; then git stash && git pull --rebase && git stash pop; else git pull --rebase; fi"
+	pr = pull --rebase
 	prp = !git pr && git push
 	ra = rebase --abort
 	rb = rebase
