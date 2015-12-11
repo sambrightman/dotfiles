@@ -143,7 +143,7 @@
 (with-eval-after-load 'python
   (setq-default epy-load-yasnippet-p t)
   (require 'epy-init)
-  (epy-setup-checker (concat (expand-file-name "~/dev/pycheckers.sh") " %f"))
+;;  (epy-setup-checker (concat (expand-file-name "~/dev/pycheckers.sh") " %f"))
   (epy-django-snippets)
   (epy-setup-ipython)
   (require 'highlight-indentation)
