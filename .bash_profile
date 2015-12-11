@@ -396,7 +396,7 @@ function jvm() {
     fi
 }
 
-jvm 7
+jvm 8
 
 alias reload_prefs='killall cfprefsd'
 
