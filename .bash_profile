@@ -407,7 +407,6 @@ alias svnlv='svn log -v . | less'
 alias svnl='svn log -c'
 alias svnd='svn diff -c'
 
-require ~/.bash_imc
 require ~/.bash_tokens
 
 # makes Ctrl-O work
