@@ -187,6 +187,11 @@
                           (add-hook 'before-save-hook 'gofmt-before-save nil t)))
 
 
+;; Rust
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+
+
 ;; IDE-like
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
