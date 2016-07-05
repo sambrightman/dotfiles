@@ -56,6 +56,7 @@
 	ss = stash show -p
 	sv = stash save -k -u
 	st = status
+	sti = status --ignore
 	bb = !echo $(git cb)_bb
 	cb = rev-parse --abbrev-ref HEAD
 	ub = rev-parse --abbrev-ref --symbolic-full-name @{u}
