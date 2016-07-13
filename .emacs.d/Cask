@@ -17,6 +17,7 @@
 (depends-on "color-theme-solarized")
 (depends-on "company")
 (depends-on "company-go")
+(depends-on "d-mode")
 (depends-on "ess")
 (depends-on "expand-region")
 (depends-on "flx")
