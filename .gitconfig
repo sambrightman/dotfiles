@@ -66,6 +66,7 @@
 	name = show --name-only
 	graph = log --graph --all --pretty=graphtight --abbrev-commit --date=relative
 	biggraph = log --graph --all --pretty=graphloose --abbrev-commit
+	tags = tag
 	tagdates = log --tags --simplify-by-decoration --pretty=\"format:%ci %d\"
 	conflicts = diff --name-only --diff-filter=U
 	contains = branch -a --contains
