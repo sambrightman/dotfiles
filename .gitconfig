@@ -52,6 +52,7 @@
 	sd = stash drop
 	sl = stash list --pretty=stashoneline
 	sm = submodule
+	smu = submodule update --init --recursive
 	sp = stash pop
 	ss = stash show -p
 	sv = stash save -k -u
