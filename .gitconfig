@@ -49,6 +49,7 @@
 	rsp = reset --patch
 	rss = reset --soft
 	rso = remote show origin
+	sa = stash apply
 	sd = stash drop
 	sl = stash list --pretty=stashoneline
 	sm = submodule
