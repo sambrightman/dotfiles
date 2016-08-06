@@ -376,6 +376,8 @@ export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/5/:${DYLD_LIBRARY_PATH}
 export GOPATH=${DEV_DIR}/go
 export PATH=${PATH}:${GOPATH}/bin
 
+require ~/.cargo/env
+
 export MONO_GAC_PREFIX="/usr/local"
 export FZF_DEFAULT_OPTS='--extended-exact --multi --select-1'
 
