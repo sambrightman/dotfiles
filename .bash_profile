@@ -6,9 +6,6 @@ require /usr/local/bin/virtualenvwrapper.sh
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
 export PROJECT_HOME=$HOME/dev
 
-# perl
-export PWORKON_HOME=~/.pvirtualenvs
-
 function proxy() {
     local proxy_host=${1:-proxy}
     local proxy_port=3128
@@ -127,8 +124,12 @@ function runin() {
     fi
 }
 
+# perl
+export PWORKON_HOME=~/.pvirtualenvs
+
 function pvirtualenv() {
     local name=$1 && shift
+    mkdir -p ${PWORKON_HOME}
     ${DEV_DIR}/penv/penv.pl ${PWORKON_HOME}/${name} $*
 }
 
