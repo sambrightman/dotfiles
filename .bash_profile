@@ -443,3 +443,8 @@ function javakill() {
     pkill -f JavaAppletPlugin
     pkill -f java.*capsule
 }
+
+function dus() {
+    target=${1:-*}
+    du -sm $target | sort -n
+}
