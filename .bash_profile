@@ -178,6 +178,7 @@ export PROMPT_COMMAND="history -a"
 export HISTCONTROL=ignoreboth
 export HISTSIZE=100000
 export HISTFILESIZE=100000
+export HISTTIMEFORMAT="%F %T "
 
 alias dokinit='kinit -f -r 7d -l 10h'
 
