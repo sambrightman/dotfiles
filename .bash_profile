@@ -373,7 +373,7 @@ require "$HOME/.rvm/scripts/rvm"
 export NVM_DIR=~/.nvm
 require $(brew --prefix nvm)/nvm.sh
 
-export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/5/:${DYLD_LIBRARY_PATH}
+export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/6:${DYLD_LIBRARY_PATH}
 export GOPATH=${DEV_DIR}/go
 export PATH=${PATH}:${GOPATH}/bin
 
