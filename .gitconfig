@@ -48,6 +48,7 @@
 	rsa = reset --hard
 	rsp = reset --patch
 	rss = reset --soft
+	remotes = remote show
 	rso = remote show origin
 	sa = stash apply
 	sd = stash drop
