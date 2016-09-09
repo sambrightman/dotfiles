@@ -26,6 +26,7 @@
 	du = !git diff --pretty=authoneline --reverse $(git ub)..
 	ffm = merge --ff-only
 	fu = commit --amend --no-edit
+	fuc = commit --fixup=
 	lg = log --pretty=authoneline
 	lga = log -n1 HEAD@{1}
 	lgf = log --pretty=authonelinefull
@@ -98,6 +99,7 @@
 	rebase = true
 [branch]
 	autosetupmerge = always
+	autosetuprebase = always
 [rebase]
 	autosquash = true
 	autostash = true
