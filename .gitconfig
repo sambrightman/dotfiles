@@ -22,11 +22,14 @@
 	cm = commit -m
 	cia = commit -C HEAD@{1}
 	ciae = commit -c HEAD@{1}
+	cp = cherry-pick
+	cpa = cherry-pick --abort
+	cpc = cherry-pick --continue
 	dc = diff --cached
 	du = !git diff --pretty=authoneline --reverse $(git ub)..
 	ffm = merge --ff-only
 	fu = commit --amend --no-edit
-	fuc = commit --fixup=
+	fuc = commit --fixup
 	lg = log --pretty=authoneline
 	lga = log -n1 HEAD@{1}
 	lgf = log --pretty=authonelinefull
