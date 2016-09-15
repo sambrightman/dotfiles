@@ -18,6 +18,7 @@
 	ce = config --global --edit
 	co = checkout
 	cob = checkout -b
+	cfd = clean -fd
 	ci = commit
 	cm = commit -m
 	cia = commit -C HEAD@{1}
@@ -58,6 +59,7 @@
 	sd = stash drop
 	sl = stash list --pretty=stashoneline
 	sm = submodule
+	smc = submodule foreach --recursive git clean -fd
 	smu = submodule update --init --recursive
 	sp = stash pop
 	ss = stash show -p
