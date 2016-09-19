@@ -36,8 +36,6 @@
 (depends-on "flymake-jshint")
 (depends-on "flymake-json")
 (depends-on "flymake-yaml")
-(depends-on "git-commit-mode")
-(depends-on "git-rebase-mode")
 (depends-on "gitattributes-mode")
 (depends-on "gitconfig-mode")
 (depends-on "gitignore-mode")
