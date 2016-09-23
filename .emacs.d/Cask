@@ -64,6 +64,7 @@
 (depends-on "racer")
 (depends-on "rust-mode")
 (depends-on "sass-mode")
+(depends-on "scala-mode")
 (depends-on "smex")
 (depends-on "toml-mode")
 (depends-on "tt-mode")
