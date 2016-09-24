@@ -53,8 +53,13 @@
 	rsa = reset --hard
 	rsp = reset --patch
 	rss = reset --soft
+	rssh = reset --soft HEAD~1
 	remotes = remote show
 	rso = remote show origin
+	rv = revert --no-commit
+	rva = revert --abort
+	rvc = revert --continue
+	rvh = revert --no-commit HEAD
 	sa = stash apply
 	sd = stash drop
 	sl = stash list --pretty=stashoneline
