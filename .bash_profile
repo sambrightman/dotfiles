@@ -178,7 +178,6 @@ shopt -s cmdhist
 shopt -s direxpand
 shopt -s extglob
 shopt -s globstar
-shopt -s nullglob
 shopt -s histverify
 shopt -s histreedit
 export PROMPT_COMMAND="history -a"
