@@ -123,6 +123,7 @@
 (defalias 'perl-mode 'cperl-mode)
 (add-hook 'cperl-mode-hook (lambda ()
                              (cperl-set-style "PerlStyle")
+                             (setq cperl-continued-brace-offset -4)
                              (setq cperl-indent-parens-as-block t)
                              (setq cperl-close-paren-offset -4)
                              (setq cperl-autoindent-on-semi t)))
