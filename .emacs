@@ -60,6 +60,7 @@
 ;; General
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
+(setq-default c-basic-offset 4)
 (setq backup-inhibited t)
 (setq transient-mark-mode t)
 (setq require-final-newline 'query)
