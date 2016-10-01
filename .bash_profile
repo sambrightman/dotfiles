@@ -127,15 +127,18 @@ function runin() {
 # perl
 export PWORKON_HOME=~/.pvirtualenvs
 
-function pvirtualenv() {
+function pmkvirtualenv() {
     local name=$1 && shift
     mkdir -p ${PWORKON_HOME}
     ${DEV_DIR}/penv/penv.pl ${PWORKON_HOME}/${name} $*
+    pworkon ${name}
 }
 
 function pworkon() {
     local name=$1 && shift
-    if [ -n "${name}" -a -d "${PWORKON_HOME}/${name}" ]; then
+    if [ -z "${name}" ]; then
+        plsvirtualenv
+    elif [ -d "${PWORKON_HOME}/${name}" ]; then
         require ${PWORKON_HOME}/${name}/bin/activate
     else
         echo "${name} is not a pvirtualenv"
@@ -155,6 +158,8 @@ function pcdvirtualenv() {
     local name=$1 && shift
     if [ -n "${name}" -a -d "${PWORKON_HOME}/${name}" ]; then
         cd ${PWORKON_HOME}/${name}
+    elif [[ -n "${VIRTUAL_ENV}" && "$(dirname ${VIRTUAL_ENV})" == "${PWORKON_HOME}" ]]; then
+        cd ${VIRTUAL_ENV}
     elif [ -z "${name}" ]; then
         cd ${PWORKON_HOME}
     else
@@ -164,7 +169,7 @@ function pcdvirtualenv() {
 
 function prmvirtualenv() {
     local name=$1 && shift
-    if [ -n "${name}" -a -d "${PWORKON_HOME}/${name}" ]; then
+    if [ -d "${PWORKON_HOME}/${name:?Please specify an environment.}" ]; then
         rm -rf ${PWORKON_HOME}/${name}
     else
         echo "${name} is not a pvirtualenv"
