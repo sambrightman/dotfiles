@@ -83,6 +83,8 @@
   (interactive)
   (find-tag (find-tag-default)))
 (global-set-key (kbd "M-.") 'find-tag-no-prompt)
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 
 ;; Ido
