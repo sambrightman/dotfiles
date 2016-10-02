@@ -128,7 +128,7 @@ require "${CODE_DIR}/penvwrapper/penvwrapper.sh"
 
 
 # shopt -s cdspell
-# shopt -s dirspel
+# shopt -s dirspell
 shopt -s histappend
 shopt -s cmdhist
 shopt -s direxpand
