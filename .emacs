@@ -130,6 +130,7 @@
                              (setq cperl-indent-parens-as-block t)
                              (setq cperl-close-paren-offset -4)
                              (setq cperl-autoindent-on-semi t)))
+(setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format))
 
 ;; Python
 (with-eval-after-load 'python

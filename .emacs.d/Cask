@@ -68,5 +68,6 @@
 (depends-on "smex")
 (depends-on "toml-mode")
 (depends-on "tt-mode")
+(depends-on "virtualenvwrapper")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
