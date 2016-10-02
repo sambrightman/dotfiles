@@ -1,7 +1,5 @@
 source ~/.bashrc
 
-export WORKON_HOME=~/.virtualenvs
-mkdir -p $WORKON_HOME
 require /usr/local/bin/virtualenvwrapper.sh
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
 export PROJECT_HOME=$HOME/dev
