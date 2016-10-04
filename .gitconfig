@@ -116,3 +116,5 @@
 	autostash = true
 [diff]
 	noprefix = true
+[push]
+	default = current
