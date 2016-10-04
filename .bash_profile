@@ -411,3 +411,13 @@ function dus() {
     target=${1:-*}
     du -sm $target | sort -n
 }
+
+function whichfunc() {
+    (
+        shopt -s extdebug
+        for func in "$@"; do
+            declare -F $func
+            declare -f $func
+        done
+    )
+}
