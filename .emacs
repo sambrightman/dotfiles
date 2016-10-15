@@ -119,9 +119,11 @@
 
 
 ;; YAML
-(add-hook 'yaml-mode-hook
-          '(lambda ()
-             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+(defun my/yaml-mode-hook ()
+  "Customization for `yaml-mode'."
+  (interactive)
+  (local-set-key (kbd "C-m") 'newline-and-indent))
+(add-hook 'yaml-mode-hook 'my/yaml-mode-hook)
 (add-to-list 'auto-mode-alist `(,(expand-file-name "~/code/eel/.*\\.conf$") . yaml-mode))
 (add-to-list 'auto-mode-alist `(,(expand-file-name "~/code/ox/.*\\.conf$") . yaml-mode))
 
@@ -129,12 +131,22 @@
 ;; Perl
 (require 'cperl-mode)
 (defalias 'perl-mode 'cperl-mode)
-(add-hook 'cperl-mode-hook (lambda ()
-                             (cperl-set-style "PerlStyle")
-                             (setq cperl-continued-brace-offset -4)
-                             (setq cperl-indent-parens-as-block t)
-                             (setq cperl-close-paren-offset -4)
-                             (setq cperl-autoindent-on-semi t)))
+(defun my/cperl-indent-exp ()
+  "Re-indent surrounding expression."
+  (interactive)
+  (save-excursion
+    (backward-up-list)
+    (cperl-indent-exp)))
+(defun my/cperl-mode-hook ()
+  "Customization for `cperl-mode'."
+  (interactive)
+  (cperl-set-style "PerlStyle")
+  (setq cperl-continued-brace-offset -4)
+  (setq cperl-indent-parens-as-block t)
+  (setq cperl-close-paren-offset -4)
+  (setq cperl-autoindent-on-semi t)
+  (local-set-key (kbd "M-C-q") 'my/cperl-indent-exp))
+(add-hook 'cperl-mode-hook 'my/cperl-mode-hook)
 (setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format))
 
 ;; Python
@@ -167,22 +179,27 @@
 
 
 ;; Groovy
-(add-hook 'groovy-mode-hook
-          '(lambda ()
-             (require 'groovy-electric)
-             (groovy-electric-mode)))
+(defun my/groovy-mode-hook ()
+  "Customization for `groovy-mode'."
+  (interactive)
+  (require 'groovy-electric)
+  (groovy-electric-mode))
+(add-hook 'groovy-mode-hook 'my/groovy-mode-hook)
 
 
 ;; Go
 (with-eval-after-load 'go-mode
   (require 'go-flycheck))
-(add-hook 'go-mode-hook (lambda ()
-                          (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
-                          (local-set-key (kbd "C-c i") 'go-goto-imports)
-                          (local-set-key (kbd "M-.") 'godef-jump)
-                          (go-eldoc-setup)
-                          (setq gofmt-command "goimports")
-                          (add-hook 'before-save-hook 'gofmt-before-save nil t)))
+(defun my/go-mode-hook ()
+  "Customization for `go-mode'."
+  (interactive)
+  (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
+  (local-set-key (kbd "C-c i") 'go-goto-imports)
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (go-eldoc-setup)
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook 'gofmt-before-save nil t))
+(add-hook 'go-mode-hook 'my/go-mode-hook)
 
 
 ;; Rust
@@ -218,12 +235,6 @@
                    (not (equal f ".."))
                    (not (equal f ".")))
           (add-to-list 'yas-snippet-dirs filename))))))
-
-
-;; Magit
-(global-set-key (kbd "C-c C-m") 'magit-status)
-(with-eval-after-load 'magit-mode
-  (setq magit-last-seen-setup-instructions "1.4.0"))
 
 
 ;; Ace Jump
