@@ -85,6 +85,11 @@
 (global-set-key (kbd "M-.") 'find-tag-no-prompt)
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
+(defun my/cycle-spacing ()
+  "Call `cycle-spacing' in fast mode with newline chomping."
+  (interactive)
+  (cycle-spacing -1 t "fast"))
+(substitute-key-definition 'just-one-space 'my/cycle-spacing (current-global-map))
 
 
 ;; Ido
