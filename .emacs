@@ -68,7 +68,9 @@
 (put 'downcase-region 'disabled nil)
 (column-number-mode)
 (show-paren-mode)
+(setq-default show-paren-style 'mixed)
 (electric-pair-mode)
+(setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 (global-auto-revert-mode 1)
 (setq-default auto-revert-interval 2)
 (setq frame-title-format
@@ -76,20 +78,29 @@
 (setq diff-switches "-u")
 (setq vc-follow-symlinks t)
 (setq gc-cons-threshold (* 20 (* 1024 1024)))
+
+(defun my/help-mode-revert-buffer--noconfirm (&rest args)
+  "Don't confirm when reverting *Help* buffers with ARGS."
+  (list (car args) :noconfirm))
+(advice-add 'help-mode-revert-buffer :filter-args #'my/help-mode-revert-buffer--noconfirm)
+
 ;; suggested key is C-=, this overwrites
 (global-set-key (kbd "C-M-w") 'er/expand-region)
+
 (defun find-tag-no-prompt ()
   "Jump to the tag at point without prompting."
   (interactive)
   (find-tag (find-tag-default)))
 (global-set-key (kbd "M-.") 'find-tag-no-prompt)
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+
 (defun my/cycle-spacing ()
   "Call `cycle-spacing' in fast mode with newline chomping."
   (interactive)
   (cycle-spacing -1 t "fast"))
 (substitute-key-definition 'just-one-space 'my/cycle-spacing (current-global-map))
+
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 
 ;; Ido
@@ -217,10 +228,7 @@
   (add-to-list 'company-backends 'company-go)
   (setq-default company-tooltip-limit 20)
   (setq-default company-idle-delay .2)
-  (setq-default company-show-numbers t)
-  (custom-set-faces
-   '(company-tooltip
-     ((t (:background "blue" :foreground "black"))))))
+  (setq-default company-show-numbers t))
 
 ;; YAS
 (add-hook 'after-init-hook #'yas-global-mode)
@@ -260,5 +268,24 @@
 (global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
 (global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)
 
+
+;; Utilities
+(defun cleanup-buffer ()
+  "Perform a bunch of operations on the whitespace content of a buffer.
+Including indent-buffer, which should not be called automatically on save."
+  (interactive)
+  (untabify (point-min) (point-max))
+  (delete-trailing-whitespace)
+  (indent-region (point-min) (point-max)))
+
+(defun eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
 
 ;;; .emacs ends here
