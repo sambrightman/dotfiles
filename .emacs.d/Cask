@@ -4,6 +4,7 @@
 (source org)
 
 (depends-on "ace-jump-mode")
+(depends-on "ace-window")
 (depends-on "auto-compile")
 (depends-on "auto-complete")
 (depends-on "cargo")
@@ -62,6 +63,7 @@
 (depends-on "php-mode")
 (depends-on "puppet-mode")
 (depends-on "racer")
+(depends-on "rainbow-delimiters")
 (depends-on "rust-mode")
 (depends-on "sass-mode")
 (depends-on "scala-mode")
