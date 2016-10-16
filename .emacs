@@ -11,7 +11,6 @@
 ;; load-path
 (let ((default-directory user-emacs-directory))
   (normal-top-level-add-subdirs-to-load-path))
-(setq custom-theme-load-path load-path)
 (byte-recompile-directory user-emacs-directory 0)
 
 
@@ -22,25 +21,13 @@
        `(funcall (function ,(lambda () ,@body))))))
 
 
-;; before packaging to ensure updates are loaded over .elc
-(setq load-prefer-newer t)
-
-
 ;; Packaging
-
-;; built-in
-
-;; (require 'package)
-;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-;; (package-initialize)
-
-;; cask-based
-
+(setq load-prefer-newer t)
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 (pallet-mode t)
+;; prevents automatic addition of this line
+;;(package-initialize)
 
 
 ;; Theme
@@ -78,23 +65,21 @@
 (setq diff-switches "-u")
 (setq vc-follow-symlinks t)
 (setq gc-cons-threshold (* 20 (* 1024 1024)))
-(global-set-key (kbd "C-s") 'phi-search)
-(global-set-key (kbd "C-r") 'phi-search-backward)
-(global-set-key (kbd "M-%") 'phi-replace-query)
 
 (defun my/help-mode-revert-buffer--noconfirm (&rest args)
   "Don't confirm when reverting *Help* buffers with ARGS."
   (list (car args) :noconfirm))
 (advice-add 'help-mode-revert-buffer :filter-args #'my/help-mode-revert-buffer--noconfirm)
 
-;; suggested key is C-=, this overwrites
 (global-set-key (kbd "C-M-w") 'er/expand-region)
 
-(defun find-tag-no-prompt ()
-  "Jump to the tag at point without prompting."
-  (interactive)
-  (find-tag (find-tag-default)))
-(global-set-key (kbd "M-.") 'find-tag-no-prompt)
+;; remove after Emacs 25.1 everywhere
+(unless (fboundp 'xref-find-definitions)
+  (defun find-tag-no-prompt ()
+    "Jump to the tag at point without prompting."
+    (interactive)
+    (find-tag (find-tag-default)))
+  (global-set-key (kbd "M-.") 'find-tag-no-prompt))
 
 (defun my/cycle-spacing ()
   "Call `cycle-spacing' in fast mode with newline chomping."
@@ -257,14 +242,29 @@
 (global-set-key (kbd "M-S-m") 'jump-char-backward)
 
 ;; FIXME: jump char, mc and er (above)
+
+;; phi-search (multiple-cursors compatible)
+(with-eval-after-load 'phi-search
+  (global-set-key (kbd "C-s") 'phi-search)
+  (global-set-key (kbd "C-r") 'phi-search-backward)
+  (global-set-key (kbd "M-%") 'phi-replace-query)
+  (setq-default phi-search-case-sensitive 'guess))
+
 ;; shift, angle bracket and hyper not working
 
 ;; Multiple cursors
-;; suggested key is C-S-c C-S-c, this overwrites
+
+;; maybe should be:
+;; mc/mark-next-like-this C-.
+;; mc/unmark-next-like-this: C-,
+;; mc/skip-to-next-like-this: C->
+;; mc/mark-previous-like-this C-c C-,
+;; mc/unmark-previous-like-this: C-c C-.
+;; mc/skip-to-previous-like-this: C-c C-<
+
+;; C-' narrow to occurences (not working)
+;; C-j for a newline
 (global-set-key (kbd "C-M-m") 'mc/mark-all-dwim)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C->") 'mc/mark-all-like-this)
 (global-set-key (kbd "H-SPC") 'set-rectangular-region-anchor)
 
 ;; Mwim
