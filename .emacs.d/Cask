@@ -60,6 +60,7 @@
 (depends-on "multiple-cursors")
 (depends-on "mwim")
 (depends-on "pallet")
+(depends-on "phi-search")
 (depends-on "php-mode")
 (depends-on "puppet-mode")
 (depends-on "racer")
