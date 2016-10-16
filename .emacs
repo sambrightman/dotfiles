@@ -78,6 +78,9 @@
 (setq diff-switches "-u")
 (setq vc-follow-symlinks t)
 (setq gc-cons-threshold (* 20 (* 1024 1024)))
+(global-set-key (kbd "C-s") 'phi-search)
+(global-set-key (kbd "C-r") 'phi-search-backward)
+(global-set-key (kbd "M-%") 'phi-replace-query)
 
 (defun my/help-mode-revert-buffer--noconfirm (&rest args)
   "Don't confirm when reverting *Help* buffers with ARGS."
