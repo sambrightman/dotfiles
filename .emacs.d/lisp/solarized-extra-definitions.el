@@ -85,7 +85,8 @@
 	 (mapcar (lambda (face) (apply 'create-face-spec face))
 		 definitions)))
 
-(defvar my/solarized-extra-definitions
+(defvar my/solarized-extra-definitions)
+(setq-default my/solarized-extra-definitions
   (solarized-with-color-variables
     `(;; cperl
       (cperl-array-face (,@fg-blue))
@@ -133,6 +134,12 @@
       ;; phi-search
       (phi-search-match-face (:inherit match))
       (phi-search-selection-face (:inherit isearch))
+      ;; visual-regexp
+      (vr/match-0 (:inherit match))
+      (vr/match-1 (:inherit match))
+      (vr/group-0 (,@fg-violet))
+      (vr/group-1 (,@fg-cyan))
+      (vr/group-2 (,@fg-green))
       )))
 
 (provide 'solarized-extra-definitions)
