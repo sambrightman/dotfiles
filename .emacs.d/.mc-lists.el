@@ -3,8 +3,11 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        delete-indentation
+        kill-region
         mwim-beginning-of-code-or-line
         mwim-end-of-code-or-line
+        phi-search-backward
         ))
 
 (setq mc/cmds-to-run-once
