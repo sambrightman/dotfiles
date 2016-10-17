@@ -33,11 +33,20 @@ export EDITOR=~/bin/emacswrapper
 function emacs() {
     eval $EDITOR "$@"
 }
+function realemacs() {
+    command emacs "$@"
+}
+function bareemacs() {
+    command emacs -Q "$@"
+}
 function stopemacs() {
     emacsclient -e "(save-buffers-kill-emacs)"
 }
 function killemacs() {
     emacsclient -e "(kill-emacs)"
+}
+function lsemacs() {
+    pgrep -l emacs "$@"
 }
 
 export LESS='-FRX'
