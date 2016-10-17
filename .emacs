@@ -86,9 +86,10 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (setq-default show-paren-style 'mixed)
 (electric-pair-mode)
 (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-(global-auto-revert-mode 1)
-(global-hi-lock-mode 1)
-;;(global-hl-line-mode 1)
+(global-auto-revert-mode)
+(global-hi-lock-mode)
+(rxt-global-mode)
+;;(global-hl-line-mode)
 (setq-default auto-revert-interval 2)
 (setq frame-title-format
       (concat  "%b - emacs@" (system-name)))
@@ -307,6 +308,12 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
 (global-set-key (kbd "C-e") 'mwim-end-of-code-or-line)
 
+
+;; visual-regexp-steroids
+(global-set-key (kbd "C-c q") 'vr/query-replace)
+;;(global-set-key (kbd "C-c m") 'vr/mc-mark)
+(define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
+(define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
 
 ;; Utilities
 (defun my/cleanup-buffer ()
