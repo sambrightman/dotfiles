@@ -73,7 +73,8 @@ virtualenvs are kept.")
 (defun add-to-env-path-variable (subdir variable)
   "Add SUBDIR of current virtual environment to environment path variable VARIABLE if not already present."
   (let ((current-value (getenv variable)))
-    (unless (-contains? (path-split current-value) subdir)
+    (unless (and current-value
+                 (-contains? (path-split current-value) subdir))
       (setenv variable (concat venv-current-dir
                                subdir
                                path-separator
@@ -81,10 +82,12 @@ virtualenvs are kept.")
 
 (defun remove-from-env-path-variable (subdir variable)
   "Remove SUBDIR of current virtual environment from environment variable VARIABLE."
-  (let ((venv-executables-dir subdir))
-    (setenv variable
-            (path-join (venv-get-stripped-path
-                        (path-split (getenv variable)))))))
+  (let ((current-value (getenv variable))
+        (venv-executables-dir subdir))
+    (unless (null current-value)
+      (setenv variable
+              (path-join (venv-get-stripped-path
+                          (path-split current-value)))))))
 
 (provide 'penvwrapper)
 
