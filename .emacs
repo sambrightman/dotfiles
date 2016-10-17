@@ -33,7 +33,7 @@
   (normal-top-level-add-subdirs-to-load-path))
 
 ;; Theme
-(defconst my/solarized-mode 'dark)
+(defconst my/theme-mode 'dark)
 (defun my/set-background-mode (mode &optional frame)
   "Set MODE as the background mode of FRAME.
 MODE should be 'dark', 'light' or 'auto'.
@@ -50,7 +50,7 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
     (when (called-interactively-p 'any)
       (frame-set-background-mode (selected-frame)))))
 
-(defun my/load-solarized ()
+(defun my/load-my-theme ()
   "Load theme `solarized' and apply extra definitions."
   (load-theme 'solarized t)
   (require 'solarized-extra-definitions)
@@ -60,15 +60,15 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
   "Customization to apply theme to new FRAME."
   (with-selected-frame frame
     (unless window-system
-      (my/set-background-mode my/solarized-mode frame)
-      (my/load-solarized))))
+      (my/set-background-mode my/theme-mode frame)
+      (my/load-my-theme))))
 
 (if (daemonp)
-    (add-hook 'after-make-frame-functions 'my/after-make-frame-functions)
-  (my/set-background-mode my/solarized-mode (selected-frame))
-  (my/load-solarized))
+    (add-hook 'after-make-frame-functions 'my/after-make-frame-functions))
+(my/set-background-mode my/theme-mode (selected-frame))
+(my/load-my-theme)
 
-;; after theme so that solarized is loaded (no after-theme-hook)
+;; after theme so that theme is loaded before compiling extras (no after-theme-hook)
 (byte-recompile-directory my/lisp-directory 0)
 
 
