@@ -31,14 +31,33 @@
 
 
 ;; Theme
+(defun my/set-background-mode (mode &optional frame)
+  "Set MODE as the background mode of FRAME.
+MODE should be 'dark', 'light' or 'auto'.
+If FRAME is omitted or nil it defaults to `selected-frame'."
+  (interactive "SEnter 'dark', 'light' or 'auto': ")
+  (if (member mode '(dark light auto))
+      (progn
+        (when (eq mode 'auto)
+          (setq mode nil))
+        (or frame (setq frame (selected-frame)))
+        (set-frame-parameter frame 'background-mode mode)
+        (set-terminal-parameter frame 'background-mode mode)
+        (message "Mode set to %s" mode)
+        (when (called-interactively-p 'any)
+          (frame-set-background-mode (selected-frame))))
+    (error "Invalid mode %s" mode)))
+
+(defun my/after-make-frame-functions (frame)
+  "Customization to apply theme to new FRAME."
+  (with-selected-frame frame
+    (unless window-system
+      (progn
+	(my/set-background-mode 'dark frame)
+	(load-theme 'solarized t)))))
+
 (if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (with-selected-frame frame
-                  (let ((mode 'dark))
-                    (set-frame-parameter frame 'background-mode mode)
-                    (set-terminal-parameter frame 'background-mode mode))
-                  (load-theme 'solarized t))))
+    (add-hook 'after-make-frame-functions 'my/after-make-frame-functions)
   (load-theme 'solarized t))
 ;;(global-hl-line-mode t)
 ;;(set-face-background 'hl-line "orange")
@@ -75,11 +94,11 @@
 
 ;; remove after Emacs 25.1 everywhere
 (unless (fboundp 'xref-find-definitions)
-  (defun find-tag-no-prompt ()
+  (defun my/find-tag-no-prompt ()
     "Jump to the tag at point without prompting."
     (interactive)
     (find-tag (find-tag-default)))
-  (global-set-key (kbd "M-.") 'find-tag-no-prompt))
+  (global-set-key (kbd "M-.") 'my/find-tag-no-prompt))
 
 (defun my/cycle-spacing ()
   "Call `cycle-spacing' in fast mode with newline chomping."
@@ -241,31 +260,35 @@
 (global-set-key (kbd "M-m") 'jump-char-forward)
 (global-set-key (kbd "M-S-m") 'jump-char-backward)
 
-;; FIXME: jump char, mc and er (above)
 
 ;; phi-search (multiple-cursors compatible)
 (with-eval-after-load 'phi-search
-  (global-set-key (kbd "C-s") 'phi-search)
-  (global-set-key (kbd "C-r") 'phi-search-backward)
-  (global-set-key (kbd "M-%") 'phi-replace-query)
   (setq-default phi-search-case-sensitive 'guess))
+(global-set-key (kbd "C-s") 'phi-search)
+(global-set-key (kbd "C-r") 'phi-search-backward)
+(global-set-key (kbd "M-%") 'phi-replace-query)
+
 
 ;; shift, angle bracket and hyper not working
 
 ;; Multiple cursors
+;; note: C-' narrow to occurrences (not working)
+;; note: C-j for a newline
 
-;; maybe should be:
-;; mc/mark-next-like-this C-.
-;; mc/unmark-next-like-this: C-,
-;; mc/skip-to-next-like-this: C->
-;; mc/mark-previous-like-this C-c C-,
-;; mc/unmark-previous-like-this: C-c C-.
-;; mc/skip-to-previous-like-this: C-c C-<
+;; maybe should be (does not work):
+(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-,") 'mc/unmark-next-like-this)
+(global-set-key (kbd "C->") 'mc/skip-to-next-like-this)
+(global-set-key (kbd "C-c C-,") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-.") 'mc/unmark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/skip-to-previous-like-this)
 
-;; C-' narrow to occurences (not working)
-;; C-j for a newline
 (global-set-key (kbd "C-M-m") 'mc/mark-all-dwim)
 (global-set-key (kbd "H-SPC") 'set-rectangular-region-anchor)
+
+;; should be H-p to avoid history clash
+(global-set-key (kbd "M-p") 'ace-window)
+
 
 ;; Mwim
 (global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
@@ -273,7 +296,7 @@
 
 
 ;; Utilities
-(defun cleanup-buffer ()
+(defun my/cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
 Including indent-buffer, which should not be called automatically on save."
   (interactive)
@@ -281,7 +304,9 @@ Including indent-buffer, which should not be called automatically on save."
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max)))
 
-(defun eval-and-replace ()
+;; potentially bind to C-x C-e
+;; use C-M-x to evaluate normally (but only whole defun...)
+(defun my/eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
   (backward-kill-sexp)
