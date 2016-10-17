@@ -32,6 +32,16 @@
   (add-to-list 'load-path default-directory)
   (normal-top-level-add-subdirs-to-load-path))
 
+
+;; platform-specific
+(cond
+ ((eq system-type 'darwin)
+  (if (executable-find "gls")
+      (setq insert-directory-program "gls"))
+  (setq-default ns-function-modifier 'hyper))
+ (t nil))
+
+
 ;; Theme
 (defconst my/theme-mode 'dark)
 (defun my/set-background-mode (mode &optional frame)
@@ -46,7 +56,6 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
     (or frame (setq frame (selected-frame)))
     (set-frame-parameter frame 'background-mode mode)
     (set-terminal-parameter frame 'background-mode mode)
-    (message "Mode set to %s" mode)
     (when (called-interactively-p 'any)
       (frame-set-background-mode (selected-frame)))))
 
@@ -56,7 +65,7 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
   (require 'solarized-extra-definitions)
   (solarized-apply-definitions my/solarized-extra-definitions 'solarized))
 
-(defun my/after-make-frame-functions (frame)
+(defun my/after-make-frame-functions-hook (frame)
   "Customization to apply theme to new FRAME."
   (with-selected-frame frame
     (unless window-system
@@ -64,12 +73,13 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
       (my/load-my-theme))))
 
 (if (daemonp)
-    (add-hook 'after-make-frame-functions 'my/after-make-frame-functions))
+    (add-hook 'after-make-frame-functions 'my/after-make-frame-functions-hook))
 (my/set-background-mode my/theme-mode (selected-frame))
 (my/load-my-theme)
 
 ;; after theme so that theme is loaded before compiling extras (no after-theme-hook)
-(byte-recompile-directory my/lisp-directory 0)
+(shut-up
+  (byte-recompile-directory my/lisp-directory 0))
 
 
 ;; General
@@ -88,13 +98,40 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 (global-auto-revert-mode)
 (global-hi-lock-mode)
-(rxt-global-mode)
+;; after-init-hook prevents a warning about advice redefinition
+(add-hook 'after-init-hook #'rxt-global-mode)
+
+;; (defun my/function--accept-ad-redefinition (func &rest args)
+;;   "Call FUNC on ARGS with `ad-redefinition-action' set to `accept'."
+;;   (let ((ad-redefinition-action 'accept))
+;;     (apply func args)))
+
+;; (defun my/silence-ad-redefinition (func)
+;;   "Silence advice redefinition messages for FUNC."
+;;   (interactive "aFunction: ")
+;;   (advice-add func :around #'my/function--accept-ad-redefinition))
+
+;; (my/silence-ad-redefinition 'turn-on-rxt-mode)
+
 ;;(global-hl-line-mode)
 (setq-default auto-revert-interval 2)
 (setq frame-title-format
       (concat  "%b - emacs@" (system-name)))
 (setq diff-switches "-u")
 (setq vc-follow-symlinks t)
+
+(defun my/function--shut-up (func &rest args)
+  "Silence FUNC(ARGS) with advice."
+  (require 'shut-up)
+  (shut-up
+    (apply func args)))
+
+(defun my/silence-function (func)
+  "Silences FUNC using `shut-up'."
+  (interactive "aFunction: ")
+  (advice-add func :around #'my/function--shut-up))
+
+(my/silence-function 'vc-refresh-state)
 (setq gc-cons-threshold (* 20 (* 1024 1024)))
 
 (defun my/help-mode-revert-buffer--noconfirm (&rest args)
@@ -119,7 +156,8 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (substitute-key-definition 'just-one-space 'my/cycle-spacing (current-global-map))
 
 (setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+(shut-up
+  (load custom-file))
 
 
 ;; Ido
@@ -159,7 +197,6 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 
 
 ;; Perl
-(require 'cperl-mode)
 (defalias 'perl-mode 'cperl-mode)
 (defun my/cperl-indent-exp ()
   "Re-indent surrounding expression."
@@ -171,10 +208,10 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
   "Customization for `cperl-mode'."
   (interactive)
   (cperl-set-style "PerlStyle")
-  (setq cperl-continued-brace-offset -4)
-  (setq cperl-indent-parens-as-block t)
-  (setq cperl-close-paren-offset -4)
-  (setq cperl-autoindent-on-semi t)
+  (setq-default cperl-continued-brace-offset -4)
+  (setq-default cperl-indent-parens-as-block t)
+  (setq-default cperl-close-paren-offset -4)
+  (setq-default cperl-autoindent-on-semi t)
   (local-set-key (kbd "M-C-q") 'my/cperl-indent-exp))
 (add-hook 'cperl-mode-hook 'my/cperl-mode-hook)
 (setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format))
@@ -251,7 +288,9 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
   (setq-default company-idle-delay .2)
   (setq-default company-show-numbers t))
 
+
 ;; YAS
+(setq yas-verbosity 2)
 (add-hook 'after-init-hook #'yas-global-mode)
 (with-eval-after-load 'yasnippet
   (let ((base-dir (concat (file-name-as-directory user-emacs-directory) "snippets")))
@@ -283,7 +322,6 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (global-set-key (kbd "M-%") 'phi-replace-query)
 
 
-;; shift, angle bracket and hyper not working
 
 ;; Multiple cursors
 ;; note: C-' narrow to occurrences (not working)
@@ -301,6 +339,7 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (global-set-key (kbd "H-SPC") 'set-rectangular-region-anchor)
 
 ;; should be H-p to avoid history clash
+(setq-default aw-scope 'frame)
 (global-set-key (kbd "M-p") 'ace-window)
 
 
@@ -314,6 +353,7 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 ;;(global-set-key (kbd "C-c m") 'vr/mc-mark)
 (define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
 (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
+
 
 ;; Utilities
 (defun my/cleanup-buffer ()
