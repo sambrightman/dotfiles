@@ -8,12 +8,6 @@
 
 ;;; Code:
 
-;; load-path
-(let ((default-directory user-emacs-directory))
-  (normal-top-level-add-subdirs-to-load-path))
-(byte-recompile-directory user-emacs-directory 0)
-
-
 ;; Emacs 24.4 has this, 24.3 does not
 (unless (fboundp 'with-eval-after-load)
   (defmacro with-eval-after-load (file &rest body)
@@ -30,37 +24,52 @@
 ;;(package-initialize)
 
 
+;; load-path
+(defvar my/lisp-directory (expand-file-name
+                           (concat user-emacs-directory
+                                   (convert-standard-filename "lisp/"))))
+(let ((default-directory my/lisp-directory))
+  (add-to-list 'load-path default-directory)
+  (normal-top-level-add-subdirs-to-load-path))
+
 ;; Theme
+(defconst my/solarized-mode 'dark)
 (defun my/set-background-mode (mode &optional frame)
   "Set MODE as the background mode of FRAME.
 MODE should be 'dark', 'light' or 'auto'.
 If FRAME is omitted or nil it defaults to `selected-frame'."
   (interactive "SEnter 'dark', 'light' or 'auto': ")
-  (if (member mode '(dark light auto))
-      (progn
-        (when (eq mode 'auto)
-          (setq mode nil))
-        (or frame (setq frame (selected-frame)))
-        (set-frame-parameter frame 'background-mode mode)
-        (set-terminal-parameter frame 'background-mode mode)
-        (message "Mode set to %s" mode)
-        (when (called-interactively-p 'any)
-          (frame-set-background-mode (selected-frame))))
-    (error "Invalid mode %s" mode)))
+  (if (not (member mode '(dark light auto)))
+      (error "Invalid mode %s" mode)
+    (when (eq mode 'auto)
+      (setq mode nil))
+    (or frame (setq frame (selected-frame)))
+    (set-frame-parameter frame 'background-mode mode)
+    (set-terminal-parameter frame 'background-mode mode)
+    (message "Mode set to %s" mode)
+    (when (called-interactively-p 'any)
+      (frame-set-background-mode (selected-frame)))))
+
+(defun my/load-solarized ()
+  "Load theme `solarized' and apply extra definitions."
+  (load-theme 'solarized t)
+  (require 'solarized-extra-definitions)
+  (solarized-apply-definitions my/solarized-extra-definitions 'solarized))
 
 (defun my/after-make-frame-functions (frame)
   "Customization to apply theme to new FRAME."
   (with-selected-frame frame
     (unless window-system
-      (progn
-	(my/set-background-mode 'dark frame)
-	(load-theme 'solarized t)))))
+      (my/set-background-mode my/solarized-mode frame)
+      (my/load-solarized))))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions 'my/after-make-frame-functions)
-  (load-theme 'solarized t))
-;;(global-hl-line-mode t)
-;;(set-face-background 'hl-line "orange")
+  (my/set-background-mode my/solarized-mode (selected-frame))
+  (my/load-solarized))
+
+;; after theme so that solarized is loaded (no after-theme-hook)
+(byte-recompile-directory my/lisp-directory 0)
 
 
 ;; General
@@ -78,6 +87,8 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (electric-pair-mode)
 (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 (global-auto-revert-mode 1)
+(global-hi-lock-mode 1)
+;;(global-hl-line-mode 1)
 (setq-default auto-revert-interval 2)
 (setq frame-title-format
       (concat  "%b - emacs@" (system-name)))
@@ -166,6 +177,8 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
   (local-set-key (kbd "M-C-q") 'my/cperl-indent-exp))
 (add-hook 'cperl-mode-hook 'my/cperl-mode-hook)
 (setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format))
+(require 'penvwrapper)
+
 
 ;; Python
 (with-eval-after-load 'python

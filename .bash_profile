@@ -27,7 +27,7 @@ function proxy() {
 }
 
 # for Solarized in emacs
-export TERM=xterm
+export TERM=xterm-16color
 
 export EDITOR=~/bin/emacswrapper
 function emacs() {
