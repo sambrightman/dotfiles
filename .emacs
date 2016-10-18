@@ -161,6 +161,13 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
   (load custom-file))
 
 
+;; Magit
+(with-eval-after-load 'magit-remote
+  (magit-define-popup-action 'magit-push-popup ?P
+    'magit-push-implicitly--desc
+    'magit-push-implicitly ?p t))
+
+
 ;; Ido
 (require 'ido)
 (ido-mode 1)
