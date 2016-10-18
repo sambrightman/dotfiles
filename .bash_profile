@@ -332,6 +332,18 @@ function gerritify() {
     git remote show "${remote_name}"
 }
 
+function install_pre_push() {
+    local repo_dir="${DEV_DIR}/hooks"
+    if [ ! -d "${repo_dir}" ]; then
+        git clone git@gist.github.com:aec125cd1f4ccbab916cdbbe1ed0050a.git "${repo_dir}"
+    fi
+    if [ ! -d ".git" ]; then
+        echo "ERROR: run in directory with .git present"
+        return 1
+    fi
+    gln -s "${repo_dir}/pre-push" .git/hooks/
+}
+
 function an() {
     local field_num=$1 && shift
     local field_sep=$1 && shift
