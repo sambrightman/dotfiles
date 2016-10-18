@@ -99,23 +99,21 @@
 	# email from include
 [include]
 	path = .gitconfig_user
-[core]
-	editor = emacswrapper
-[color]
-	ui = true
-[pager]
-	blame = less -S
-[push]
-	default = simple
-[pull]
-	rebase = true
 [branch]
 	autosetupmerge = always
 	autosetuprebase = always
+[color]
+	ui = true
+[core]
+	editor = emacswrapper
+[diff]
+	noprefix = true
+[pager]
+	blame = less -S
+[pull]
+	rebase = true
+[push]
+	default = current
 [rebase]
 	autosquash = true
 	autostash = true
-[diff]
-	noprefix = true
-[push]
-	default = current
