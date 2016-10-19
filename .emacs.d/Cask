@@ -60,6 +60,7 @@
 (depends-on "multiple-cursors")
 (depends-on "mwim")
 (depends-on "pallet")
+(depends-on "paredit")
 (depends-on "pcre2el")
 (depends-on "phi-search")
 (depends-on "php-mode")
