@@ -142,14 +142,6 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 
 (global-set-key (kbd "C-M-w") 'er/expand-region)
 
-;; remove after Emacs 25.1 everywhere
-(unless (fboundp 'xref-find-definitions)
-  (defun my/find-tag-no-prompt ()
-    "Jump to the tag at point without prompting."
-    (interactive)
-    (find-tag (find-tag-default)))
-  (global-set-key (kbd "M-.") 'my/find-tag-no-prompt))
-
 (defun my/cycle-spacing ()
   "Call `cycle-spacing' in fast mode with newline chomping."
   (interactive)
@@ -162,6 +154,40 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
                                       "custom.el"))))
 (shut-up
   (load custom-file))
+
+
+;; references
+(setq-default grep-program "zgrep")
+;; remove after Emacs 25.1 everywhere
+(unless (fboundp 'xref-find-definitions)
+  (defun my/find-tag-no-prompt ()
+    "Jump to the tag at point without prompting."
+    (interactive)
+    (find-tag (find-tag-default)))
+  (global-set-key (kbd "M-.") 'my/find-tag-no-prompt))
+
+(with-eval-after-load 'xref
+  (add-to-list 'xref-prompt-for-identifier #'xref-find-references t 'eq))
+(defun my/xref-mode-hook ()
+  "Customization for `xref-mode'."
+  (interactive)
+  (hl-line-mode))
+(add-hook 'xref--xref-buffer-mode-hook 'my/xref-mode-hook)
+
+(defun my/filepatterns--include-compressed (orig)
+  "Add compression suffixes to filenames returned in ORIG."
+  (require 'dash)
+  (let* ((middle (cdr (butlast orig)))
+         (orig-predicates (-flatten (-split-on "-o" middle)))
+         (orig-expressions (-flatten (-split-on "-name" (or orig-predicates orig))))
+         (not-compressed (--remove (equal "gz" (file-name-extension it)) orig-expressions))
+         (compressed (--map (concat it ".gz") not-compressed))
+         (new-compressed (--remove (member it orig-expressions) compressed))
+         (new-patterns (--map `("-name" ,it) `(,@orig-expressions ,@new-compressed)))
+         (new-predicate (-flatten (-interpose "-o" new-patterns))))
+    `("(" ,@new-predicate ")")))
+(advice-add 'semantic-symref-derive-find-filepatterns
+            :filter-return #'my/filepatterns--include-compressed)
 
 
 ;; Magit
