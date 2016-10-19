@@ -392,6 +392,13 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
 
 
+;; paradox
+(setq-default paradox-automatically-star t)
+(setq-default paradox-display-download-count t)
+(setq-default paradox-homepage-button-string "home")
+(setq-default paradox-column-width-package 25)
+(setq-default paradox-column-width-version 15)
+
 ;; Utilities
 (defun my/cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
