@@ -59,6 +59,7 @@
 (depends-on "matlab-mode")
 (depends-on "multiple-cursors")
 (depends-on "mwim")
+(depends-on "page-break-lines")
 (depends-on "pallet")
 (depends-on "paradox")
 (depends-on "paredit")
