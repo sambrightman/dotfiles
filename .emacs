@@ -354,9 +354,9 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 ;; phi-search (multiple-cursors compatible)
 (with-eval-after-load 'phi-search
   (setq-default phi-search-case-sensitive 'guess))
-(global-set-key (kbd "C-s") 'phi-search)
-(global-set-key (kbd "C-r") 'phi-search-backward)
-(global-set-key (kbd "M-%") 'phi-replace-query)
+;; (global-set-key (kbd "C-s") 'phi-search)
+;; (global-set-key (kbd "C-r") 'phi-search-backward)
+;; (global-set-key (kbd "M-%") 'phi-replace-query)
 
 
 
