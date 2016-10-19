@@ -99,6 +99,8 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 (global-auto-revert-mode)
 (global-hi-lock-mode)
+(global-page-break-lines-mode)
+
 ;; after-init-hook prevents a warning about advice redefinition
 (add-hook 'after-init-hook #'rxt-global-mode)
 
