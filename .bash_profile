@@ -76,8 +76,9 @@ function gitd() {
 }
 
 function gi() {
+    local repos="${*:-.}"
     local repo
-    for repo in "$@"; do
+    for repo in $repos; do
         gitd "${repo}" ls-remote --get-url
     done
 }
