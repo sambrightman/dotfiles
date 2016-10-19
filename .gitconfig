@@ -27,6 +27,7 @@
 	cpa = cherry-pick --abort
 	cpc = cherry-pick --continue
 	dc = diff --cached
+	ds = diff --stat
 	du = !git diff --pretty=authoneline --reverse $(git ub)..
 	ffm = merge --ff-only
 	fu = commit --amend --no-edit
