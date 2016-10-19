@@ -156,7 +156,10 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
   (cycle-spacing -1 t "fast"))
 (substitute-key-definition 'just-one-space 'my/cycle-spacing (current-global-map))
 
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file (convert-standard-filename
+                   (expand-file-name (concat
+                                      (file-name-as-directory user-emacs-directory)
+                                      "custom.el"))))
 (shut-up
   (load custom-file))
 
