@@ -8,21 +8,24 @@
 
 ;;; Code:
 
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (require 'my-bootstrap (locate-user-emacs-file "my-bootstrap.el"))
 
+(require 'my-security)
+(require 'my-tokens)
+
 ;; Packaging
-(with-eval-after-load 'gnutls
-  (let ((brew-prefix (substring (shell-command-to-string "brew --prefix") 0 -1)))
-    (add-to-list 'gnutls-trustfiles (my/join-path brew-prefix "etc" "openssl" "cert.pem"))))
-(setq-default tls-checktrust t)
-(setq-default gnutls-verify-error t)
 
 (setq load-prefer-newer t)
 (require 'cask (my/join-path "~" ".cask" "cask.el"))
 (cask-initialize)
 (pallet-mode t)
-;; prevents automatic addition of this line
-;;(package-initialize)
 
 (require 'my-defuns)
 
