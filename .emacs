@@ -8,30 +8,23 @@
 
 ;;; Code:
 
-;; Emacs 24.4 has this, 24.3 does not
-(unless (fboundp 'with-eval-after-load)
-  (defmacro with-eval-after-load (file &rest body)
-    `(eval-after-load ,file
-       `(funcall (function ,(lambda () ,@body))))))
-
+(require 'my-bootstrap (locate-user-emacs-file "my-bootstrap.el"))
 
 ;; Packaging
+(with-eval-after-load 'gnutls
+  (let ((brew-prefix (substring (shell-command-to-string "brew --prefix") 0 -1)))
+    (add-to-list 'gnutls-trustfiles (my/join-path brew-prefix "etc" "openssl" "cert.pem"))))
+(setq-default tls-checktrust t)
+(setq-default gnutls-verify-error t)
+
 (setq load-prefer-newer t)
-(require 'cask "~/.cask/cask.el")
+(require 'cask (my/join-path "~" ".cask" "cask.el"))
 (cask-initialize)
 (pallet-mode t)
 ;; prevents automatic addition of this line
 ;;(package-initialize)
 
-
-;; load-path
-(defvar my/lisp-directory (expand-file-name
-                           (concat user-emacs-directory
-                                   (convert-standard-filename "lisp/"))))
-(let ((default-directory my/lisp-directory))
-  (add-to-list 'load-path default-directory)
-  (normal-top-level-add-subdirs-to-load-path))
-
+(require 'my-defuns)
 
 ;; platform-specific
 (cond
@@ -152,10 +145,7 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
   (cycle-spacing -1 t "fast"))
 (substitute-key-definition 'just-one-space 'my/cycle-spacing (current-global-map))
 
-(setq custom-file (convert-standard-filename
-                   (expand-file-name (concat
-                                      (file-name-as-directory user-emacs-directory)
-                                      "custom.el"))))
+(setq custom-file (my/join-path user-emacs-directory "custom.el"))
 (shut-up
   (load custom-file))
 
@@ -402,26 +392,6 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (setq-default paradox-homepage-button-string "home")
 (setq-default paradox-column-width-package 25)
 (setq-default paradox-column-width-version 15)
-
-;; Utilities
-(defun my/cleanup-buffer ()
-  "Perform a bunch of operations on the whitespace content of a buffer.
-Including indent-buffer, which should not be called automatically on save."
-  (interactive)
-  (untabify (point-min) (point-max))
-  (delete-trailing-whitespace)
-  (indent-region (point-min) (point-max)))
-
-;; potentially bind to C-x C-e
-;; use C-M-x to evaluate normally (but only whole defun...)
-(defun my/eval-and-replace ()
-  "Replace the preceding sexp with its value."
-  (interactive)
-  (backward-kill-sexp)
-  (condition-case nil
-      (prin1 (eval (read (current-kill 0)))
-             (current-buffer))
-    (error (message "Invalid expression")
-           (insert (current-kill 0)))))
+(shut-up
 
 ;;; .emacs ends here
