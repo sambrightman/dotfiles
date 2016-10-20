@@ -4,6 +4,14 @@
     `(eval-after-load ,file
        `(funcall (function ,(lambda () ,@body))))))
 
+;; platform-specific
+(cond
+ ((eq system-type 'darwin)
+  (if (executable-find "gls")
+      (setq insert-directory-program "gls"))
+  (setq-default ns-function-modifier 'hyper))
+ (t nil))
+
 (defun my/add-to-load-path-recursively (path)
   "Add PATH and its subdirectories to `load-path'."
   (interactive "D")

@@ -28,53 +28,13 @@
 (pallet-mode t)
 
 (require 'my-defuns)
-
-;; platform-specific
-(cond
- ((eq system-type 'darwin)
-  (if (executable-find "gls")
-      (setq insert-directory-program "gls"))
-  (setq-default ns-function-modifier 'hyper))
- (t nil))
-
-
-;; Theme
-(defconst my/theme-mode 'dark)
-(defun my/set-background-mode (mode &optional frame)
-  "Set MODE as the background mode of FRAME.
-MODE should be 'dark', 'light' or 'auto'.
-If FRAME is omitted or nil it defaults to `selected-frame'."
-  (interactive "SEnter 'dark', 'light' or 'auto': ")
-  (if (not (member mode '(dark light auto)))
-      (error "Invalid mode %s" mode)
-    (when (eq mode 'auto)
-      (setq mode nil))
-    (or frame (setq frame (selected-frame)))
-    (set-frame-parameter frame 'background-mode mode)
-    (set-terminal-parameter frame 'background-mode mode)
-    (when (called-interactively-p 'any)
-      (frame-set-background-mode (selected-frame)))))
-
-(defun my/load-my-theme ()
-  "Load theme `solarized' and apply extra definitions."
-  (interactive)
-  (load-theme 'solarized t)
-  (require 'solarized-extra-definitions)
-  (solarized-apply-definitions my/solarized-extra-definitions 'solarized))
-
-(defun my/after-make-frame-functions-hook (frame)
-  "Customization to apply theme to new FRAME."
-  (with-selected-frame frame
-    (unless window-system
-      (my/set-background-mode my/theme-mode frame)
-      (my/load-my-theme))))
-
+(require 'my-theme)
 (if (daemonp)
     (add-hook 'after-make-frame-functions 'my/after-make-frame-functions-hook))
 (my/set-background-mode my/theme-mode (selected-frame))
 (my/load-my-theme)
 
-;; after theme so that theme is loaded before compiling extras (no after-theme-hook)
+;; theme loaded before compiling extra definitions (no after-theme-hook)
 (shut-up
   (byte-recompile-directory my/lisp-directory 0))
 
