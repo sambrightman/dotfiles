@@ -100,6 +100,8 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (global-auto-revert-mode)
 (global-hi-lock-mode)
 (global-page-break-lines-mode)
+(setq-default custom-unlispify-menu-entries nil)
+(setq-default custom-unlispify-tag-names nil)
 
 ;; after-init-hook prevents a warning about advice redefinition
 (add-hook 'after-init-hook #'rxt-global-mode)
