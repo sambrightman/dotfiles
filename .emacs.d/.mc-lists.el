@@ -18,4 +18,5 @@
         describe-key
         scroll-other-window
         smex
+        yas-expand
         ))
