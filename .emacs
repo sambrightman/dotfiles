@@ -346,8 +346,9 @@
 
 
 ;; visual-regexp-steroids
+(require 'visual-regexp-steroids)
 (global-set-key (kbd "C-c q") 'vr/query-replace)
-;;(global-set-key (kbd "C-c m") 'vr/mc-mark)
+(global-set-key (kbd "C-c m") 'vr/mc-mark)
 (define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
 (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
 
