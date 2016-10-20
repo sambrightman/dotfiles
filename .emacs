@@ -149,6 +149,9 @@
 
 
 ;; Magit
+(global-magit-file-mode)
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 (with-eval-after-load 'magit-remote
   (magit-define-popup-action 'magit-push-popup ?P
     'magit-push-implicitly--desc
