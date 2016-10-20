@@ -101,6 +101,7 @@
 (advice-add 'help-mode-revert-buffer :filter-args #'my/help-mode-revert-buffer--noconfirm)
 
 (global-set-key (kbd "C-M-w") 'er/expand-region)
+(global-set-key (kbd "C-c d") 'dash-at-point)
 
 (defun my/cycle-spacing ()
   "Call `cycle-spacing' in fast mode with newline chomping."

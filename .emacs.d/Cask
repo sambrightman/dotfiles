@@ -22,6 +22,7 @@
 (depends-on "company-go")
 (depends-on "d-mode")
 (depends-on "dash")
+(depends-on "dash-at-point")
 (depends-on "ensime")
 (depends-on "ess")
 (depends-on "expand-region")
