@@ -192,7 +192,10 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
   (magit-define-popup-action 'magit-push-popup ?P
     'magit-push-implicitly--desc
     'magit-push-implicitly ?p t))
-
+(setq-default magit-repository-directories (list
+                                            (getenv "CODE_DIR")
+                                            (getenv "DEV_DIR")))
+(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
 
 ;; Ido
 (require 'ido)
@@ -390,11 +393,13 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 
 
 ;; paradox
+(require 'paradox)
 (setq-default paradox-automatically-star t)
 (setq-default paradox-display-download-count t)
 (setq-default paradox-homepage-button-string "home")
 (setq-default paradox-column-width-package 25)
 (setq-default paradox-column-width-version 15)
 (shut-up
+  (paradox-enable))
 
 ;;; .emacs ends here
