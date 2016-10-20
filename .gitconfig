@@ -100,6 +100,7 @@
 	# email from include
 [include]
 	path = .gitconfig_user
+	path = .gitconfig_tokens
 [branch]
 	autosetupmerge = always
 	autosetuprebase = always
@@ -118,3 +119,5 @@
 [rebase]
 	autosquash = true
 	autostash = true
+[github]
+	user = sambrightman
