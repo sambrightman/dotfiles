@@ -354,15 +354,14 @@ function an() {
 
 export PATH=~/bin:${PATH}
 
-require "$HOME/.rvm/scripts/rvm"
-export NVM_DIR=~/.nvm
-require "$(brew --prefix nvm)/nvm.sh"
-
 export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/6:${DYLD_LIBRARY_PATH}
 export GOPATH=${DEV_DIR}/go
 export PATH=${PATH}:${GOPATH}/bin
 
 require ~/.cargo/env
+require "$HOME/.rvm/scripts/rvm"
+export NVM_DIR=~/.nvm
+require "$(brew --prefix nvm)/nvm.sh"
 
 export MONO_GAC_PREFIX="/usr/local"
 export FZF_DEFAULT_OPTS='--extended-exact --multi --select-1'

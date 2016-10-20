@@ -17,6 +17,6 @@ function virtual_env_prompt_prefix() {
     echo ${virtual_env_name:+($virtual_env_name)}
 }
 
-PATH=$PATH:$HOME/.rvm/bin
-PATH=$PATH:$HOME/.evm/bin
+PATH=$HOME/.rvm/bin:$PATH
+PATH=$HOME/.evm/bin:$PATH
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
