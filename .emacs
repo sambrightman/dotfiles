@@ -8,27 +8,13 @@
 
 ;;; Code:
 
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
 (require 'my-bootstrap (locate-user-emacs-file "my-bootstrap.el"))
-
 (require 'my-security)
 (require 'my-tokens)
-
-;; Packaging
-
-(setq load-prefer-newer t)
-(require 'cask (my/join-path "~" ".cask" "cask.el"))
-(cask-initialize)
-(pallet-mode t)
-
+(require 'my-packaging)
 (require 'my-defuns)
 (require 'my-theme)
+
 (if (daemonp)
     (add-hook 'after-make-frame-functions 'my/after-make-frame-functions-hook))
 (my/set-background-mode my/theme-mode (selected-frame))
