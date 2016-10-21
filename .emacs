@@ -226,10 +226,16 @@
 ;;  (epy-setup-checker (concat (expand-file-name "~/dev/pycheckers.sh") " %f"))
   (epy-django-snippets)
   (epy-setup-ipython)
-  (require 'highlight-indentation)
   (linum-mode 0)
   (setq-default skeleton-pair nil))
-(add-hook 'python-mode-hook 'highlight-indentation)
+
+(defun my/python-mode-hook ()
+  "Customization for `python-mode'."
+  (require 'highlight-indentation)
+  (unless highlight-indent-active
+    (shut-up
+      (highlight-indentation))))
+(add-hook 'python-mode-hook 'my/python-mode-hook)
 
 
 ;; Shell
