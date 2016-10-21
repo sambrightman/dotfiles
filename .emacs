@@ -153,6 +153,7 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 (with-eval-after-load 'magit-remote
+  (add-to-list 'magit-no-message "Turning on magit-auto-revert-mode")
   (magit-define-popup-action 'magit-push-popup ?P
     'magit-push-implicitly--desc
     'magit-push-implicitly ?p t))
