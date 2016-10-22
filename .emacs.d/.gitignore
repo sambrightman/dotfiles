@@ -5,3 +5,6 @@
 /ido.last*
 /smex-items
 /var/
+/url/
+/lisp/light
+srecode-map.el
