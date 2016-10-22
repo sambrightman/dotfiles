@@ -54,16 +54,15 @@ One prefix argument to FORCE, two prefix arguments to prompt for PATH and FORCE.
   "Current branch of working tree PATH if not detached, or else current tag."
   (require 'git)
   (when (git-repo? path)
-    (let* ((git-repo path)
-           (current-branch (git-on-branch))
-           (current-tag (condition-case err
-                            (git--clean (git-run "describe" "--tags"))
-                          (git-error
-                           (git-error "Repository not initialized"))))
-           )
-      (if (equal current-branch "HEAD")
-          current-tag
-        current-branch))))
-
+    (condition-case err
+        (let* ((git-repo path)
+               (current-branch (git-on-branch))
+               (current-tag (git--clean (git-run "describe" "--tags"))))
+          (if (equal current-branch "HEAD")
+              current-tag
+            current-branch))
+      (git-error
+       (warn "Repository not initialized")
+       nil))))
 
 (provide 'my-defuns)
