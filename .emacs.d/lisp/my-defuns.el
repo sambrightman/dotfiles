@@ -46,23 +46,24 @@ One prefix argument to FORCE, two prefix arguments to prompt for PATH and FORCE.
                           emacs-major-version
                           emacs-minor-version))
          (current-revision (my/git-branch-or-tag path)))
-    (unless (or force (equal current-revision version))
-      (warn "Emacs version is %s but %s is on %s" version path current-revision))
-    (setq source-directory path)))
+    (if (or force (equal current-revision version))
+        (setq source-directory path)
+      (warn "Emacs version is %s but %s is on %s" version path current-revision))))
 
 (defun my/git-branch-or-tag (path)
   "Current branch of working tree PATH if not detached, or else current tag."
   (require 'git)
-  (let* ((git-repo path)
-         (current-branch (git-on-branch))
-         (current-tag (condition-case err
-                          (git--clean (git-run "describe" "--tags"))
-                        (git-error
-                         (git-error "Repository not initialized"))))
-         )
-    (if (equal current-branch "HEAD")
-        current-tag
-      current-branch)))
+  (when (git-repo? path)
+    (let* ((git-repo path)
+           (current-branch (git-on-branch))
+           (current-tag (condition-case err
+                            (git--clean (git-run "describe" "--tags"))
+                          (git-error
+                           (git-error "Repository not initialized"))))
+           )
+      (if (equal current-branch "HEAD")
+          current-tag
+        current-branch))))
 
 (my/setup-emacs-source-directory)
 
