@@ -2,9 +2,8 @@
 
 ;;; Commentary:
 
-;;; For Emacs 24.3 and up using Cask package management.
-;;; Toggle to non-Cask below.
-;;; Remove with-eval-after-load definition when on 24.4.
+;;; An incrementally more clean and complete init file.
+;;; Uses Cask for package management.
 
 ;;; Code:
 
