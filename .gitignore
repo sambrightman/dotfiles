@@ -1,3 +1,4 @@
 .*.elc
 *.elc
 .config/hub
+/.emacs.d/ido.last~
