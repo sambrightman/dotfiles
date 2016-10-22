@@ -1,4 +1,8 @@
-(defconst my/theme-mode 'dark)
+(defconst my/theme-mode
+  (if (file-exists-p (my/join-path my/lisp-directory "light"))
+      'light
+      'dark))
+
 (defun my/set-background-mode (mode &optional frame)
   "Set MODE as the background mode of FRAME.
 MODE should be 'dark', 'light' or 'auto'.
