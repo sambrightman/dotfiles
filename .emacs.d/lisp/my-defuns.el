@@ -65,6 +65,5 @@ One prefix argument to FORCE, two prefix arguments to prompt for PATH and FORCE.
           current-tag
         current-branch))))
 
-(my/setup-emacs-source-directory)
 
 (provide 'my-defuns)
