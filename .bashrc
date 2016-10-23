@@ -14,7 +14,14 @@ require "$(/usr/local/bin/brew --prefix)/etc/bash_completion"
 export VIRTUAL_ENV_DISABLE_PROMPT=true
 function virtual_env_prompt_prefix() {
     local virtual_env_name=$(basename "${VIRTUAL_ENV:-}")
-    echo ${virtual_env_name:+($virtual_env_name)}
+    echo -n ${virtual_env_name:+($virtual_env_name)}
+}
+
+function evm_prompt_prefix() {
+    local evm_name=$(jq -Mr .current ~/.evm/.config)
+    if [[ "${evm_name}" != "null" ]]; then
+        echo -n ${evm_name:+($evm_name)}
+    fi
 }
 
 PATH=$HOME/.rvm/bin:$PATH
