@@ -10,6 +10,7 @@
         mwim-end-of-code-or-line
         phi-search
         phi-search-backward
+        skeleton-pair-insert-maybe
         yank-rectangle
         ))
 
