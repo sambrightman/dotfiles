@@ -77,6 +77,8 @@
 (global-set-key (kbd "C-M-w") 'er/expand-region)
 (global-set-key (kbd "C-c d") 'dash-at-point)
 (my/global-map-and-set-key "H-o" 'describe-symbol)
+ ;; need to unbind from tab switching
+(my/global-map-and-set-key "H-1" 'delete-other-windows)
 
 (defun my/cycle-spacing ()
   "Call `cycle-spacing' in fast mode with newline chomping."
