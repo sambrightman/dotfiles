@@ -27,9 +27,10 @@
 
 (defun my/join-path (&rest path-parts)
   "Join PATH-PARTS into a single normalized path."
-  (my/normalize-path (apply 'concat
-                         `(,@(mapcar 'file-name-as-directory (butlast path-parts))
-                           ,@(last path-parts)))))
+  (ignore-errors
+    (my/normalize-path (apply 'concat
+                              `(,@(mapcar 'file-name-as-directory (butlast path-parts))
+                                ,@(last path-parts))))))
 
 (defvar my/lisp-directory (locate-user-emacs-file "lisp/"))
 (my/add-to-load-path-recursively my/lisp-directory)
