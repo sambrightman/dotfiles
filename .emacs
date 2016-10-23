@@ -76,6 +76,7 @@
 
 (global-set-key (kbd "C-M-w") 'er/expand-region)
 (global-set-key (kbd "C-c d") 'dash-at-point)
+(my/global-map-and-set-key "H-o" 'describe-symbol)
 
 (defun my/cycle-spacing ()
   "Call `cycle-spacing' in fast mode with newline chomping."
@@ -299,31 +300,30 @@
 ;; phi-search (multiple-cursors compatible)
 (with-eval-after-load 'phi-search
   (setq-default phi-search-case-sensitive 'guess))
+;; kicks-in during multiple cursors, no need to be default
 ;; (global-set-key (kbd "C-s") 'phi-search)
 ;; (global-set-key (kbd "C-r") 'phi-search-backward)
 ;; (global-set-key (kbd "M-%") 'phi-replace-query)
 
 
-
 ;; Multiple cursors
-;; note: C-' narrow to occurrences (not working)
-;; note: C-j for a newline
-
-;; maybe should be (does not work):
-(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-,") 'mc/unmark-next-like-this)
-(global-set-key (kbd "C->") 'mc/skip-to-next-like-this)
-(global-set-key (kbd "C-c C-,") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-.") 'mc/unmark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/skip-to-previous-like-this)
-
+(my/map-key "C-'") ;; mc-hide-unmatched-lines-mode
+(my/global-map-and-set-key "C-\." 'mc/mark-next-like-this)
+(my/global-map-and-set-key "C-\," 'mc/unmark-next-like-this)
+(my/global-map-and-set-key "C-<" 'mc/mark-previous-like-this)
+(my/global-map-and-set-key "C->" 'mc/unmark-previous-like-this)
+(my/global-map-and-set-key "C-\." 'mc/skip-to-next-like-this "C-c ")
+(my/global-map-and-set-key "C-\," 'mc/skip-to-previous-like-this "C-c ")
 (global-set-key (kbd "C-M-m") 'mc/mark-all-dwim)
-(global-set-key (kbd "H-SPC") 'set-rectangular-region-anchor)
+(my/global-map-and-set-key "C-H-SPC" 'set-rectangular-region-anchor)
+;; C-j for a newline
+
+
+;; ace-window
 
 ;; should be H-p to avoid history clash
 (setq-default aw-scope 'frame)
-(global-set-key (kbd "M-p") 'ace-window)
-
+(my/global-map-and-set-key "H-p" 'ace-window)
 
 ;; Mwim
 (global-set-key (kbd "C-a") 'mwim-beginning-of-code-or-line)
