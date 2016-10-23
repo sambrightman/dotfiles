@@ -65,4 +65,25 @@ One prefix argument to FORCE, two prefix arguments to prompt for PATH and FORCE.
        (warn "Repository not initialized")
        nil))))
 
+(defun my/function--shut-up (func &rest args)
+  "Silence FUNC(ARGS) with advice."
+  (require 'shut-up)
+  (shut-up
+    (apply func args)))
+
+(defun my/silence-function (func)
+  "Silences FUNC using `shut-up'."
+  (interactive "aFunction: ")
+  (advice-add func :around #'my/function--shut-up))
+
+(defun my/global-map-and-set-key (key command &optional prefix suffix)
+  "`my/map-key' KEY then `global-set-key' KEY with COMMAND.
+PREFIX or SUFFIX can wrap the key when passing to `global-set-key'."
+  (my/map-key key)
+  (global-set-key (kbd (concat prefix key suffix)) command))
+
+(defun my/map-key (key)
+  "Map KEY from escape sequence \"\e[emacs-KEY\."
+  (define-key function-key-map (concat "\e[emacs-" key) (kbd key)))
+
 (provide 'my-defuns)

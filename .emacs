@@ -66,18 +66,6 @@
       (concat  "%b - emacs@" (system-name)))
 (setq diff-switches "-u")
 (setq vc-follow-symlinks t)
-
-(defun my/function--shut-up (func &rest args)
-  "Silence FUNC(ARGS) with advice."
-  (require 'shut-up)
-  (shut-up
-    (apply func args)))
-
-(defun my/silence-function (func)
-  "Silences FUNC using `shut-up'."
-  (interactive "aFunction: ")
-  (advice-add func :around #'my/function--shut-up))
-
 (my/silence-function 'vc-refresh-state)
 (setq gc-cons-threshold (* 20 (* 1024 1024)))
 
