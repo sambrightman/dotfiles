@@ -347,6 +347,7 @@
 (setq-default paradox-homepage-button-string "home")
 (setq-default paradox-column-width-package 25)
 (setq-default paradox-column-width-version 15)
+(setq-default paradox-execute-asynchronously t)
 (shut-up
   (paradox-enable))
 
