@@ -350,4 +350,16 @@
 (shut-up
   (paradox-enable))
 
+
+;; flyspell
+(defun my/flyspell-mode-hook ()
+  "Customization for function `flyspell-mode'."
+  (require 'flyspell-correct-popup)
+  (my/map-and-set-key flyspell-mode-map "C-\;" 'flyspell-correct-previous-word-generic)
+  (define-key flyspell-mode-map (kbd "C-\.") nil))
+(add-hook 'flyspell-mode-hook 'my/flyspell-mode-hook)
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
+
 ;;; .emacs ends here
