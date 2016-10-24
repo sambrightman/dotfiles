@@ -9,6 +9,7 @@ tap 'homebrew/tex'
 tap 'homebrew/versions'
 cask 'mactex'
 cask 'osxfuse'
+brew 'aspell', args: ['with-lang-de', 'with-lang-de_alt', 'with-lang-en', 'with-lang-es', 'with-lang-fr', 'with-lang-it', 'with-lang-nl', 'with-lang-pt_BR', 'with-lang-pt_PT']
 brew 'autoconf'
 brew 'autoconf-archive'
 brew 'automake'
