@@ -76,14 +76,18 @@ One prefix argument to FORCE, two prefix arguments to prompt for PATH and FORCE.
   (interactive "aFunction: ")
   (advice-add func :around #'my/function--shut-up))
 
-(defun my/global-map-and-set-key (key command &optional prefix suffix)
-  "`my/map-key' KEY then `global-set-key' KEY with COMMAND.
-PREFIX or SUFFIX can wrap the key when passing to `global-set-key'."
+(defun my/map-and-set-key (map key command &optional prefix suffix)
+  "Using keymap MAP `my/map-key' KEY then `define-key' to COMMAND.
+PREFIX or SUFFIX can wrap the key when passing to `define-key'."
   (my/map-key key)
-  (global-set-key (kbd (concat prefix key suffix)) command))
+  (define-key map (kbd (concat prefix key suffix)) command))
+
+(defun my/global-map-and-set-key (&rest args)
+  "`my/map-and-set-key' in `current-global-map', passing ARGS."
+  (apply 'my/map-and-set-key (current-global-map) args))
 
 (defun my/map-key (key)
   "Map KEY from escape sequence \"\e[emacs-KEY\."
-  (define-key function-key-map (concat "\e[emacs-" key) (kbd key)))
+  (define-key input-decode-map (concat "\e[emacs-" key) (kbd key)))
 
 (provide 'my-defuns)
