@@ -44,7 +44,7 @@
 	pp = !"git lgu; echo; git du --stat"
 	pr = pull --rebase
 	prp = !git pr && git push
-	pushf = push --force-with-lease
+	pf = push --force-with-lease
 	ra = rebase --abort
 	rb = rebase
 	rc = rebase --continue
