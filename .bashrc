@@ -26,4 +26,5 @@ function evm_prompt_prefix() {
 
 PATH=$HOME/.rvm/bin:$PATH
 PATH=$HOME/.evm/bin:$PATH
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+require ~/.fzf.bash
+require ~/.travis/travis.sh

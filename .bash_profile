@@ -303,6 +303,26 @@ function crucible_scan() {
     curl -v -X POST -H "X-Api-Key: 4a8f47c69991347b19bd48c0a710a21464b25224" "https://crucible:6443/rest-service-fecru/admin/repositories-v1/${project}/scan"
 }
 
+function travis_trigger() {
+    local org=$1 && shift
+    local repo=$1 && shift
+    local branch=${1:-master} && shift
+
+    body="{
+            \"request\": {
+              \"branch\": \"${branch}\"
+             }
+          }"
+
+    curl -s -X POST \
+         -H "Content-Type: application/json" \
+         -H "Accept: application/json" \
+         -H "Travis-API-Version: 3" \
+         -H "Authorization: token $TRAVIS_TOKEN" \
+         -d "$body" \
+         "https://api.travis-ci.org/repo/${org}%2F${repo}/requests"
+}
+
 function gen_tags() {
     ctags -R -e "$@" . "${VIRTUAL_ENV:-}"
 }
