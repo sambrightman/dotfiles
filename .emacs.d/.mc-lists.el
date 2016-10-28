@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        cperl-electric-brace
         cperl-electric-lbrace
         delete-indentation
         electric-newline-and-maybe-indent
