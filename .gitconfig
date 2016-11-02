@@ -4,7 +4,7 @@
 	ai = add --interactive
 	ap = add --patch
 	at = !"append_ticket() { if [ $# -gt 0 ]; then git ca -m \"$1 $(git lgs)\n\n$(git lgb)\"; else echo 'supply some ticket(s) to prepend to the summary'; fi; }; append_ticket"
-    authors = shortlog -s -n --all
+    authors = shortlog -s -e -n --all
 	br = branch -vv
 	brav = branch --all -vv
 	bss = bisect start
@@ -12,7 +12,7 @@
 	bsg = bisect good
 	bsl = bisect log
 	bsr = bisect run
-	brc = !"git for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' | sort -k5n -k2M -k3n -k4n"	
+	brc = !"git for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' | sort -k5n -k2M -k3n -k4n"
 	ca = commit --amend
 	caa = !"amend_author() { local author=\"$1\" && shift; git ca --no-edit --author \"$author\" $@; git rc; }; amend_author"
 	ce = config --global --edit
