@@ -116,6 +116,7 @@
 	rebase = true
 [push]
 	default = current
+	followTags = true
 [rebase]
 	autosquash = true
 	autostash = true
