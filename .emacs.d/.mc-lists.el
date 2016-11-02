@@ -5,6 +5,7 @@
       '(
         cperl-electric-brace
         cperl-electric-lbrace
+        cperl-electric-paren
         delete-indentation
         electric-newline-and-maybe-indent
         kill-region
