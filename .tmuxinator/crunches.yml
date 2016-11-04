@@ -1,5 +1,4 @@
 name: crunches
-root: ~/
 
 attach: false
 post: tmux -CC attach-session -t crunches
@@ -8,6 +7,6 @@ windows:
   - crunches:
       layout: main-vertical
       panes:
-        - ssht crunch1 <%= @args.join(' ') %>
-        - ssht crunch2 <%= @args.join(' ') %>
-        - ssht crunch3 <%= @args.join(' ') %>
+        - ssht crunch1 <%= @args.size > 0 ? @args.join(' ') : 'crunches' %>
+        - ssht crunch2 <%= @args.size > 0 ? @args.join(' ') : 'crunches' %>
+        - ssht crunch3 <%= @args.size > 0 ? @args.join(' ') : 'crunches' %>
