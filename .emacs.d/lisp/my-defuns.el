@@ -88,6 +88,6 @@ PREFIX or SUFFIX can wrap the key when passing to `define-key'."
 
 (defun my/map-key (key)
   "Map KEY from escape sequence \"\e[emacs-KEY\."
-  (define-key input-decode-map (concat "\e[emacs-" key) (kbd key)))
+  (define-key function-key-map (concat "\e[emacs-" key) (kbd key)))
 
 (provide 'my-defuns)
