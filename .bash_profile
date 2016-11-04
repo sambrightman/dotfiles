@@ -28,6 +28,7 @@ function proxy() {
 
 # for Solarized in emacs
 export TERM=xterm-16color
+export SHELL=/usr/local/bin/bash
 
 export EDITOR=~/bin/emacswrapper
 function emacs() {
@@ -416,7 +417,7 @@ alias svnd='svn diff -c'
 
 require ~/.bash_tokens
 
-# makes Ctrl-O work
+# makes Ctrl-O C-o work
 stty discard undef
 
 # for snipcap
