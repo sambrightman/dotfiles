@@ -1,14 +1,14 @@
-name: <%= @args.size ? @args[0] : 'dcrunches' %>
+name: <%= @args.size > 0 ? @args[0] : 'dcrunches' %>
 root: ~/
 
 attach: false
-post: tmux -CC attach-session -t <%= @args.size ? @args[0] : 'dcrunches' %>
+post: tmux -CC attach-session -t <%= @args.size > 0 ? @args[0] : 'dcrunches' %>
 
 windows:
   - dcrunches:
       layout: tiled
       panes:
-        - ssht crunch1 <%= @args.size ? @args.join(' ') : 'dcrunches' %>
-        - ssht crunch2 <%= @args.size ? @args.join(' ') : 'dcrunches' %>
-        - ssht crunch3 <%= @args.size ? @args.join(' ') : 'dcrunches' %>
-        - ssht datastore <%= @args.size ? @args.join(' ') : 'dcrunches' %>
+        - ssht crunch1 <%= @args.size > 0 ? @args.join(' ') : 'dcrunches' %>
+        - ssht crunch2 <%= @args.size > 0 ? @args.join(' ') : 'dcrunches' %>
+        - ssht crunch3 <%= @args.size > 0 ? @args.join(' ') : 'dcrunches' %>
+        - ssht datastore <%= @args.size > 0 ? @args.join(' ') : 'dcrunches' %>
