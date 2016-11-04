@@ -6,7 +6,7 @@ post: tmux -CC attach-session -t <%= name %>
 
 windows:
   - crunches:
-      layout: main-vertical
+      layout: tiled
       panes:
         - ssht crunch1 <%= name %> <%= @args.join(' ') %>
         - ssht crunch2 <%= name %> <%= @args.join(' ') %>
