@@ -160,6 +160,13 @@ function fixsynergy() {
     ssh "$host" 'net stop "Synergy Client"; net start "Synergy Client"'
 }
 
+function ssht() {
+    local host=$1 && shift
+    local session=${1:-0} && shift
+
+    ssh -t "${host}" tmux new-session -A -s "${session}"
+}
+
 function grepr() {
     grep -r --color --exclude-dir=.svn --exclude-dir=.git "$@"
 }

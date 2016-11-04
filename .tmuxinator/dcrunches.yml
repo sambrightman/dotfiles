@@ -1,0 +1,14 @@
+name: dcrunches
+root: ~/
+
+attach: false
+post: tmux -CC attach-session -t dcrunches
+
+windows:
+  - dcrunches:
+      layout: tiled
+      panes:
+        - ssht crunch1 <%= @args.join(' ') %>
+        - ssht crunch2 <%= @args.join(' ') %>
+        - ssht crunch3 <%= @args.join(' ') %>
+        - ssht datastore <%= @args.join(' ') %>
