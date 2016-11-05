@@ -193,6 +193,7 @@
   (setq-default cperl-autoindent-on-semi t)
   (local-set-key (kbd "M-C-q") 'my/cperl-indent-exp))
 (add-hook 'cperl-mode-hook 'my/cperl-mode-hook)
+(my/map-key "C-M-|") ;; cperl-lineup
 (setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format))
 (require 'penvwrapper)
 
