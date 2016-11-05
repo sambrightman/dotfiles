@@ -135,11 +135,20 @@
       (phi-search-match-face (:inherit match))
       (phi-search-selection-face (:inherit isearch))
       ;; visual-regexp
+      (vr/match-separator-face (:inherit match ,@fmt-revr))
       (vr/match-0 (:inherit match))
       (vr/match-1 (:inherit match))
       (vr/group-0 (,@fg-violet))
       (vr/group-1 (,@fg-cyan))
       (vr/group-2 (,@fg-green))
+      ;; tty-menu
+      (tty-menu-disabled-face (,@fg-base01 ,@bg-base02))
+      (tty-menu-enabled-face (,@fg-base0 ,@bg-base02))
+      (tty-menu-selected-face (,@fg-base02 ,@bg-base0))
+      ;; paradox
+      (paradox-commit-tag-face (,@fg-yellow ,@bg-back))
+      (paradox-comment-face (,@fg-base1 ,@bg-back))
+      (paradox-mode-line-face (:inherit mode-line-buffer-id))
       )))
 
 (provide 'solarized-extra-definitions)
