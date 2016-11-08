@@ -6,8 +6,11 @@
         cperl-electric-brace
         cperl-electric-lbrace
         cperl-electric-paren
+        cperl-electric-rparen
+        cperl-indent-command
         delete-indentation
         electric-newline-and-maybe-indent
+        electric-pair-delete-pair
         kill-region
         mwim-beginning-of-code-or-line
         mwim-end-of-code-or-line

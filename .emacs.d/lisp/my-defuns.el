@@ -90,4 +90,23 @@ PREFIX or SUFFIX can wrap the key when passing to `define-key'."
   "Map KEY from escape sequence \"\e[emacs-KEY\."
   (define-key function-key-map (concat "\e[emacs-" key) (kbd key)))
 
+;; currently doesn't really work, because of argument list mis-match
+;; and e.g. misearch.el overrides the search function to the default.
+(defun my/toggle-vr-global ()
+  "Toggle use of `visual-regexp-steroids' in place of all normal regexp functions."
+  (interactive)
+  ;; (setq replace-re-search-function nil)
+    (let ((replacements '((query-replace-regexp . vr/query-replace)
+                          (replace-regexp . vr/replace))))
+    (dolist (replacement replacements)
+      (let ((orig (car replacement))
+            (new (cdr replacement)))
+        (if (advice-member-p new orig)
+            (advice-remove orig new)
+          (advice-add orig :override new)))))
+    (if isearch-search-fun-function
+        (setq isearch-search-fun-function nil)
+      (setq isearch-search-fun-function 'vr--isearch-search-fun-function)))
+
+
 (provide 'my-defuns)
