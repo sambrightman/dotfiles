@@ -340,6 +340,7 @@
 (define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
 (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
 (setq-default vr/match-separator-use-custom-face t)
+(my/map-key "C-M-%") ;; query-replace-regexp
 
 
 ;; paradox
