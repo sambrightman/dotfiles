@@ -13,10 +13,9 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
     (when (eq mode 'auto)
       (setq mode nil))
     (or frame (setq frame (selected-frame)))
-    (set-frame-parameter frame 'background-mode mode)
     (set-terminal-parameter frame 'background-mode mode)
-    (when (called-interactively-p 'any)
-      (frame-set-background-mode (selected-frame)))))
+    (setq frame-background-mode mode)
+    (frame-set-background-mode frame)))
 
 (defun my/load-my-theme ()
   "Load theme `solarized' and apply extra definitions."
