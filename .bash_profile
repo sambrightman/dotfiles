@@ -166,6 +166,7 @@ function ssht() {
 
     ssh -t "${host}" tmux new-session -A -s "${session}" \"$@\"
 }
+complete -F _ssh ssht
 
 function grepr() {
     grep -r --color --exclude-dir=.svn --exclude-dir=.git "$@"
