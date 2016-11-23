@@ -18,6 +18,7 @@
 	ce = config --global --edit
 	co = checkout
 	cob = checkout -b
+	cocs = !"checkout_clean_submodules() { git co $1; git smu; git cfd; git smc; }; checkout_clean_submodules"
 	cfd = clean -ffd
 	ci = commit
 	cm = commit -m
