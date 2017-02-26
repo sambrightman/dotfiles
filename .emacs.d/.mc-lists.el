@@ -7,6 +7,7 @@
         cperl-electric-lbrace
         cperl-electric-paren
         cperl-electric-rparen
+        cperl-electric-semi
         cperl-indent-command
         delete-indentation
         electric-newline-and-maybe-indent
@@ -24,7 +25,9 @@
 (setq mc/cmds-to-run-once
       '(
         describe-key
+        ido-switch-buffer
         scroll-other-window
         smex
+        suspend-frame
         yas-expand
         ))
