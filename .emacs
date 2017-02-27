@@ -272,7 +272,8 @@
   (add-to-list 'company-backends 'company-go)
   (setq-default company-tooltip-limit 20)
   (setq-default company-idle-delay .2)
-  (setq-default company-show-numbers t))
+  (setq-default company-show-numbers t)
+  (setq-default company-dabbrev-downcase nil))
 
 
 ;; YAS
