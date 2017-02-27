@@ -200,10 +200,10 @@
 
 ;; Python
 (with-eval-after-load 'python
-  (setq-default epy-load-yasnippet-p t)
+  ;; (setq-default epy-load-yasnippet-p t)
   (require 'epy-init)
 ;;  (epy-setup-checker (concat (expand-file-name "~/dev/pycheckers.sh") " %f"))
-  (epy-django-snippets)
+;;  (epy-django-snippets)
   (epy-setup-ipython)
   (linum-mode 0)
   (setq-default skeleton-pair nil))
@@ -276,20 +276,20 @@
   (setq-default company-dabbrev-downcase nil))
 
 
-;; YAS
-(setq yas-verbosity 2)
-(add-hook 'after-init-hook #'yas-global-mode)
-(with-eval-after-load 'yasnippet
-  (let ((base-dir (concat (file-name-as-directory user-emacs-directory) "snippets")))
-    (unless (file-directory-p base-dir)
-      (make-directory base-dir))
-    (add-to-list 'yas-snippet-dirs base-dir)
-    (dolist (f (directory-files base-dir))
-      (let ((filename (concat (file-name-as-directory base-dir) f)))
-        (when (and (file-directory-p filename)
-                   (not (equal f ".."))
-                   (not (equal f ".")))
-          (add-to-list 'yas-snippet-dirs filename))))))
+;; ;; YAS
+;; (setq yas-verbosity 2)
+;; (add-hook 'after-init-hook #'yas-global-mode)
+;; (with-eval-after-load 'yasnippet
+;;   (let ((base-dir (my/join-path user-emacs-directory "snippets")))
+;;     (unless (file-directory-p base-dir)
+;;       (make-directory base-dir))
+;;     (add-to-list 'yas-snippet-dirs base-dir)
+;;     (dolist (f (directory-files base-dir))
+;;       (let ((filename (my/join-path base-dir f)))
+;;         (when (and (file-directory-p filename)
+;;                    (not (equal f ".."))
+;;                    (not (equal f ".")))
+;;           (add-to-list 'yas-snippet-dirs filename))))))
 
 
 ;; Ace Jump
