@@ -267,6 +267,13 @@
 (add-hook 'racer-mode-hook #'eldoc-mode)
 
 
+;; C/C++
+(defun my/c++-mode-hook ()
+  "Customization for `c++-mode`."
+  (c-set-offset 'innamespace 0))
+(add-hook 'c++-mode-hook #'my/c++-mode-hook)
+
+
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (defun my/flycheck-rtags-setup ()
