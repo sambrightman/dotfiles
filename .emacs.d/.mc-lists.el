@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        c-electric-delete-forward
         cperl-electric-brace
         cperl-electric-lbrace
         cperl-electric-paren
