@@ -109,6 +109,10 @@
   (hl-line-mode))
 (add-hook 'xref--xref-buffer-mode-hook 'my/xref-mode-hook)
 
+(setq-default rtags-autostart-diagnostics t)
+(setq-default rtags-completions-enabled t)
+
+
 (defun my/filepatterns--include-compressed (orig)
   "Add compression suffixes to filenames returned in ORIG."
   (require 'dash)
@@ -263,13 +267,23 @@
 (add-hook 'racer-mode-hook #'eldoc-mode)
 
 
-;; IDE-like
+;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
+(defun my/flycheck-rtags-setup ()
+  "Customization for Flycheck with rtags."
+  (flycheck-select-checker 'rtags)
+  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
+  (setq-local flycheck-check-syntax-automatically nil))
+(add-hook 'c-mode-hook #'my-flycheck-rtags-setup)
+(add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
+(add-hook 'objc-mode-hook #'my-flycheck-rtags-setup)
+
 
 ;; Company
 (add-hook 'after-init-hook #'global-company-mode)
 (with-eval-after-load 'company
   (add-to-list 'company-backends 'company-go)
+  (add-to-list 'company-backends 'company-rtags)
   (setq-default company-tooltip-limit 20)
   (setq-default company-idle-delay .2)
   (setq-default company-show-numbers t)
