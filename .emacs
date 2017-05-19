@@ -281,9 +281,9 @@
   (flycheck-select-checker 'rtags)
   (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
   (setq-local flycheck-check-syntax-automatically nil))
-(add-hook 'c-mode-hook #'my-flycheck-rtags-setup)
-(add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
-(add-hook 'objc-mode-hook #'my-flycheck-rtags-setup)
+(add-hook 'c-mode-hook #'my/flycheck-rtags-setup)
+(add-hook 'c++-mode-hook #'my/flycheck-rtags-setup)
+(add-hook 'objc-mode-hook #'my/flycheck-rtags-setup)
 
 
 ;; Company
