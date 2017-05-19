@@ -18,7 +18,7 @@ Including indent-buffer, which should not be called automatically on save."
     (error (message "Invalid expression")
            (insert (current-kill 0)))))
 
-(defvar my/default-emacs-source-directory (my/join-path (getenv "CODE_DIR") "emacs"))
+(defvar my/default-emacs-source-directory (my/join-path (getenv "DEV_DIR") "emacs"))
 
 (defun my/setup-emacs-source-directory-interact ()
   "Interactively obtain inputs for `my/setup-emacs-source-directory' if necessary."

@@ -135,7 +135,7 @@ function runin() {
 
 # perl
 export PENVWRAPPER_PENV="${DEV_DIR}/penv/penv.pl"
-require "${CODE_DIR}/penvwrapper/penvwrapper.sh"
+require "${DEV_DIR}/penvwrapper/penvwrapper.sh"
 
 
 # shopt -s cdspell
