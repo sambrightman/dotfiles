@@ -36,7 +36,6 @@
 (depends-on "flycheck")
 (depends-on "flycheck-cask")
 (depends-on "flycheck-clojure")
-(depends-on "flycheck-google-cpplint")
 (depends-on "flycheck-haskell")
 (depends-on "flycheck-ocaml")
 (depends-on "flycheck-package")
