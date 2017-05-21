@@ -1,3 +1,8 @@
+;;; my-security.el --- Security-related functionality
+;;; Commentary:
+;;
+;;; Code:
+
 ;; include Homebrew certificates, generated from Keychain
 (with-eval-after-load 'gnutls
   (let ((brew-prefix (substring (shell-command-to-string "brew --prefix") 0 -1)))
@@ -12,3 +17,4 @@
   (defun gnutls-available-p () nil))
 
 (provide 'my-security)
+;;; my-security.el ends here

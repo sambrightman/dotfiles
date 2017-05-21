@@ -1,3 +1,8 @@
+;;; my-theme.el --- Theming
+;;; Commentary:
+;;
+;;; Code:
+
 (defconst my/theme-mode
   (if (file-exists-p (my/join-path my/lisp-directory "light"))
       'light
@@ -34,3 +39,4 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
       (my/load-my-theme))))
 
 (provide 'my-theme)
+;;; my-theme.el ends here

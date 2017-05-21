@@ -1,3 +1,8 @@
+;;; my-defuns.el --- General purpose functions
+;;; Commentary:
+;;
+;;; Code:
+
 (defun my/cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
 Including indent-buffer, which should not be called automatically on save."
@@ -110,3 +115,4 @@ PREFIX or SUFFIX can wrap the key when passing to `define-key'."
 
 
 (provide 'my-defuns)
+;;; my-defuns.el ends here

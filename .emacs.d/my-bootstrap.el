@@ -1,3 +1,8 @@
+;;; my-bootstrap.el --- Minimum functionality for other configuration
+;;; Commentary:
+;;
+;;; Code:
+
 ;; compatibility
 (unless (fboundp 'with-eval-after-load) ;; available from 24.4
   (defmacro with-eval-after-load (file &rest body)
@@ -36,3 +41,4 @@
 (my/add-to-load-path-recursively my/lisp-directory)
 
 (provide 'my-bootstrap)
+;;; my-bootstrap.el ends here
