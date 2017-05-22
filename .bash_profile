@@ -381,6 +381,13 @@ function an() {
     awk -F"${field_sep:- }" "{ print \$${field_num} }" "$@"
 }
 
+function remove_path() {
+    PATH=:$PATH:
+    PATH=${PATH//":$1:"/:}
+    PATH=${PATH%:}
+    PATH=${PATH#:}
+}
+
 export PATH=~/bin:${PATH}
 
 export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/6:${DYLD_LIBRARY_PATH}
