@@ -29,7 +29,7 @@
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
 (setq backup-inhibited t)
-(setq transient-mark-mode t)
+(transient-mark-mode)
 (setq require-final-newline 'query)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
@@ -161,17 +161,16 @@
 (setq ido-everywhere t)
 (setq ido-use-filename-at-point 'guess)
 (setq ido-ignore-extensions t)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 (flx-ido-mode 1)
-(setq ido-enable-flex-matching t)
 (setq ido-use-faces nil)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 
 ;; auto-compile
-(auto-compile-on-save-mode 1)
-(auto-compile-on-load-mode 1)
+(auto-compile-on-load-mode)
+(auto-compile-on-save-mode)
 
 
 ;; Web
