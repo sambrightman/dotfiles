@@ -4,3 +4,4 @@
 /.config/configstore
 /.emacs.d/ido.last~
 bin/python
+/.emacs.d/.python-environments

@@ -217,21 +217,33 @@
 
 
 ;; Python
-(with-eval-after-load 'python
-  (setq-default epy-load-yasnippet-p t)
-  (require 'epy-init)
-;;  (epy-setup-checker (concat (expand-file-name "~/dev/pycheckers.sh") " %f"))
-  (epy-django-snippets)
-  (epy-setup-ipython)
-  (linum-mode 0)
-  (setq-default skeleton-pair nil))
-
+(jedi:install-server)
+;; needs changes to both, need to auto-switch somehow
+;; (setq traad-environment-name "traad2")
+;; (traad-install-server "python2")
+;; (setq traad-environment-name "traad3")
+;; (traad-install-server "python3")
+(traad-install-server)
 (defun my/python-mode-hook ()
   "Customization for `python-mode'."
-  (require 'highlight-indentation)
-  (unless highlight-indent-active
-    (shut-up
-      (highlight-indentation))))
+  (highlight-indentation-mode)
+  (jedi:setup)
+  (setq-default jedi:complete-on-dot t)
+  (setq-default jedi:get-in-function-call-delay 400)
+  ;; (setq-default jedi:use-shortcuts t) ;; if python.el insufficient
+
+  ;; (traad-open default-directory) ;; https://github.com/abingham/emacs-traad/pull/11
+  (local-set-key (kbd "C-c t r") 'traad-rename)
+  (local-set-key (kbd "C-c t R") 'traad-rename-current-file)
+  (local-set-key (kbd "C-c t i") 'traad-imports-super-smackdown)
+  (local-set-key (kbd "C-c t u") 'traad-undo)
+  (local-set-key (kbd "C-c t v") 'traad-extract-variable)
+  (local-set-key (kbd "C-c t f") 'traad-extract-function)
+  (local-set-key (kbd "C-c t n") 'traad-inline)
+  (local-set-key (kbd "C-c t d") 'traad-remove-argument)
+  (local-set-key (kbd "C-c t ,") 'traad-display-occurrences)
+  (local-set-key (kbd "C-c t /") 'traad-display-implementations) ;; broken?
+  )
 (add-hook 'python-mode-hook 'my/python-mode-hook)
 
 
@@ -298,6 +310,7 @@
 (add-hook 'after-init-hook #'global-company-mode)
 (with-eval-after-load 'company
   (add-to-list 'company-backends 'company-go)
+  (add-to-list 'company-backends 'company-jedi)
   (add-to-list 'company-backends 'company-rtags)
   (setq-default company-tooltip-limit 20)
   (setq-default company-idle-delay .2)
