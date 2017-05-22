@@ -36,6 +36,7 @@
 (column-number-mode)
 (show-paren-mode)
 (setq-default show-paren-style 'mixed)
+(delete-selection-mode)
 (electric-pair-mode)
 (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 (global-auto-revert-mode)
