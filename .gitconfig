@@ -82,6 +82,7 @@
 	qb = !git br $(git bb)
 	qd = !git br -D $(git bb)
 	db = !git diff $(git bb)
+	url = !"remote_url() { git config remote.${1:-origin}.url; }; remote_url"
 	name = show --name-only
 	graph = log --graph --all --pretty=graphtight --abbrev-commit --date=relative
 	biggraph = log --graph --all --pretty=graphloose --abbrev-commit
