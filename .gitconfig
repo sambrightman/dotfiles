@@ -104,6 +104,7 @@
 [include]
 	path = .gitconfig_user
 	path = .gitconfig_tokens
+	path = .gitconfig_bullshit
 [branch]
 	autosetupmerge = always
 	autosetuprebase = always
