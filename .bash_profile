@@ -43,7 +43,7 @@ alias pbpaste='xclip -selection clipboard -o'
 #function dircolors() { gdircolors "$@"; }
 eval "$(require ~/.dircolors dircolors)"
 
-require /usr/share/doc/git/contrib/completion/git-prompt.sh
+require /usr/share/git-core/contrib/completion/git-prompt.sh
 export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWSTASHSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
