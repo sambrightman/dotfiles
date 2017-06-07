@@ -134,7 +134,9 @@ require "${DEV_DIR}/penvwrapper/penvwrapper.sh"
 # shopt -s dirspell
 shopt -s histappend
 shopt -s cmdhist
-shopt -s direxpand
+if [[ ${BASH_VERSINFO[0]} -ge 4 && ${BASH_VERSINFO[1]} -ge 2 ]]; then
+    shopt -s direxpand
+fi
 shopt -s extglob
 shopt -s globstar
 shopt -s histverify
