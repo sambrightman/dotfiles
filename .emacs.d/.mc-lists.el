@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
         c-electric-delete-forward
+        c-indent-line-or-region
         cperl-electric-brace
         cperl-electric-lbrace
         cperl-electric-paren
@@ -11,6 +12,7 @@
         cperl-electric-semi
         cperl-indent-command
         delete-indentation
+        downcase-region
         electric-newline-and-maybe-indent
         electric-pair-delete-pair
         kill-region
