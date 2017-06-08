@@ -1,9 +1,5 @@
 source ~/.bashrc
 
-require /usr/local/bin/virtualenvwrapper.sh
-export PIP_VIRTUALENV_BASE=$WORKON_HOME
-export PROJECT_HOME=$HOME/dev
-
 function proxy() {
     local proxy_host=${1:-proxy}
     local proxy_port=3128
@@ -401,6 +397,10 @@ require "$(brew --prefix nvm)/nvm.sh"
 
 export MONO_GAC_PREFIX="/usr/local"
 export FZF_DEFAULT_OPTS='--extended-exact --multi --select-1'
+
+require /usr/local/bin/virtualenvwrapper.sh
+export PIP_VIRTUALENV_BASE=$WORKON_HOME
+export PROJECT_HOME=$HOME/dev
 
 function jvm() {
     local version=$1 && shift
