@@ -2,3 +2,4 @@
 *.elc
 .config/hub
 /.emacs.d/ido.last~
+bin/python
