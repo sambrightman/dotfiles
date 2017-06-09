@@ -180,6 +180,10 @@ function grepsrc() {
     grep -r --color --exclude-dir=.svn --exclude-dir=.git --exclude-dir=target "$@"
 }
 
+function rgl() {
+    rg -L "$@"
+}
+
 function findsrc() {
     local paths=$1 && shift;
     while [ $# -gt 0 ] && [ "${1##-}" == "$1" ]; do
