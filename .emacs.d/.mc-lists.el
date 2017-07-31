@@ -3,7 +3,11 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        c-electric-colon
         c-electric-delete-forward
+        c-electric-lt-gt
+        c-electric-paren
+        c-electric-semi&comma
         c-indent-line-or-region
         cperl-electric-brace
         cperl-electric-lbrace
@@ -18,6 +22,7 @@
         kill-region
         mwim-beginning-of-code-or-line
         mwim-end-of-code-or-line
+        my/cycle-spacing
         phi-search
         phi-search-backward
         skeleton-pair-insert-maybe
