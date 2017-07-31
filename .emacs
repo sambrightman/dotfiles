@@ -109,8 +109,19 @@
   (hl-line-mode))
 (add-hook 'xref--xref-buffer-mode-hook 'my/xref-mode-hook)
 
+
 (setq-default rtags-autostart-diagnostics t)
 (setq-default rtags-completions-enabled t)
+(defun my/rtags-setup ()
+  "Customization for `rtags'."
+  (rtags-enable-standard-keybindings)
+  (require 'flycheck-rtags)
+  (flycheck-select-checker 'rtags)
+  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays?
+  (setq-local flycheck-check-syntax-automatically nil))
+(add-hook 'c-mode-hook #'my/rtags-setup)
+(add-hook 'c++-mode-hook #'my/rtags-setup)
+(add-hook 'objc-mode-hook #'my/rtags-setup)
 
 
 (defun my/filepatterns--include-compressed (orig)
@@ -276,14 +287,6 @@
 
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
-(defun my/flycheck-rtags-setup ()
-  "Customization for Flycheck with rtags."
-  (flycheck-select-checker 'rtags)
-  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
-  (setq-local flycheck-check-syntax-automatically nil))
-(add-hook 'c-mode-hook #'my/flycheck-rtags-setup)
-(add-hook 'c++-mode-hook #'my/flycheck-rtags-setup)
-(add-hook 'objc-mode-hook #'my/flycheck-rtags-setup)
 
 
 ;; Company
