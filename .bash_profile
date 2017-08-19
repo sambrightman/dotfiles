@@ -482,3 +482,30 @@ function whichfunc() {
         done
     )
 }
+
+function profile_bash() {
+    local target_file trace_file timing_file # trace_fd timing_fd
+    target_file=$1 && shift
+
+    # local TMPDIR=/dev/shm
+
+    trace_file=$(gmktemp || exit 1)
+    # exec {trace_fd}>"${trace_file}"
+    # exec {trace_read}<&${trace_fd}
+
+    timing_file=$(gmktemp || exit 1)
+    # exec {timing_fd}>"${timing_file}"
+    # exec {timing_read}<&${timing_fd}
+
+    exec {BASH_XTRACEFD}> >(tee "${trace_file}" | gsed -u 's/.*/now/' | gdate -f - +%s.%N > ${timing_file}) # &${timing_fd})
+
+    set -x
+    # shellcheck disable=SC1090
+    source "${target_file}"
+    set +x
+
+    wait
+    exec {BASH_XTRACEFD}>&-
+    sync
+    paste "${timing_file}" "${trace_file}" | less
+}
