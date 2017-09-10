@@ -398,6 +398,7 @@ require ~/.cargo/env
 require "$HOME/.rvm/scripts/rvm"
 export NVM_DIR=~/.nvm
 require "$(brew --prefix nvm)/nvm.sh"
+require "$HOME/.opam/opam-init/init.sh"
 
 export MONO_GAC_PREFIX="/usr/local"
 export FZF_DEFAULT_OPTS='--extended-exact --multi --select-1'
