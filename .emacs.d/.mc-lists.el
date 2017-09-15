@@ -19,6 +19,7 @@
         downcase-region
         electric-newline-and-maybe-indent
         electric-pair-delete-pair
+        indent-for-tab-command
         kill-region
         mwim-beginning-of-code-or-line
         mwim-end-of-code-or-line
