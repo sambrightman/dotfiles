@@ -7,5 +7,8 @@
 /var/
 /url/
 /lisp/light
-srecode-map.el
-/.emacs.desktop*
+/srecode-map.el
+/bookmarks
+/.emacs.desktop
+/.emacs.desktop.lock
+/lisp/emacs-for-python
