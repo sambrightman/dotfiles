@@ -1,5 +1,6 @@
 .*.elc
 *.elc
-.config/hub
+/.config/hub
+/.config/configstore
 /.emacs.d/ido.last~
 bin/python
