@@ -1,0 +1,9 @@
+tap "homebrew/core"
+tap "homebrew/bundle"
+brew "ghc", args: ["without-docs"]
+brew "python"
+brew "emacs", args: ["with-ctags", "with-gnutls", "with-modules"]
+brew "git"
+brew "hub"
+brew "opam"
+brew "shellcheck"
