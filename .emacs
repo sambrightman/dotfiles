@@ -62,7 +62,7 @@
 ;; (my/silence-ad-redefinition 'turn-on-rxt-mode)
 
 ;;(global-hl-line-mode)
-(setq-default auto-revert-interval 2)
+(setq-default auto-revert-interval 0.5)
 (setq frame-title-format
       (concat  "%b - emacs@" (system-name)))
 (setq diff-switches "-u")
