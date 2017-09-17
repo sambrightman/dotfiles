@@ -72,6 +72,8 @@
 (depends-on "magit")
 (depends-on "magit-gerrit")
 (depends-on "magit-gh-pulls")
+(depends-on "magit-lfs")
+(depends-on "magithub")
 (depends-on "markdown-mode")
 (depends-on "matlab-mode")
 (depends-on "multiple-cursors")
