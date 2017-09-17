@@ -90,6 +90,7 @@
 (depends-on "pycoverage")
 (depends-on "racer")
 (depends-on "rainbow-delimiters")
+(depends-on "realgud")
 (depends-on "rust-mode")
 (depends-on "sass-mode")
 (depends-on "sbt-mode")
