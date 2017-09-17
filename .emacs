@@ -221,16 +221,19 @@
 ;; needs changes to both, need to auto-switch somehow
 ;; (setq traad-environment-name "traad2")
 ;; (traad-install-server "python2")
-;; (setq traad-environment-name "traad3")
+(setq-default traad-environment-name "traad3")
 ;; (traad-install-server "python3")
 (traad-install-server)
 (defun my/python-mode-hook ()
   "Customization for `python-mode'."
   (highlight-indentation-mode)
+  (auto-virtualenvwrapper-activate)
+  (add-hook 'window-configuration-change-hook #'auto-virtualenvwrapper-activate)
+
   (jedi:setup)
   (setq-default jedi:complete-on-dot t)
   (setq-default jedi:get-in-function-call-delay 400)
-  ;; (setq-default jedi:use-shortcuts t) ;; if python.el insufficient
+  (setq-default jedi:use-shortcuts t)
 
   ;; (traad-open default-directory) ;; https://github.com/abingham/emacs-traad/pull/11
   (local-set-key (kbd "C-c t r") 'traad-rename)
@@ -250,7 +253,6 @@
 ;; Shell
 (setq-default sh-indent-comment t)
 (setq-default sh-basic-offset 4)
-(add-to-list 'auto-mode-alist `(,(expand-file-name "~/code/shrek/") . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.bash.*" . sh-mode))
 
 
