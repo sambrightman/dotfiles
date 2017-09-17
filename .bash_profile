@@ -313,6 +313,10 @@ function crucible_scan() {
 }
 
 function travis_trigger() {
+    if [[ $# -lt 2 ]]; then
+        echo "usage: travis_trigger org repo [branch]"
+        return 1
+    fi
     local org=$1 && shift
     local repo=$1 && shift
     local branch=${1:-master} && shift
