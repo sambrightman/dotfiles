@@ -21,6 +21,7 @@
         electric-pair-delete-pair
         indent-for-tab-command
         kill-region
+        markdown-outdent-or-delete
         mwim-beginning-of-code-or-line
         mwim-end-of-code-or-line
         my/cycle-spacing
