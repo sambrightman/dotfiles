@@ -1,3 +1,4 @@
+#shellcheck source=./.bashrc
 source ~/.bashrc
 
 function proxy() {
