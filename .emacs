@@ -259,6 +259,13 @@
 (add-hook 'ruby-mode-hook 'my/ruby-mode-hook)
 
 
+;; Lua
+(defun my/lua-mode-hook ()
+  "Customization for `lua-mode'."
+  (setq-default lua-indent-level 2))
+(add-hook 'lua-mode-hook 'my/lua-mode-hook)
+
+
 ;; Shell
 (setq-default sh-indent-comment t)
 (setq-default sh-basic-offset 4)
