@@ -1,6 +1,8 @@
 #shellcheck source=./.bashrc
 source ~/.bashrc
 
+require "$(brew --prefix)/etc/bash_completion"
+
 # for Solarized in emacs
 export TERM=xterm-16color
 export TERMINFO="$(brew --prefix ncurses)/share/terminfo"
