@@ -21,6 +21,8 @@ function proxy() {
             # eval export GIT_PROXY_COMMAND=$gitproxy
         fi
     done
+    export no_proxy="localhost,127.0.0.1"
+    export NO_PROXY="$no_proxy"
 }
 
 # for Solarized in emacs
