@@ -12,8 +12,6 @@ function require() {
     fi
 }
 
-require "$(brew --prefix)/etc/bash_completion"
-
 function proxy() {
     local proxy_url=$1 && shift
     local extra_no_proxies="$*"
