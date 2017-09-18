@@ -250,6 +250,15 @@
 (add-hook 'python-mode-hook 'my/python-mode-hook)
 
 
+;; Ruby
+(defun my/ruby-mode-hook ()
+  "Customization for `ruby-mode'."
+  (robe-mode)
+  (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
+    (rvm-activate-corresponding-ruby)))
+(add-hook 'ruby-mode-hook 'my/ruby-mode-hook)
+
+
 ;; Shell
 (setq-default sh-indent-comment t)
 (setq-default sh-basic-offset 4)
@@ -314,6 +323,7 @@
   (add-to-list 'company-backends 'company-go)
   (add-to-list 'company-backends 'company-jedi)
   (add-to-list 'company-backends 'company-rtags)
+  (add-to-list 'company-backends 'company-robe)
   (setq-default company-tooltip-limit 20)
   (setq-default company-idle-delay .2)
   (setq-default company-show-numbers t)
