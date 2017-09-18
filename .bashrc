@@ -12,7 +12,7 @@ function require() {
     fi
 }
 
-#require "$(/usr/local/bin/brew --prefix)/etc/bash_completion"
+require "$(brew --prefix)/etc/bash_completion"
 
 function proxy() {
     local proxy_url=$1 && shift
