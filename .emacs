@@ -318,6 +318,13 @@
   (c-set-offset 'stream-op '+)
   (c-set-offset 'case-label '+))
 (add-hook 'c++-mode-hook #'my/c++-mode-hook)
+(defun my/likely-c++-header ()
+  "Check if the current buffer is likely to be a C++ header."
+  (let* ((filename (buffer-file-name))
+         (source-filename (concat (file-name-sans-extension filename) ".cpp")))
+    (and (string-match-p "\\.h\\'" filename)
+         (file-exists-p source-filename))))
+(add-to-list 'magic-fallback-mode-alist '(my/likely-c++-header . c++-mode))
 
 
 ;; Flycheck
