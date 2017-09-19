@@ -19,6 +19,7 @@
         downcase-region
         electric-newline-and-maybe-indent
         electric-pair-delete-pair
+        eval-last-sexp
         indent-for-tab-command
         kill-region
         markdown-outdent-or-delete
