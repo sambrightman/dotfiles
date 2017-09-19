@@ -327,6 +327,10 @@
 (add-to-list 'magic-fallback-mode-alist '(my/likely-c++-header . c++-mode))
 
 
+;; D
+(add-hook 'd-mode-hook 'company-dcd-mode)
+
+
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
@@ -334,10 +338,17 @@
 ;; Company
 (add-hook 'after-init-hook #'global-company-mode)
 (with-eval-after-load 'company
+  (add-to-list 'company-backends 'company-c-headers)
   (add-to-list 'company-backends 'company-go)
   (add-to-list 'company-backends 'company-jedi)
-  (add-to-list 'company-backends 'company-rtags)
+  (add-to-list 'company-backends 'company-lua)
+  (add-to-list 'company-backends 'company-latex-commands)
+  (add-to-list 'company-backends 'company-math-symbols-latex)
+  (add-to-list 'company-backends 'company-math-symbols-unicode)
+  (add-to-list 'company-backends 'company-racer)
   (add-to-list 'company-backends 'company-robe)
+  (add-to-list 'company-backends 'company-rtags)
+  (company-flx-mode)
   (setq-default company-tooltip-limit 20)
   (setq-default company-idle-delay .2)
   (setq-default company-show-numbers t)
