@@ -324,7 +324,7 @@
          (source-filename (concat (file-name-sans-extension filename) ".cpp")))
     (and (string-match-p "\\.h\\'" filename)
          (file-exists-p source-filename))))
-(add-to-list 'magic-fallback-mode-alist '(my/likely-c++-header . c++-mode))
+(add-to-list 'magic-mode-alist '(my/likely-c++-header . c++-mode))
 
 
 ;; D
