@@ -10,6 +10,27 @@ function require() {
 
 require "$(/usr/local/bin/brew --prefix)/etc/bash_completion"
 
+function proxy() {
+    local proxy_url=$1 && shift
+    local extra_no_proxies="$*"
+
+    local keys=(http_proxy https_proxy all_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY no_proxy NO_PROXY)
+    local key
+    for key in ${keys[*]}; do
+        if [ -z "${proxy_url}" ]; then
+            echo "${key}=${!key}"
+        elif [ "${proxy_url}" = "off" ]; then
+            eval "unset ${key}"
+        else
+            if [ "${key,,}" == "no_proxy" ]; then
+                eval "export ${key}=localhost,127.0.0.1$(printf ",%s" ${extra_no_proxies})"
+            else
+                eval "export ${key}=http://${proxy_url}"
+            fi
+        fi
+    done
+}
+
 # manage prompt myself so that it works in new shells
 export VIRTUAL_ENV_DISABLE_PROMPT=true
 function virtual_env_prompt_prefix() {

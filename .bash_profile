@@ -1,30 +1,6 @@
 #shellcheck source=./.bashrc
 source ~/.bashrc
 
-function proxy() {
-    local proxy_host=${1:-proxy}
-    local proxy_port=3128
-
-    # local gitproxy=~/bin/gitproxy
-
-    local keys=( http_proxy https_proxy all_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY )
-    local key
-    for key in ${keys[*]}; do
-        if [ "$proxy_host" = "off" ]; then
-            eval "unset $key"
-            # eval unset GIT_PROXY_COMMAND
-        else
-            eval "export $key=http://$proxy_host:$proxy_port/"
-            # echo "echo \$*" > $gitproxy
-            # echo "nc -x$proxy_host:$proxy_port -X5 \$*" >> $gitproxy
-            # chmod +x $gitproxy
-            # eval export GIT_PROXY_COMMAND=$gitproxy
-        fi
-    done
-    export no_proxy="localhost,127.0.0.1"
-    export NO_PROXY="$no_proxy"
-}
-
 # for Solarized in emacs
 export TERM=xterm-16color
 export SHELL=/usr/local/bin/bash
