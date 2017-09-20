@@ -29,6 +29,7 @@
         phi-search
         phi-search-backward
         skeleton-pair-insert-maybe
+        yaml-electric-backspace
         yaml-electric-dash-and-dot
         yank-rectangle
         ))
