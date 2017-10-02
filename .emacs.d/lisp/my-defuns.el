@@ -114,5 +114,17 @@ PREFIX or SUFFIX can wrap the key when passing to `define-key'."
       (setq isearch-search-fun-function 'vr--isearch-search-fun-function)))
 
 
+;; platform-specific
+(defun my/dash-at-point ()
+  "Run `dash-at-point' or `zeal-at-point' depending on platform."
+  (interactive "P")
+  (cond
+   ((eq system-type 'darwin)
+    (dash-at-point))
+   ((eq system-type 'linux)
+    (zeal-at-point))
+   (t nil)))
+
+
 (provide 'my-defuns)
 ;;; my-defuns.el ends here

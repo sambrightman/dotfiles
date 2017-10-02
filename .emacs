@@ -76,7 +76,7 @@
 (advice-add 'help-mode-revert-buffer :filter-args #'my/help-mode-revert-buffer--noconfirm)
 
 (global-set-key (kbd "C-M-w") 'er/expand-region)
-(global-set-key (kbd "C-c d") 'dash-at-point)
+(global-set-key (kbd "C-c d") 'my/dash-at-point)
 ;; remove if zeal-at-point is updated, maybe add some intelligence
 (with-eval-after-load 'zeal-at-point
   (add-to-list 'zeal-at-point-mode-alist '(python-mode . "python2")))
