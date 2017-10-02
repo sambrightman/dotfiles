@@ -494,3 +494,5 @@ function profile_bash() {
     sync
     paste "${timing_file}" "${trace_file}" | less
 }
+
+require ~/.bash_tower

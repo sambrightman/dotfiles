@@ -76,5 +76,3 @@ require ${SDKMAN_DIR}/bin/sdkman-init.sh
 PATH=$HOME/.linuxbrew/bin:$PATH
 export MANPATH=$HOME/.linuxbrew/share/man:$MANPATH
 export INFOPATH=$HOME/.linuxbrew/share/info:$INFOPATH
-
-require ~/.bash_tower
