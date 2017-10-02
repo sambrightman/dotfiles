@@ -85,5 +85,3 @@ else
     export MANPATH=$HOME/.linuxbrew/share/man:$MANPATH
     export INFOPATH=$HOME/.linuxbrew/share/info:$INFOPATH
 fi
-
-require ~/.bash_tower
