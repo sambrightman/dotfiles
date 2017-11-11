@@ -373,7 +373,7 @@ function remove_path() {
 
 export PATH=~/bin:${PATH}
 
-export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/6:${DYLD_LIBRARY_PATH}
+export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/7:${DYLD_LIBRARY_PATH}
 export GOPATH=${DEV_DIR}/go
 export PATH=${PATH}:${GOPATH}/bin
 
