@@ -95,6 +95,13 @@
 (shut-up
   (load custom-file))
 
+(defun my/colorize-compilation-buffer ()
+  "Enable ANSI escape sequences on compilation."
+  (read-only-mode 0)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (read-only-mode 1))
+(add-hook 'compilation-filter-hook 'my/colorize-compilation-buffer)
+(setq-default compilation-scroll-output 'first-error)
 
 ;; references
 (setq-default grep-program "zgrep")
