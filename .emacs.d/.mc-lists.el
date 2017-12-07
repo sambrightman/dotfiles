@@ -21,6 +21,7 @@
         electric-pair-delete-pair
         eval-last-sexp
         indent-for-tab-command
+        isearch-printing-char
         kill-region
         markdown-outdent-or-delete
         mwim-beginning-of-code-or-line
@@ -29,6 +30,7 @@
         phi-search
         phi-search-backward
         skeleton-pair-insert-maybe
+        vr/query-replace
         yaml-electric-backspace
         yaml-electric-dash-and-dot
         yank-rectangle
