@@ -39,7 +39,6 @@
 (delete-selection-mode)
 (electric-pair-mode)
 (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-(global-auto-revert-mode)
 (global-hi-lock-mode)
 (global-page-break-lines-mode)
 (setq-default custom-unlispify-menu-entries nil)
@@ -62,7 +61,9 @@
 ;; (my/silence-ad-redefinition 'turn-on-rxt-mode)
 
 ;;(global-hl-line-mode)
+(global-auto-revert-mode)
 (setq-default auto-revert-interval 0.5)
+(setq-default auto-revert-use-notify t)
 (setq frame-title-format
       (concat  "%b - emacs@" (system-name)))
 (setq diff-switches "-u")
