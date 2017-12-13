@@ -46,6 +46,11 @@ export GIT_PS1_SHOWUNTRACKEDFILES=true
 export GIT_PS1_SHOWUPSTREAM=true
 export PS1='$(evm_prompt_prefix)$(virtual_env_prompt_prefix)[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 
+function set_title() {
+    local title="$*"
+    echo -ne "\033]0;${title}\007"
+}
+
 function gitd() {
     dir=$1 && shift
     git --work-tree="$dir" --git-dir="$dir/.git" "$@"
