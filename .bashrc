@@ -73,6 +73,12 @@ require ~/.travis/travis.sh
 export SDKMAN_DIR=~/.sdkman
 require ${SDKMAN_DIR}/bin/sdkman-init.sh
 
-PATH=$HOME/.linuxbrew/bin:$PATH
-export MANPATH=$HOME/.linuxbrew/share/man:$MANPATH
-export INFOPATH=$HOME/.linuxbrew/share/info:$INFOPATH
+if [ -f "/etc/redhat-release" ]; then
+    PATH=$HOME/.linuxbrew-centos/bin:$PATH
+    export MANPATH=$HOME/.linuxbrew-centos/share/man:$MANPATH
+    export INFOPATH=$HOME/.linuxbrew-centos/share/info:$INFOPATH
+else
+    PATH=$HOME/.linuxbrew/bin:$PATH
+    export MANPATH=$HOME/.linuxbrew/share/man:$MANPATH
+    export INFOPATH=$HOME/.linuxbrew/share/info:$INFOPATH
+fi
