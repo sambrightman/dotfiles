@@ -80,6 +80,10 @@ if [[ "${OSTYPE}" == "darwin"* ]]; then
     export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
     export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
     export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+elif [ -f "/etc/redhat-release" ]; then
+    PATH=$HOME/.linuxbrew-centos/bin:$PATH
+    export MANPATH=$HOME/.linuxbrew-centos/share/man:$MANPATH
+    export INFOPATH=$HOME/.linuxbrew-centos/share/info:$INFOPATH
 else
     PATH=$HOME/.linuxbrew/bin:$PATH
     export MANPATH=$HOME/.linuxbrew/share/man:$MANPATH
