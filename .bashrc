@@ -89,3 +89,8 @@ else
     export MANPATH=$HOME/.linuxbrew/share/man:$MANPATH
     export INFOPATH=$HOME/.linuxbrew/share/info:$INFOPATH
 fi
+
+# https://github.com/moby/moby/issues/25450
+# if [[ -n "$DOCKER_IMAGE_NAME" ]]; then
+#     stty columns 237 rows 62
+# fi
