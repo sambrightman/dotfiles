@@ -25,6 +25,23 @@ function require() {
     fi
 }
 
+require "$(brew --prefix)/etc/bash_completion"
+
+# for Solarized in emacs
+export TERM=xterm-16color
+export TERMINFO="$(brew --prefix ncurses)/share/terminfo"
+export SHELL=$BASH
+
+# everything above comes before system /etc so it has correct inputs
+
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+function src() {
+    source ~/.bash_profile
+}
+
 function proxy() {
     local proxy_url=$1 && shift
     local extra_no_proxies="$*"
