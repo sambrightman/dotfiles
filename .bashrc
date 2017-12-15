@@ -1,5 +1,11 @@
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+if [ -f "/etc/redhat-release" ]; then
+    PATH=$HOME/.linuxbrew-centos/bin:$PATH
+    export MANPATH=$HOME/.linuxbrew-centos/share/man:$MANPATH
+    export INFOPATH=$HOME/.linuxbrew-centos/share/info:$INFOPATH
+else
+    PATH=$HOME/.linuxbrew/bin:$PATH
+    export MANPATH=$HOME/.linuxbrew/share/man:$MANPATH
+    export INFOPATH=$HOME/.linuxbrew/share/info:$INFOPATH
 fi
 
 function require() {
@@ -72,16 +78,6 @@ require ~/.travis/travis.sh
 
 export SDKMAN_DIR=~/.sdkman
 require ${SDKMAN_DIR}/bin/sdkman-init.sh
-
-if [ -f "/etc/redhat-release" ]; then
-    PATH=$HOME/.linuxbrew-centos/bin:$PATH
-    export MANPATH=$HOME/.linuxbrew-centos/share/man:$MANPATH
-    export INFOPATH=$HOME/.linuxbrew-centos/share/info:$INFOPATH
-else
-    PATH=$HOME/.linuxbrew/bin:$PATH
-    export MANPATH=$HOME/.linuxbrew/share/man:$MANPATH
-    export INFOPATH=$HOME/.linuxbrew/share/info:$INFOPATH
-fi
 
 # https://github.com/moby/moby/issues/25450
 if [[ -n "$DOCKER_IMAGE_NAME" ]]; then
