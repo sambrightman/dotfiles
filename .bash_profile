@@ -1,13 +1,6 @@
 #shellcheck source=./.bashrc
 source ~/.bashrc
 
-require "$(brew --prefix)/etc/bash_completion"
-
-# for Solarized in emacs
-export TERM=xterm-16color
-export TERMINFO="$(brew --prefix ncurses)/share/terminfo"
-#export SHELL=/usr/local/bin/bash
-
 export EDITOR=~/bin/emacswrapper
 function emacs() {
     eval $EDITOR "$@"
@@ -45,7 +38,6 @@ alias pbpaste='xclip -selection clipboard -o'
 #function dircolors() { gdircolors "$@"; }
 eval "$(require ~/.dircolors dircolors)"
 
-require /usr/share/git-core/contrib/completion/git-prompt.sh
 export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWSTASHSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
@@ -183,10 +175,6 @@ function findsrc() {
     done
     echo find "${paths}" \( "$@" \) -a -not -path '*/target/*' -a -not -path '*/.git/*' -a -not -path '*/.svn/*' >&2
     find "${paths}" \( "$@" \) -a -not -path '*/target/*' -a -not -path '*/.git/*' -a -not -path '*/.svn/*'
-}
-
-function src() {
-    source ~/.bash_profile
 }
 
 function mci() {
