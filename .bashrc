@@ -39,9 +39,12 @@ function virtual_env_prompt_prefix() {
 }
 
 function evm_prompt_prefix() {
-    local evm_name=$(jq -Mr .current ~/.evm/.config)
-    if [[ "${evm_name}" != "null" ]]; then
-        echo -n ${evm_name:+($evm_name)}
+    local evm_config_path=~/.evm/.config
+    if [ -f "${evm_config_path}" ]; then
+        local evm_name=$(jq -Mr .current "${evm_config_path}")
+        if [[ "${evm_name}" != "null" ]]; then
+            echo -n ${evm_name:+($evm_name)}
+        fi
     fi
 }
 
