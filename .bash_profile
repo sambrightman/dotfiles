@@ -393,7 +393,6 @@ export FZF_DEFAULT_OPTS='--extended-exact --multi --select-1'
 
 export PATH="$(brew --prefix python)/libexec/bin:$PATH"
 require /usr/local/bin/virtualenvwrapper.sh
-export PIP_VIRTUALENV_BASE=$WORKON_HOME
 export PROJECT_HOME=$HOME/dev
 
 function jvm() {
