@@ -48,7 +48,21 @@ function evm_prompt_prefix() {
     fi
 }
 
-PATH=$HOME/.rvm/bin:$PATH
+function remove_path() {
+    PATH=:$PATH:
+    PATH=${PATH//":$1:"/:}
+    PATH=${PATH%:}
+    PATH=${PATH#:}
+}
+
+export PATH=~/bin:~/.local/bin:${PATH}
+
+export GOPATH=${DEV_DIR}/go
+export PATH=${PATH}:${GOPATH}/bin
+
 PATH=$HOME/.evm/bin:$PATH
+PATH=$HOME/.cask/bin:$PATH
+PATH=$HOME/.rvm/bin:$PATH
+
 require ~/.fzf.bash
 require ~/.travis/travis.sh

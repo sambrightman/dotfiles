@@ -369,18 +369,7 @@ function an() {
     awk -F"${field_sep:- }" "{ print \$${field_num} }" "$@"
 }
 
-function remove_path() {
-    PATH=:$PATH:
-    PATH=${PATH//":$1:"/:}
-    PATH=${PATH%:}
-    PATH=${PATH#:}
-}
-
-export PATH=~/bin:${PATH}
-
 export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/7:${DYLD_LIBRARY_PATH}
-export GOPATH=${DEV_DIR}/go
-export PATH=${PATH}:${GOPATH}/bin
 
 require ~/.cargo/env
 require "$HOME/.rvm/scripts/rvm"
