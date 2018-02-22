@@ -59,6 +59,7 @@
 	rsp = reset --patch
 	rss = reset --soft
 	rssh = reset --soft HEAD~1
+	renametag = !"renametag() { local oldtag=$1 && shift; local newtag=$1 && shift; if [[ -z \"$oldtag\" || -z \"$newtag\" ]]; then echo \"usage: git renametag oldtag newtag\"; return 1; fi; git tag $newtag $(git cat-file -p $oldtag | sed \"s/^tag $oldtag$/tag $newtag/\" | git mktag) && git tag -d $oldtag; }; renametag"
 	remotes = remote show
 	rso = remote show origin
 	rv = revert --no-commit
