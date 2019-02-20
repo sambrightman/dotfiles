@@ -440,6 +440,13 @@
 
 
 ;; language servers
+(require 'lsp-clients)
+(add-hook 'vue-mode-hook 'lsp)
+(add-hook 'js-mode-hook 'lsp)
+(add-hook 'typescript-mode-hook 'lsp)
+(add-hook 'js3-mode-hook 'lsp)
+(add-hook 'rjsx-mode 'lsp)
+
 (require 'cquery)
 (defun my/cquery-enable ()
   "Enable cquery with no errors."
@@ -463,6 +470,20 @@
 (add-hook 'c-mode-hook #'my/rtags-setup)
 (add-hook 'c++-mode-hook #'my/rtags-setup)
 (add-hook 'objc-mode-hook #'my/rtags-setup)
+
+(defun my/js-company-transformer (candidates)
+  "Transform CANDIDATES per https://github.com/emacs-lsp/lsp-javascript."
+  (let ((completion-ignore-case t))
+    (all-completions (company-grab-symbol) candidates)))
+
+(defun my/js-mode-hook ()
+  "Customization for `js-mode' and related modes."
+  (make-local-variable 'company-transformers)
+  (push 'my/js-company-transformer company-transformers))
+(add-hook 'js-mode-hook 'my/js-mode-hook)
+(add-hook 'typescript-mode-hook 'my/js-mode-hook)
+(add-hook 'js3-mode-hook 'my/js-mode-hook)
+(add-hook 'rjsx-mode 'my/js-mode-hook)
 
 
 ;;; .emacs ends here
