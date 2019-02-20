@@ -5,3 +5,5 @@
 /.emacs.d/ido.last~
 bin/python
 /.emacs.d/.python-environments
+/.emacs.d/transient
+/.emacs.d/.lsp-session-v1
