@@ -121,21 +121,6 @@
   (hl-line-mode))
 (add-hook 'xref--xref-buffer-mode-hook 'my/xref-mode-hook)
 
-
-(setq-default rtags-autostart-diagnostics t)
-(setq-default rtags-completions-enabled t)
-(defun my/rtags-setup ()
-  "Customization for `rtags'."
-  (rtags-enable-standard-keybindings)
-  (require 'flycheck-rtags)
-  (flycheck-select-checker 'rtags)
-  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays?
-  (setq-local flycheck-check-syntax-automatically nil))
-(add-hook 'c-mode-hook #'my/rtags-setup)
-(add-hook 'c++-mode-hook #'my/rtags-setup)
-(add-hook 'objc-mode-hook #'my/rtags-setup)
-
-
 (defun my/filepatterns--include-compressed (orig)
   "Add compression suffixes to filenames returned in ORIG."
   (require 'dash)
@@ -452,6 +437,32 @@
 (add-hook 'flyspell-mode-hook 'my/flyspell-mode-hook)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
+
+;; language servers
+(require 'cquery)
+(defun my/cquery-enable ()
+  "Enable cquery with no errors."
+  (condition-case nil
+      (progn
+        (lsp)
+        (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
+        (setq cquery-extra-init-params '(:completion (:detailedLabel t))))
+    (user-error nil)))
+;; (add-hook 'c-mode-common-hook #'my/cquery-enable)
+
+(setq-default rtags-autostart-diagnostics t)
+(setq-default rtags-completions-enabled t)
+(defun my/rtags-setup ()
+  "Customization for `rtags'."
+  (rtags-enable-standard-keybindings)
+  (require 'flycheck-rtags)
+  (flycheck-select-checker 'rtags)
+  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays?
+  (setq-local flycheck-check-syntax-automatically nil))
+(add-hook 'c-mode-hook #'my/rtags-setup)
+(add-hook 'c++-mode-hook #'my/rtags-setup)
+(add-hook 'objc-mode-hook #'my/rtags-setup)
 
 
 ;;; .emacs ends here
