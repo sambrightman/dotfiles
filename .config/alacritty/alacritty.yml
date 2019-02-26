@@ -628,13 +628,13 @@ key_bindings:
   - { key: Period,        mods: Control,           chars: "\e[emacs-C-."     }
   - { key: Comma,         mods: Control,           chars: "\e[emacs-C-,"     }
   # something still broken with this
-  - { key: Period,        mods: Control|Shift,     chars: "\e[emacs-C->"     }
-  - { key: Comma,         mods: Control|Shift,     chars: "\e[emacs-C-<"     }
+  - { key: 52,            mods: Control|Shift,     chars: "\e[emacs-C->"     }
+  - { key: 51,            mods: Control|Shift,     chars: "\e[emacs-C-<"     }
   - { key: Apostrophe,    mods: Control,           chars: "\e[emacs-C-'"     }
   - { key: Semicolon,     mods: Control,           chars: "\e[emacs-C-;"     }
   - { key: Space,         mods: Control|Command,   chars: "\e[emacs-C-H-SPC" }
   - { key: O,             mods: Command,           chars: "\e[emacs-H-o"     }
   - { key: P,             mods: Command,           chars: "\e[emacs-H-p"     }
   - { key: Key1,          mods: Command,           chars: "\e[emacs-H-1"     }
-  # something still broken with this
+  # something still broken with this emacs-side
   # - { key: Equals,        mods: Control,           chars: "\e[emacs-C-="     }
