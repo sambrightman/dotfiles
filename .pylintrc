@@ -2,4 +2,4 @@
 init-hook="from pylint_venv import inithook; inithook()"
 
 [MESSAGES CONTROL]
-disable=C0111,C0301
+disable=missing-docstring,line-too-long

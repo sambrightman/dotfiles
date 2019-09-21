@@ -30,6 +30,8 @@
         phi-search
         phi-search-backward
         skeleton-pair-insert-maybe
+        upcase-region
+        vr/isearch-forward
         vr/query-replace
         yaml-electric-backspace
         yaml-electric-dash-and-dot
