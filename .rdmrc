@@ -1,0 +1,3 @@
+--log-file=~/tmp/rdm.log
+--tempdir=~/tmp/rtags
+--daemon
