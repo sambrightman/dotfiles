@@ -2,7 +2,7 @@
 name: <%= name %>
 
 attach: false
-post: tmux -CC attach-session -t <%= name %>
+on_project_exit: tmux -CC attach-session -t <%= name %>
 
 windows:
   - crunches:
