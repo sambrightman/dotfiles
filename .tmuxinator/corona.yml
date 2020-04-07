@@ -1,0 +1,17 @@
+<% name = @args.size > 0 ? @args.shift : 'corona' %>
+name: <%= name %>
+
+attach: false
+on_project_exit: tmux -CC attach-session -t <%= name %>
+
+windows:
+  - skae-1:
+    - ssht asgardstudy1.skae.tower-research.com <%= name %>-skae-1 <%= @args.join(' ') %>
+  - skae-2:
+    - ssht asgardstudy1.skae.tower-research.com <%= name %>-skae-2 <%= @args.join(' ') %>
+  - ipython:
+    - ssht sbrightmanlinux.ldn-off.tower-research.com <%= name %>-ipython <%= @args.join(' ') %>
+  - config:
+    - ssht sbrightmanlinux.ldn-off.tower-research.com <%= name %>-config <%= @args.join(' ') %>
+  - sbrightman:
+    - ssht sbrightmanlinux.ldn-off.tower-research.com <%= name %>-sbrightman <%= @args.join(' ') %>
