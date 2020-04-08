@@ -5,6 +5,8 @@ attach: false
 on_project_exit: tmux -CC attach-session -t <%= name %>
 
 windows:
+  - proxy:
+    - ssh -NCD 10800 asgardstudy1.skae.tower-research.com
   - skae-1:
     - ssht asgardstudy1.skae.tower-research.com <%= name %>-skae-1 <%= @args.join(' ') %>
   - skae-2:
