@@ -144,7 +144,7 @@ function ssht() {
     local host=$1 && shift
     local session=${1:-0} && shift
 
-    ssh -t "${host}" tmux new-session -A -s "${session}" \"$@\"
+    ssh -t "${host}" "bash -ic 'tmux new-session -A -s \"${session}\" "$@"'"
 }
 complete -F _ssh ssht
 
