@@ -312,6 +312,7 @@
 (defun my/c++-mode-hook ()
   "Customization for `c++-mode'."
   (c-set-offset 'innamespace 0)
+  (c-set-offset 'inlambda 0)
   (c-set-offset 'stream-op '+)
   (c-set-offset 'case-label '+))
 (add-hook 'c++-mode-hook #'my/c++-mode-hook)
