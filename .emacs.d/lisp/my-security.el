@@ -12,9 +12,5 @@
 (setq-default tls-checktrust t)
 (setq-default gnutls-verify-error t)
 
-;; http://emacs.stackexchange.com/a/18610/3985
-(with-eval-after-load 'gnutls
-  (defun gnutls-available-p () nil))
-
 (provide 'my-security)
 ;;; my-security.el ends here
