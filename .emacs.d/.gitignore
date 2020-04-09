@@ -12,3 +12,4 @@
 /.emacs.desktop
 /.emacs.desktop.lock
 /elpa/
+/.cache/
