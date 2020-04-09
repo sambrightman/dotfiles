@@ -158,6 +158,7 @@
 (setq ido-everywhere t)
 (setq ido-use-filename-at-point 'guess)
 (setq ido-ignore-extensions t)
+(setq ido-auto-merge-delay-time 2)
 (flx-ido-mode 1)
 (setq ido-use-faces nil)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
