@@ -489,5 +489,19 @@
 (add-hook 'js3-mode-hook 'my/js-mode-hook)
 (add-hook 'rjsx-mode 'my/js-mode-hook)
 
+(defun my/use-eslint-from-node-modules ()
+  "Enable ESLint via node_modules."
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint
+          (and root
+               (expand-file-name "node_modules/.bin/eslint"
+                                 root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
 
 ;;; .emacs ends here
