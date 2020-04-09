@@ -222,7 +222,7 @@
   (highlight-indentation-mode)
   (auto-virtualenvwrapper-activate)
   (add-hook 'window-configuration-change-hook #'auto-virtualenvwrapper-activate)
-
+  (setq-default flycheck-flake8rc ".flake8")
   (jedi:setup)
   (setq-default jedi:complete-on-dot t)
   (setq-default jedi:get-in-function-call-delay 400)
@@ -345,7 +345,8 @@
   (setq-default company-tooltip-limit 20)
   (setq-default company-idle-delay .2)
   (setq-default company-show-numbers t)
-  (setq-default company-dabbrev-downcase nil))
+  (setq-default company-dabbrev-downcase nil)
+  (setq-default company-tooltip-align-annotations t))
 
 
 ;; YAS
