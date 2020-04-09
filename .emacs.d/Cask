@@ -68,6 +68,7 @@
 (depends-on "haskell-mode")
 (depends-on "highlight-chars")
 (depends-on "highlight-indentation")
+(depends-on "homebrew-mode")
 (depends-on "hydra")
 (depends-on "js2-mode")
 (depends-on "julia-mode")
