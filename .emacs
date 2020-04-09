@@ -62,7 +62,7 @@
 
 ;;(global-hl-line-mode)
 (global-auto-revert-mode)
-(setq-default auto-revert-interval 0.5)
+(setq-default auto-revert-interval 5)
 (setq-default auto-revert-use-notify t)
 (setq frame-title-format
       (concat  "%b - emacs@" (system-name)))
