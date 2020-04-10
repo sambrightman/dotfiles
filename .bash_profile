@@ -3,6 +3,7 @@ source ~/.bashrc
 
 # for Solarized in emacs
 export TERM=xterm-16color
+export TERMINFO="$(brew --prefix ncurses)/share/terminfo"
 export SHELL=/usr/local/bin/bash
 
 export EDITOR=~/bin/emacswrapper
