@@ -20,7 +20,9 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
     (or frame (setq frame (selected-frame)))
     (set-terminal-parameter frame 'background-mode mode)
     (setq frame-background-mode mode)
-    (frame-set-background-mode frame)))
+    (frame-set-background-mode frame)
+    (setq-default vc-annotate-background-mode nil)
+    (setq-default vc-annotate-background nil)))
 
 (defun my/load-my-theme ()
   "Load theme `solarized' and apply extra definitions."
