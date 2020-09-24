@@ -446,12 +446,12 @@
 
 
 ;; language servers
-(require 'lsp-clients)
-(add-hook 'vue-mode-hook 'lsp)
-(add-hook 'js-mode-hook 'lsp)
-(add-hook 'typescript-mode-hook 'lsp)
-(add-hook 'js3-mode-hook 'lsp)
-(add-hook 'rjsx-mode 'lsp)
+(require 'lsp-mode)
+(add-hook 'vue-mode-hook 'lsp-deferred)
+(add-hook 'js-mode-hook 'lsp-deferred)
+(add-hook 'typescript-mode-hook 'lsp-deferred)
+(add-hook 'js3-mode-hook 'lsp-deferred)
+(add-hook 'rjsx-mode 'lsp-deferred)
 
 (require 'cquery)
 (defun my/cquery-enable ()
