@@ -103,6 +103,8 @@
 	stashoneline = %C(bold red)%h %C(bold green)%gd %C(reset)%s %C(bold green)%aN %C(bold magenta)(%ar)%C(reset)%C(yellow)%d%C(reset)
 	refonelinefull = %C(auto)%h %gd: %gs %C(bold magenta)(%aD)%C(reset)
 	tagdates = %ci %d
+[format]
+	pretty = fuller
 [user]
 	name = Sam Brightman
 	# email from include
