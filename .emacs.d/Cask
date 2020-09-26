@@ -62,6 +62,7 @@
 (depends-on "gitconfig-mode")
 (depends-on "gitignore-mode")
 (depends-on "glsl-mode")
+(depends-on "gnu-elpa-keyring-update")
 (depends-on "go-eldoc")
 (depends-on "go-errcheck")
 (depends-on "go-flycheck" :git "https://github.com/dougm/goflymake.git")
