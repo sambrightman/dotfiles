@@ -7,3 +7,7 @@ bin/python
 /.emacs.d/.python-environments
 /.emacs.d/transient
 /.emacs.d/.lsp-session-v1
+.Rproj.user
+.Rhistory
+.Rdata
+.DS_Store
