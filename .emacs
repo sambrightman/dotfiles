@@ -136,6 +136,8 @@
 (advice-add 'semantic-symref-derive-find-filepatterns
             :filter-return #'my/filepatterns--include-compressed)
 
+;; Nyquist
+(add-to-list 'auto-mode-alist '("\\.ny" . lisp-mode))
 
 ;; Magit
 (global-magit-file-mode)
