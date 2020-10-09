@@ -27,7 +27,6 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
 (defun my/load-my-theme ()
   "Load theme `solarized' and apply extra definitions."
   (interactive)
-  (require 'color-theme-solarized)
   (load-theme 'solarized t)
   (require 'solarized-extra-definitions) ;; remove once re-installing the package
   (solarized-apply-definitions my/solarized-extra-definitions 'solarized))
