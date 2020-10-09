@@ -15,9 +15,9 @@
 (require 'my-theme)
 
 (if (daemonp)
-    (add-hook 'after-make-frame-functions 'my/after-make-frame-functions-hook))
-(my/set-background-mode my/theme-mode (selected-frame))
-(my/load-my-theme)
+    (add-hook 'after-make-frame-functions 'my/after-make-frame-functions-hook)
+  (my/set-background-mode my/theme-mode (selected-frame))
+  (my/load-my-theme))
 
 ;; theme loaded before compiling extra definitions (no after-theme-hook)
 (shut-up
