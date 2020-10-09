@@ -23,7 +23,7 @@ function killemacs() {
     emacsclient -e "(kill-emacs)"
 }
 function lsemacs() {
-    pgrep -l emacs "$@"
+    pgrep -u "$USER" -l emacs "$@"
 }
 
 export LESS='-FRX'
