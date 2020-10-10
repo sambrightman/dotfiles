@@ -14,15 +14,9 @@
 (require 'my-defuns)
 (require 'my-theme)
 
-(if (daemonp)
-    (add-hook 'after-make-frame-functions 'my/after-make-frame-functions-hook)
-  (my/set-background-mode my/theme-mode (selected-frame))
-  (my/load-my-theme))
-
 ;; theme loaded before compiling extra definitions (no after-theme-hook)
 (shut-up
   (byte-recompile-directory my/lisp-directory 0))
-
 
 ;; General
 (setq-default indent-tabs-mode nil)
