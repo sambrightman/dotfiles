@@ -3,6 +3,8 @@
 ;;
 ;;; Code:
 
+(tool-bar-mode -1)
+
 (defconst my/theme-mode
   (if (file-exists-p (my/join-path my/lisp-directory "light"))
       'light
