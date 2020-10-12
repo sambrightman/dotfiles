@@ -111,6 +111,7 @@
 (depends-on "realgud")
 (depends-on "robe")
 (depends-on "rtags")
+(depends-on "rtags-xref")
 (depends-on "rust-mode")
 (depends-on "rvm")
 (depends-on "sass-mode")
