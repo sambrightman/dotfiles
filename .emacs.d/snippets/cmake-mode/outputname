@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: set_target_properties OUTPUT_NAME
+# key: stpon
+# --
+set_target_properties($1 PROPERTIES OUTPUT_NAME $1\${ASGARD_TARGET_SUFFIX})

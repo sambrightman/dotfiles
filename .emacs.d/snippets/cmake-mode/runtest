@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: add_custom_command for test run
+# key: acctest
+# --
+add_custom_command(TARGET $1 POST_BUILD
+  COMMENT "Run $1 tests"
+  COMMAND ${CMAKE_COMMAND} -E env GTEST_COLOR=1 $<TARGET_FILE:$1>
+)

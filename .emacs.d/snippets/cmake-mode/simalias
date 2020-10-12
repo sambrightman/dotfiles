@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: add_executable ALIAS for simulation binary
+# key: simalias
+# --
+add_executable(quoteserver::$1::$1_simulator ALIAS quoteserver_$1_$1_simulator)

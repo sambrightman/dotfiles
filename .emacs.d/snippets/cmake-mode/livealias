@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: add_executable ALIAS for live binary
+# key: livealias
+# --
+add_executable(quoteserver::$1::live_$1 ALIAS quoteserver_$1_live_$1)
