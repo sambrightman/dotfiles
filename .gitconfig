@@ -42,6 +42,7 @@
 	lgu = !git log --pretty=authoneline --reverse $(git ub)..
 	lgus = !git lgu --stat
 	lgut = !git lgu | tail
+	lsall = !"list_all() { git log --all --pretty=format: --name-only --diff-filter=A \"$@\" | grep . | sort -u; }; list_all"
 	ma = merge --abort
 	me = !"git lg --author=\"$(git config user.name)\""
 	pp = !"git lgu; echo; git du --stat"
