@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+
+from __future__ import absolute_import, division, print_function
+
+import argparse
+import datetime
+import heapq
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description='Analyze bash trace log timing.',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument('filename', help='filename containing traced commands.')
+    parser.add_argument('-n', type=int, default=20, help='number of results to show.')
+    config = parser.parse_args()
+    return config.filename, config.n
+
+
+def analyze():
+    filename, num_results = parse_args()
+    with open(filename) as log_file:
+        queue = []
+        prev_time = None
+        prev_command = None
+        for line in log_file:
+            if not line.startswith('+'):
+                continue
+            _, time_string, command = line.rstrip().split(None, 2)
+            time = datetime.datetime.utcfromtimestamp(float(time_string))
+            diff = time - prev_time if prev_time is not None else datetime.timedelta()
+            heapq.heappush(queue, (diff, prev_command))
+            prev_time = time
+            prev_command = command
+
+    for diff, command in heapq.nlargest(num_results, queue):
+        print('{}: {}'.format(diff, command))
+
+
+if __name__ == '__main__':
+    analyze()

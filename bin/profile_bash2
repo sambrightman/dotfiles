@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+
+function profile() {
+    local run_args=("$@")
+
+    local temp_file
+    temp_file=$(mktemp --tmpdir profile_bash.XXXXXXXXXX)
+    echo "Profiling '${run_args[*]}' to ${temp_file}"
+    PS4='+ $(date +%s.%N)\011' bash -xc "source ${run_args[*]}" &> >(tee "${temp_file}")
+    "${SCRIPT_DIR}/analyze_profile_bash" "${temp_file}"
+}
+
+profile "$@"
