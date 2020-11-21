@@ -5,10 +5,23 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 function profile() {
     local run_args=("$@")
 
+    local date_cmds=(date gdate)
+    local date_cmd
+    for date_cmd in "${date_cmds[@]}"; do
+        date_cmd=$(which "${date_cmd}")
+        if [[ -z "${date_cmd}" || "$("${date_cmd}" +%N)" == "N" ]]; then
+            date_cmd=
+        fi
+    done
+    if [[ -z "${date_cmd}" ]]; then
+        echo "failed to find suitable date command"
+        exit 1
+    fi
+
     local temp_file
     temp_file=$(mktemp --tmpdir profile_bash.XXXXXXXXXX)
     echo "Profiling '${run_args[*]}' to ${temp_file}"
-    PS4='+ $(date +%s.%N)\011' bash -xc "source ${run_args[*]}" &> >(tee "${temp_file}")
+    PS4="+ \$(${date_cmd} +%s.%N)\011" bash -xc "source ${run_args[*]}" &> >(tee "${temp_file}")
     "${SCRIPT_DIR}/analyze_profile_bash" "${temp_file}"
 }
 
