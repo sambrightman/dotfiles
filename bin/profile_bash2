@@ -19,7 +19,8 @@ function profile() {
     fi
 
     local temp_file
-    temp_file=$(mktemp --tmpdir profile_bash.XXXXXXXXXX)
+    temp_file=$(mktemp -t profile_bash.XXXXXXXXXX) || { echo "failed to make temporary file"; exit 2; }
+
     echo "Profiling '${run_args[*]}' to ${temp_file}"
     PS4="+ \$(${date_cmd} +%s.%N)\011" bash -xc "source ${run_args[*]}" &> >(tee "${temp_file}")
     "${SCRIPT_DIR}/analyze_profile_bash" "${temp_file}"
