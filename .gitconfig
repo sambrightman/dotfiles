@@ -75,8 +75,9 @@
 	sms = submodule foreach --recursive git status
 	smu = submodule update --init --recursive
 	sp = stash pop
-	ss = stash show -p
-	sv = stash save -k -u
+	sr = !"renamestash() { local number=$1 && shift; local message=$1 && shift; if [[ -z \"${number}\" || -z \"${message}\" ]]; then echo \"usage: git sr number name\"; git stash list; return 1; else local stash=\"stash@{$number}\"; local rev=$(git rev-parse \"${stash}\"); git stash drop \"${stash}\" || return 1; git stash store -m \"${message}\" \"${rev}\" || return 1; git stash list; fi }; renamestash"
+	ss = stash show --patch
+	su = stash push --keep-index --include-untracked
 	st = status
 	sti = status --ignore
 	bb = !echo $(git cb)_bb
@@ -101,7 +102,7 @@
 	graphloose = %C(bold red)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n          %C(white)%s%C(reset) %C(bold white)- %an%C(reset)
 	authoneline = %C(bold red)%h %C(reset)%s %C(bold green)%aN %C(bold magenta)(%ar)%C(reset)%C(yellow)%d%C(reset)
 	authonelinefull = %C(bold red)%h %C(reset)%s %C(bold green)%aN %C(bold magenta)(%aD)%C(reset)%C(yellow)%d%C(reset)
-	stashoneline = %C(bold red)%h %C(bold green)%gd %C(reset)%s %C(bold green)%aN %C(bold magenta)(%ar)%C(reset)%C(yellow)%d%C(reset)
+	stashoneline = %C(bold red)%h %C(bold green)%gd %C(reset)%gs %C(bold green)%aN %C(bold magenta)(%ar)%C(reset)%C(yellow)%d%C(reset)
 	refonelinefull = %C(auto)%h %gd: %gs %C(bold magenta)(%aD)%C(reset)
 	tagdates = %ci %d
 [format]
