@@ -1,3 +1,8 @@
+export HOMEBREW_TEMP=~/tmp
+if [[ "$(hostname -s)" == "asgardstudy1" || "$(hostname -s)" == "asgardstudy2" ]]; then
+    export HOMEBREW_FORCE_BREWED_CURL=1
+fi
+
 if [[ "${OSTYPE}" == "darwin"* ]]; then
     export HOMEBREW_PREFIX="/opt/homebrew";
     export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
