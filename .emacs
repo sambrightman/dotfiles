@@ -63,7 +63,8 @@
 (setq diff-switches "-u")
 (setq vc-follow-symlinks t)
 (my/silence-function 'vc-refresh-state)
-(setq gc-cons-threshold (* 20 (* 1024 1024)))
+(setq gc-cons-threshold (* 80 (* 1024 1024)))
+(setq read-process-output-max (* 1024 1024))
 
 (defun my/help-mode-revert-buffer--noconfirm (&rest args)
   "Don't confirm when reverting *Help* buffers with ARGS."
