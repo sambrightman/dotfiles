@@ -2,6 +2,10 @@
 	a = add
 	ac = !git a . && git cm
 	ai = add --interactive
+	ama = am --abort
+	amc = am --continue
+	amscp = am --show-current-patch
+	ams = am --skip
 	ap = add --patch
 	at = !"append_ticket() { if [ $# -gt 0 ]; then git ca -m \"$1 $(git lgs)\n\n$(git lgb)\"; else echo 'supply some ticket(s) to prepend to the summary'; fi; }; append_ticket"
     authors = shortlog -s -e -n --all
@@ -60,6 +64,7 @@
 	rsp = reset --patch
 	rss = reset --soft
 	rssh = reset --soft HEAD~1
+	release = !"release_name() { git describe --tags --match \"$(basename $(pwd))-v*\" --exclude '*-rc*'; }; release_name"
 	renametag = !"renametag() { local oldtag=$1 && shift; local newtag=$1 && shift; if [[ -z \"$oldtag\" || -z \"$newtag\" ]]; then echo \"usage: git renametag oldtag newtag\"; return 1; fi; git tag $newtag $(git cat-file -p $oldtag | sed \"s/^tag $oldtag$/tag $newtag/\" | git mktag) && git tag -d $oldtag; }; renametag"
 	remotes = remote show
 	rso = remote show origin
@@ -121,6 +126,7 @@
 	ui = true
 [core]
 	editor = emacswrapper
+	excludesFile = ~/.gitignore
 [diff]
 	noprefix = true
 [pager]
