@@ -1,3 +1,8 @@
+export HOMEBREW_TEMP=~/tmp
+if [[ "$(hostname -s)" == "asgardstudy1" || "$(hostname -s)" == "asgardstudy2" ]]; then
+    export HOMEBREW_FORCE_BREWED_CURL=1
+fi
+
 if [ -f "/etc/redhat-release" ]; then
     PATH=$HOME/.linuxbrew-centos/bin:$PATH
     export MANPATH=$HOME/.linuxbrew-centos/share/man:$MANPATH
