@@ -9,7 +9,8 @@
 /lisp/light
 /srecode-map.el
 /bookmarks
-/.emacs.desktop
-/.emacs.desktop.lock
+/.emacs.desktop*
 /elpa/
 /.cache/
+/.dap-breakpoints
+/forge-database.sqlite
