@@ -284,8 +284,6 @@
 
 
 ;; Go
-(with-eval-after-load 'go-mode
-  (require 'go-flycheck))
 (defun my/go-mode-hook ()
   "Customization for `go-mode'."
   (interactive)
