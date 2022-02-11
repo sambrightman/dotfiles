@@ -216,6 +216,7 @@
 (defun my/python-mode-hook ()
   "Customization for `python-mode'."
   (highlight-indentation-mode)
+  (setq-default auto-virtualenvwrapper-verbose nil)
   (auto-virtualenvwrapper-activate)
   (add-hook 'window-configuration-change-hook #'auto-virtualenvwrapper-activate)
   (setq-default flycheck-python-pycompile-executable "python")
