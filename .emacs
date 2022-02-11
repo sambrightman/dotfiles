@@ -135,9 +135,8 @@
 (add-to-list 'auto-mode-alist '("\\.ny" . lisp-mode))
 
 ;; Magit
-(global-magit-file-mode)
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+(require 'magit)
+(require 'magit-popup)
 (with-eval-after-load 'magit-remote
   (add-to-list 'magit-no-message "Turning on magit-auto-revert-mode")
   (magit-define-popup-action 'magit-push-popup ?P
