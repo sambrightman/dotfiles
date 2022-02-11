@@ -3,6 +3,8 @@
 ;;
 ;;; Code:
 
+(setq load-prefer-newer t)
+
 ;; compatibility
 (unless (fboundp 'with-eval-after-load) ;; available from 24.4
   (defmacro with-eval-after-load (file &rest body)
