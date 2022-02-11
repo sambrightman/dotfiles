@@ -3,11 +3,14 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        c-electric-brace
         c-electric-colon
         c-electric-delete-forward
         c-electric-lt-gt
         c-electric-paren
+        c-electric-pound
         c-electric-semi&comma
+        c-electric-slash
         c-indent-line-or-region
         cperl-electric-brace
         cperl-electric-lbrace
