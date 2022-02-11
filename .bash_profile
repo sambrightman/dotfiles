@@ -72,9 +72,6 @@ function gi() {
 
 alias cdgit='cd "$(git rev-parse --show-toplevel)"'
 
-export CODE_DIR="$HOME/code"
-export DEV_DIR="$HOME/dev"
-
 function multi_pull() {
     local failures
     for p in "$@"; do
