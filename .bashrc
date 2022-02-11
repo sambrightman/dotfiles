@@ -105,3 +105,6 @@ require ${SDKMAN_DIR}/bin/sdkman-init.sh
 if [[ -n "$DOCKER_IMAGE_NAME" ]]; then
     stty columns 237 rows 62
 fi
+
+export CODE_DIR="$HOME/code"
+export DEV_DIR="$HOME/dev"
