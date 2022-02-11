@@ -34,7 +34,7 @@ export SHELL=$BASH
 # everything above comes before system /etc so it has correct inputs
 
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+	source /etc/bashrc
 fi
 
 function src() {
