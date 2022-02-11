@@ -137,8 +137,9 @@
 ;; Magit
 (require 'magit)
 (require 'magit-popup)
+(with-eval-after-load 'magit-utils
+  (add-to-list 'magit-no-message "Turning on magit-auto-revert-mode"))
 (with-eval-after-load 'magit-remote
-  (add-to-list 'magit-no-message "Turning on magit-auto-revert-mode")
   (magit-define-popup-action 'magit-push-popup ?P
     'magit-push-implicitly--desc
     'magit-push-implicitly ?p t))
