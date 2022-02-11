@@ -207,12 +207,11 @@
 
 
 ;; Python
+(require 'python-environment)
+(setq-default jedi:environment-virtualenv (append python-environment-virtualenv
+                                                  '("--python" "python3")))
 (jedi:install-server)
-;; needs changes to both, need to auto-switch somehow
-;; (setq traad-environment-name "traad2")
-;; (traad-install-server "python2")
 (setq-default traad-environment-name "traad3")
-;; (traad-install-server "python3")
 (traad-install-server)
 (defun my/python-mode-hook ()
   "Customization for `python-mode'."
