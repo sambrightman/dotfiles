@@ -367,6 +367,7 @@ function an() {
 require ~/.cargo/env
 export NVM_DIR=~/.nvm
 require "${NVM_DIR}/nvm.sh"
+require "${NVM_DIR}/bash_completion"
 require "$HOME/.opam/opam-init/init.sh"
 require "$HOME/.rvm/scripts/rvm"
 
