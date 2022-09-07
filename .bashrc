@@ -105,9 +105,6 @@ PATH=$HOME/.rvm/bin:$PATH
 require ~/.fzf.bash
 require ~/.travis/travis.sh
 
-export SDKMAN_DIR=~/.sdkman
-require ${SDKMAN_DIR}/bin/sdkman-init.sh
-
 # https://github.com/moby/moby/issues/25450
 # if [[ -n "$DOCKER_IMAGE_NAME" ]]; then
 #     stty columns 237 rows 62
