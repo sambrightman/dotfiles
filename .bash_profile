@@ -480,4 +480,4 @@ function profile_bash() {
     paste "${timing_file}" "${trace_file}" | less
 }
 
-require ~/.bash_tower
+require ~/.bash_work
