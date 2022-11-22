@@ -364,6 +364,7 @@
 ;; Company
 (add-hook 'after-init-hook #'global-company-mode)
 (with-eval-after-load 'company
+  (add-to-list 'company-backends 'company-capf)
   (add-to-list 'company-backends 'company-c-headers)
   (add-to-list 'company-backends 'company-go)
   (add-to-list 'company-backends 'company-jedi)
