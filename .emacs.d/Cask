@@ -122,6 +122,7 @@
 (depends-on "visual-regexp")
 (depends-on "visual-regexp-steroids")
 (depends-on "vue-mode")
+(depends-on "which-key")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
 (depends-on "zeal-at-point")

@@ -163,6 +163,10 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 
+;; which-key
+(which-key-mode)
+(which-key-setup-side-window-right)
+
 ;; auto-compile
 (auto-compile-on-load-mode)
 (auto-compile-on-save-mode)
@@ -446,6 +450,9 @@
 (add-hook 'typescript-mode-hook 'lsp-deferred)
 (add-hook 'js3-mode-hook 'lsp-deferred)
 (add-hook 'rjsx-mode 'lsp-deferred)
+(with-eval-after-load 'lsp-mode
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
+
 
 (require 'cquery)
 (defun my/cquery-enable ()
