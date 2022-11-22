@@ -2,3 +2,4 @@
 --tempdir=tmp/rtags
 --daemon
 --job-count=4
+--rp-nice-value=19
