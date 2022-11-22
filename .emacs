@@ -481,6 +481,7 @@
 (add-hook 'typescript-mode-hook 'lsp-deferred)
 (add-hook 'js3-mode-hook 'lsp-deferred)
 (add-hook 'rjsx-mode 'lsp-deferred)
+(add-hook 'java-mode 'lsp-deferred)
 (with-eval-after-load 'lsp-mode
   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
 
