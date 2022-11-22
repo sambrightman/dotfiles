@@ -178,6 +178,36 @@
   (setq-default nxml-child-indent 4))
 
 
+;; JavaScript
+(defun my/js-company-transformer (candidates)
+  "Transform CANDIDATES per https://github.com/emacs-lsp/lsp-javascript."
+  (let ((completion-ignore-case t))
+    (all-completions (company-grab-symbol) candidates)))
+
+(defun my/js-mode-hook ()
+  "Customization for `js-mode' and related modes."
+  (make-local-variable 'company-transformers)
+  (push 'my/js-company-transformer company-transformers))
+(add-hook 'js-mode-hook 'my/js-mode-hook)
+(add-hook 'typescript-mode-hook 'my/js-mode-hook)
+(add-hook 'js3-mode-hook 'my/js-mode-hook)
+(add-hook 'rjsx-mode 'my/js-mode-hook)
+
+(defun my/use-eslint-from-node-modules ()
+  "Enable ESLint via node_modules."
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint
+          (and root
+               (expand-file-name "node_modules/.bin/eslint"
+                                 root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
+
 ;; YAML
 (defun my/yaml-mode-hook ()
   "Customization for `yaml-mode'."
@@ -477,34 +507,6 @@
 (add-hook 'c-mode-hook #'my/rtags-setup)
 (add-hook 'c++-mode-hook #'my/rtags-setup)
 (add-hook 'objc-mode-hook #'my/rtags-setup)
-
-(defun my/js-company-transformer (candidates)
-  "Transform CANDIDATES per https://github.com/emacs-lsp/lsp-javascript."
-  (let ((completion-ignore-case t))
-    (all-completions (company-grab-symbol) candidates)))
-
-(defun my/js-mode-hook ()
-  "Customization for `js-mode' and related modes."
-  (make-local-variable 'company-transformers)
-  (push 'my/js-company-transformer company-transformers))
-(add-hook 'js-mode-hook 'my/js-mode-hook)
-(add-hook 'typescript-mode-hook 'my/js-mode-hook)
-(add-hook 'js3-mode-hook 'my/js-mode-hook)
-(add-hook 'rjsx-mode 'my/js-mode-hook)
-
-(defun my/use-eslint-from-node-modules ()
-  "Enable ESLint via node_modules."
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint
-          (and root
-               (expand-file-name "node_modules/.bin/eslint"
-                                 root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
-
-(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
 
 ;;; .emacs ends here
