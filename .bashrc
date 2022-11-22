@@ -27,6 +27,7 @@ function require() {
 require "$(brew --prefix)/etc/bash_completion"
 
 # for Solarized in emacs
+unset COLORTERM
 export TERM=xterm-16color
 export TERMINFO="$(brew --prefix ncurses)/share/terminfo"
 export SHELL=$BASH
