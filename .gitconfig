@@ -66,7 +66,8 @@
 	rssh = reset --soft HEAD~1
 	release = !"release_name() { git describe --tags --match \"$(basename $(pwd))-v*\" --exclude '*-rc*'; }; release_name"
 	renametag = !"renametag() { local oldtag=$1 && shift; local newtag=$1 && shift; if [[ -z \"$oldtag\" || -z \"$newtag\" ]]; then echo \"usage: git renametag oldtag newtag\"; return 1; fi; git tag $newtag $(git cat-file -p $oldtag | sed \"s/^tag $oldtag$/tag $newtag/\" | git mktag) && git tag -d $oldtag; }; renametag"
-	remotes = remote show
+	raf = !"add_fork() { local remote=$1 && shift; local org=${1:-${remote}} && shift; local original_remote=${1:-origin} && shift; if [[ -z \"${remote}\" || -z \"${org}\" ]]; then echo \"usage: git raf remote org [original_remote]\"; git remotes; return 1; else local remote_url=$(git url ${remote}); if [[ -n \"${remote_url}\" ]]; then echo \"${remote} already exists with URL ${remote_url}\"; else local fork_url=$(git forkurl ${org} ${original_remote}); echo \"adding ${remote} -> ${fork_url}\"; git remote add ${remote} ${fork_url}; fi; fi; }; add_fork"
+	remotes = !"show_remotes() { local remote; for remote in $(git remote show); do printf \"%-20s %s\n\" ${remote} $(git url ${remote}); done; }; show_remotes"
 	rso = remote show origin
 	rv = revert --no-commit
 	rva = revert --abort
@@ -91,6 +92,7 @@
 	qb = !git br $(git bb)
 	qd = !git br -D $(git bb)
 	db = !git diff $(git bb)
+	forkurl = !"fork_url() { local fork=$1 && shift; local remote=${1:-origin}; git url ${remote} | sed -Ee \"s/:[^/]+/:$fork/\"; }; fork_url"
 	url = !"remote_url() { git config remote.${1:-origin}.url; }; remote_url"
 	name = show --name-only
 	graph = log --graph --all --pretty=graphtight --abbrev-commit --date=relative
