@@ -225,6 +225,7 @@
 	path = .gitconfig_user
 	path = .gitconfig_tokens
 	path = .gitconfig_bullshit
+	path = .gitconfig_work
 [branch]
 	autosetupmerge = always
 	autosetuprebase = always
