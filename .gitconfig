@@ -65,6 +65,21 @@
 	rss = reset --soft
 	rssh = reset --soft HEAD~1
 	release = !"release_name() { git describe --tags --match \"$(basename $(pwd))-v*\" --exclude '*-rc*'; }; release_name"
+	customrelease = !"custom_release() { \
+                          if [ $# -lt 1 ]; then \
+                              echo \"usage: git drw_release version\"; \
+                              return; \
+                          fi; \
+                          local version=$1 && shift; \
+                          local repo_name=$(git reponame); \
+                          local release_pattern; \
+                          if [ \"${repo_name}\" = '' ]; then \
+                              release_pattern=\"${version}\"; \
+                          else \
+                              release_pattern=\"${version}\"; \
+                          fi; \
+                          git describe --tags --match \"${release_pattern}\" --abbrev=0; \
+                      }; custom_release"
 	renametag = !"renametag() { local oldtag=$1 && shift; local newtag=$1 && shift; if [[ -z \"$oldtag\" || -z \"$newtag\" ]]; then echo \"usage: git renametag oldtag newtag\"; return 1; fi; git tag $newtag $(git cat-file -p $oldtag | sed \"s/^tag $oldtag$/tag $newtag/\" | git mktag) && git tag -d $oldtag; }; renametag"
 	raf = !"add_fork() { local remote=$1 && shift; local org=${1:-${remote}} && shift; local original_remote=${1:-origin} && shift; if [[ -z \"${remote}\" || -z \"${org}\" ]]; then echo \"usage: git raf remote org [original_remote]\"; git remotes; return 1; else local remote_url=$(git url ${remote}); if [[ -n \"${remote_url}\" ]]; then echo \"${remote} already exists with URL ${remote_url}\"; else local fork_url=$(git forkurl ${org} ${original_remote}); echo \"adding ${remote} -> ${fork_url}\"; git remote add ${remote} ${fork_url}; fi; fi; }; add_fork"
 	remotes = !"show_remotes() { local remote; for remote in $(git remote show); do printf \"%-20s %s\n\" ${remote} $(git url ${remote}); done; }; show_remotes"
@@ -94,6 +109,16 @@
 	db = !git diff $(git bb)
 	forkurl = !"fork_url() { local fork=$1 && shift; local remote=${1:-origin}; git url ${remote} | sed -Ee \"s/:[^/]+/:$fork/\"; }; fork_url"
 	url = !"remote_url() { git config remote.${1:-origin}.url; }; remote_url"
+	reponame = !"repo_name() { \
+                     local url; \
+                     for remote in upstream origin; do \
+                         url=$(git url ${1:-${remote}}); \
+                         [ -n \"${url}\" ] && break; \
+                     done; \
+                     local repo_path=\"${url##*:}\"; \
+                     local repo_name=\"$(basename $(dirname ${repo_path}))/$(basename ${repo_path} .git)\"; \
+                     echo ${repo_name}; \
+                 }; repo_name"
 	name = show --name-only
 	graph = log --graph --all --pretty=graphtight --abbrev-commit --date=relative
 	biggraph = log --graph --all --pretty=graphloose --abbrev-commit
@@ -104,6 +129,84 @@
 	ignored = ls-files --others --exclude-standard --ignored
 	untracked = ls-files --others --exclude-standard
 	alias = !"some_filter() { if [ $# -gt 0 ]; then grep $*; else cat; fi; }; git config --list | grep alias | some_filter"
+	smcf = !"submodule_commit_for() { \
+                 if [ $# -lt 2 ]; then \
+                     echo \"usage: git smcf submodule_path superproject_commit\"; \
+                     return; \
+                 fi; \
+                 local submodule_path=$1 && shift; \
+                 local commit=$1 && shift; \
+                 local prefix="."; \
+                 local suffix=\"${submodule_path%%/}/\"; \
+                 local work_dir=$(git rev-parse --show-superproject-working-tree); \
+                 local new_submodule=${prefix}; \
+                 while [ -n \"${suffix}\" ]; do \
+                     if [ -n \"${new_submodule}\" ]; then \
+                         commit=$(git -C ${prefix} ls-tree --full-tree ${commit} ${suffix} | awk '{ print $3 }'); \
+                         new_submodule=; \
+                     fi; \
+                     prefix=\"${prefix}/${suffix%%/*}\"; \
+                     suffix=\"${suffix#*/}\"; \
+                     local new_work_dir=$(git -C ${prefix} rev-parse --show-superproject-working-tree); \
+                     if [ \"${new_work_dir}\" != \"${work_dir}\" ]; then \
+                         work_dir=${new_work_dir}; \
+                         local new_submodule=${prefix}; \
+                     fi; \
+                 done; \
+                 echo ${commit}; \
+             }; submodule_commit_for"
+	smrc = !"submodule_release_commit() { \
+                 if [ $# -lt 2 ]; then \
+                     echo \"usage: git smrc submodule_path release\"; \
+                     return; \
+                 fi; \
+                 local submodule_path=$1 && shift; \
+                 local release=$1 && shift; \
+                 git smcf ${submodule_path} $(git customrelease ${release}); \
+             }; submodule_release_commit"
+	smrl = !"submodule_release_log() { \
+                 if [ $# -lt 2 ]; then \
+                     echo \"usage: git smrl submodule_path release\"; \
+                     return; \
+                 fi; \
+                 local submodule_path=$1 && shift; \
+                 local release=$1 && shift; \
+                 git -C ${submodule_path} lgf $(git smrc ${submodule_path} ${release}); \
+             }; submodule_release_log"
+	findsmc = !"find_submodule_commit() { \
+                    if [ $# -lt 2 ]; then \
+                         echo \"usage: git findsmc submodule_path commit\"; \
+                         return; \
+                    fi; \
+                    local submodule_path=\"./$1\" && shift; \
+                    local commit=$1 && shift; \
+                    local path=\"${submodule_path}\"; \
+                    local work_dir=$(git -C ${path} rev-parse --show-superproject-working-tree); \
+                    while [ \"${path}\" != \"${prev_path}\" ]; do \
+                        local prev_path=${path}; \
+                        path=\"${path%/*}\"; \
+                        local prev_work_dir=${work_dir}; \
+                        local work_dir=$(git -C ${path} rev-parse --show-superproject-working-tree); \
+                        if [ \"${prev_work_dir}\" != \"${work_dir}\" -o \"${prev_path}\" = \".\" ]; then \
+                            local sub_path=${submodule_path#${prev_path}}; \
+                            submodule_path=${submodule_path%${sub_path}}; \
+                            sub_path=${sub_path#/}; \
+                            if [ -n \"${sub_path}\" ]; then \
+                                echo searching for ${prev_path} commit that has ${commit} in ${sub_path}:; \
+                                echo; \
+                                local initial_commit=$(git -C ${prev_path} rev-list --reverse HEAD -- ${sub_path} | head -1); \
+                                git -C ${prev_path} bisect start --no-checkout --term-bad=containing HEAD ${initial_commit} -- ${sub_path}; \
+                                git -C ${prev_path} bisect run sh -c \"git -C ${sub_path} merge-base --is-ancestor ${commit} \\$(git rev-parse BISECT_HEAD:${sub_path}); exit_code=\\$?; if [ \\${exit_code} -lt 2 ]; then exit \\$((1 - \\${exit_code})); else exit \\${exit_code}; fi\" || exit 1; \
+                                commit=$(git -C ${prev_path} rev-parse bisect/containing); \
+                                echo; \
+                                echo found ${commit}, contained in tags:; \
+                                echo; \
+                                git -C ${prev_path} tag --contains $(git -C ${prev_path} bisect view --format='%H'); \
+                                git -C ${prev_path} bisect reset; \
+                            fi; \
+                        fi; \
+                    done; \
+                }; find_submodule_commit"
 [pretty]
 	graphtight = %C(bold red)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)- %an%C(reset)%C(bold yellow)%d%C(reset)
 	graphloose = %C(bold red)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n          %C(white)%s%C(reset) %C(bold white)- %an%C(reset)
