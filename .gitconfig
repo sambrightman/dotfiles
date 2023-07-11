@@ -33,7 +33,7 @@
 	cpc = cherry-pick --continue
 	dc = diff --cached
 	ds = diff --stat
-	du = !git diff --pretty=authoneline --reverse $(git ub)..
+	du = !"diff_upstream() { local branch=${1:-}; git diff --pretty=authoneline --reverse $(git ub ${branch})..${branch}; }; diff_upstream"
 	ffm = merge --ff-only
 	fu = commit --amend --no-edit
 	fuc = commit --fixup
@@ -42,8 +42,8 @@
 	lgf = log --pretty=authonelinefull
 	lgs = !"log_summary() { git log -n1 --format=%s HEAD~${1:-0}; }; log_summary"
 	lgb = !"log_body() { git log -n1 --format=%b HEAD~${1:-0}; }; log_body"
-	lgi = !git log --pretty=authoneline ..$(git ub)
-	lgu = !git log --pretty=authoneline --reverse $(git ub)..
+	lgi = !"log_incoming() { local branch=${1:-}; git log --pretty=authoneline ${branch}..$(git ub ${branch}); }; log_incoming"
+	lgu = !"log_upstream() { local branch=${1:-}; git log --pretty=authoneline --reverse $(git ub ${branch})..${branch}; }; log_upstream"
 	lgus = !git lgu --stat
 	lgut = !git lgu | tail
 	lsall = !"list_all() { git log --all --pretty=format: --name-only --diff-filter=A \"$@\" | grep . | sort -u; }; list_all"
@@ -104,7 +104,7 @@
 	sti = status --ignore
 	bb = !echo $(git cb)_bb
 	cb = rev-parse --abbrev-ref HEAD
-	ub = rev-parse --abbrev-ref --symbolic-full-name @{u}
+	ub = !"upstream_branch() { local branch=${1:-}; git rev-parse --abbrev-ref --symbolic-full-name ${branch}@{upstream}; }; upstream_branch"
 	qb = !git br $(git bb)
 	qd = !git br -D $(git bb)
 	db = !git diff $(git bb)
