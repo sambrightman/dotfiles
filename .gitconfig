@@ -167,3 +167,7 @@
 	process = git-lfs filter-process
 [credential]
 	helper = store
+[checkout]
+	workers = 0
+[fetch]
+	parallel = 0
