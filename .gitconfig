@@ -67,7 +67,7 @@
 	release = !"release_name() { git describe --tags --match \"$(basename $(pwd))-v*\" --exclude '*-rc*'; }; release_name"
 	customrelease = !"custom_release() { \
                           if [ $# -lt 1 ]; then \
-                              echo \"usage: git drw_release version\"; \
+                              echo \"usage: git customrelease version\"; \
                               return; \
                           fi; \
                           local version=$1 && shift; \
