@@ -1,0 +1,90 @@
+[alias]
+	url = !"remote_url() { git config remote.${1:-origin}.url; }; remote_url"
+	reponame = !"repo_name() { \
+                     local url; \
+                     for remote in upstream origin; do \
+                         url=$(git url ${1:-${remote}}); \
+                         [ -n \"${url}\" ] && break; \
+                     done; \
+                     local repo_path=\"${url##*:}\"; \
+                     local repo_name=\"$(basename $(dirname ${repo_path}))/$(basename ${repo_path} .git)\"; \
+                     echo ${repo_name}; \
+                 }; repo_name"
+	smcf = !"submodule_commit_for() { \
+                 if [ $# -lt 2 ]; then \
+                     echo \"usage: git smcf submodule_path superproject_commit\"; \
+                     return; \
+                 fi; \
+                 local submodule_path=$1 && shift; \
+                 local commit=$1 && shift; \
+                 local prefix="."; \
+                 local suffix=\"${submodule_path%%/}/\"; \
+                 local work_dir=$(git rev-parse --show-superproject-working-tree); \
+                 local new_submodule=${prefix}; \
+                 while [ -n \"${suffix}\" ]; do \
+                     if [ -n \"${new_submodule}\" ]; then \
+                         commit=$(git -C ${prefix} ls-tree --full-tree ${commit} ${suffix} | awk '{ print $3 }'); \
+                         new_submodule=; \
+                     fi; \
+                     prefix=\"${prefix}/${suffix%%/*}\"; \
+                     suffix=\"${suffix#*/}\"; \
+                     local new_work_dir=$(git -C ${prefix} rev-parse --show-superproject-working-tree); \
+                     if [ \"${new_work_dir}\" != \"${work_dir}\" ]; then \
+                         work_dir=${new_work_dir}; \
+                         local new_submodule=${prefix}; \
+                     fi; \
+                 done; \
+                 echo ${commit}; \
+             }; submodule_commit_for"
+	smrc = !"submodule_release_commit() { \
+                 if [ $# -lt 2 ]; then \
+                     echo \"usage: git smrc submodule_path release\"; \
+                     return; \
+                 fi; \
+                 local submodule_path=$1 && shift; \
+                 local release=$1 && shift; \
+                 git smcf ${submodule_path} $(git customrelease ${release}); \
+             }; submodule_release_commit"
+	smrl = !"submodule_release_log() { \
+                 if [ $# -lt 2 ]; then \
+                     echo \"usage: git smrl submodule_path release\"; \
+                     return; \
+                 fi; \
+                 local submodule_path=$1 && shift; \
+                 local release=$1 && shift; \
+                 git -C ${submodule_path} lgf $(git smrc ${submodule_path} ${release}); \
+             }; submodule_release_log"
+	findsmc = !"find_submodule_commit() { \
+                    if [ $# -lt 2 ]; then \
+                         echo \"usage: git findsmc submodule_path commit\"; \
+                         return; \
+                    fi; \
+                    local submodule_path=\"./$1\" && shift; \
+                    local commit=$1 && shift; \
+                    local path=\"${submodule_path}\"; \
+                    local work_dir=$(git -C ${path} rev-parse --show-superproject-working-tree); \
+                    while [ \"${path}\" != \"${prev_path}\" ]; do \
+                        local prev_path=${path}; \
+                        path=\"${path%/*}\"; \
+                        local prev_work_dir=${work_dir}; \
+                        local work_dir=$(git -C ${path} rev-parse --show-superproject-working-tree); \
+                        if [ \"${prev_work_dir}\" != \"${work_dir}\" -o \"${prev_path}\" = \".\" ]; then \
+                            local sub_path=${submodule_path#${prev_path}}; \
+                            submodule_path=${submodule_path%${sub_path}}; \
+                            sub_path=${sub_path#/}; \
+                            if [ -n \"${sub_path}\" ]; then \
+                                echo searching for ${prev_path} commit that has ${commit} in ${sub_path}:; \
+                                echo; \
+                                local initial_commit=$(git -C ${prev_path} rev-list --reverse HEAD -- ${sub_path} | head -1); \
+                                git -C ${prev_path} bisect start --no-checkout --term-bad=containing HEAD ${initial_commit} -- ${sub_path}; \
+                                git -C ${prev_path} bisect run sh -c \"git -C ${sub_path} merge-base --is-ancestor ${commit} \\$(git rev-parse BISECT_HEAD:${sub_path}); exit_code=\\$?; if [ \\${exit_code} -lt 2 ]; then exit \\$((1 - \\${exit_code})); else exit \\${exit_code}; fi\" || exit 1; \
+                                commit=$(git -C ${prev_path} rev-parse bisect/containing); \
+                                echo; \
+                                echo found ${commit}, contained in tags:; \
+                                echo; \
+                                git -C ${prev_path} tag --contains $(git -C ${prev_path} bisect view --format='%H'); \
+                                git -C ${prev_path} bisect reset; \
+                            fi; \
+                        fi; \
+                    done; \
+                }; find_submodule_commit"
