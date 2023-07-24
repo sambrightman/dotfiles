@@ -332,9 +332,35 @@
 
 
 ;; Rust
+(defun my/rustic-mode-hook ()
+  "Customization for `rustic-mode`."
+  ;; so that run C-c C-c C-r works without having to confirm, but don't try to
+  ;; save rust buffers that are not file visiting. Once
+  ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+  ;; no longer be necessary.
+  (when buffer-file-name
+    (setq-local buffer-save-without-query t))
+  (add-hook 'before-save-hook 'lsp-format-buffer nil t))
 (add-hook 'rust-mode-hook 'cargo-minor-mode)
-(add-hook 'rust-mode-hook #'racer-mode)
-(add-hook 'racer-mode-hook #'eldoc-mode)
+(add-hook 'rustic-mode-hook 'my/rustic-mode-hook)
+;; (add-hook 'rust-mode-hook #'racer-mode)
+;; (add-hook 'racer-mode-hook #'eldoc-mode)
+(setq-default rustic-analyzer-command (list (substring (shell-command-to-string "rustup which --toolchain stable rust-analyzer") 0 -1)))
+(with-eval-after-load 'rustic-mode
+  ;; (my/map-and-set-key 'rustic-mode-map "M-j" 'lsp-ui-imenu)
+  ;; (my/map-and-set-key 'rustic-mode-map "M-?" 'lsp-find-references)
+  ;; (my/map-and-set-key 'rustic-mode-map "C-c C-c l" 'flycheck-list-errors)
+  ;; (my/map-and-set-key 'rustic-mode-map "C-c C-c a" 'lsp-execute-code-action)
+  ;; (my/map-and-set-key 'rustic-mode-map "C-c C-c r" 'lsp-rename)
+  ;; (my/map-and-set-key 'rustic-mode-map "C-c C-c q" 'lsp-workspace-restart)
+  ;; (my/map-and-set-key 'rustic-mode-map "C-c C-c Q" 'lsp-workspace-shutdown)
+  ;; (my/map-and-set-key 'rustic-mode-map "C-c C-c s" 'lsp-rust-analyzer-status)
+  ;; remove minibuffer documentation
+  ;; (setq lsp-eldoc-hook nil)
+  ;; do less when cursor moves
+  ;; (setq lsp-enable-symbol-highlighting nil)
+  ;; (setq lsp-signature-auto-activate nil)
+  )
 
 
 ;; C/C++
