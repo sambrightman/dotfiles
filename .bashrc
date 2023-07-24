@@ -4,15 +4,14 @@ if [[ "$(hostname -s)" == "asgardstudy1" || "$(hostname -s)" == "asgardstudy2" ]
     export HOMEBREW_FORCE_BREWED_CURL=1
 fi
 
-if [ -f "/etc/redhat-release" ]; then
-    PATH=$HOME/.linuxbrew-centos/bin:$PATH
-    export MANPATH=$HOME/.linuxbrew-centos/share/man:$MANPATH
-    export INFOPATH=$HOME/.linuxbrew-centos/share/info:$INFOPATH
+if [ -d "$HOME/.linuxbrew-centos" ]; then
+    export HOMEBREW_PREFIX="$HOME/.linuxbrew-centos"
+elif [ -d "$HOME/.linuxbrew" ]; then
+    export HOMEBREW_PREFIX="$HOME/.linuxbrew"
 else
-    PATH=$HOME/.linuxbrew/bin:$PATH
-    export MANPATH=$HOME/.linuxbrew/share/man:$MANPATH
-    export INFOPATH=$HOME/.linuxbrew/share/info:$INFOPATH
+    export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
 fi
+eval "$(${HOMEBREW_PREFIX}/bin/brew shellenv)"
 
 function require() {
     filename=${1:?usage: require filename [command=source]} && shift
