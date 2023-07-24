@@ -504,25 +504,53 @@
 
 ;; language servers
 (require 'lsp-mode)
-(add-hook 'vue-mode-hook 'lsp-deferred)
-(add-hook 'js-mode-hook 'lsp-deferred)
-(add-hook 'typescript-mode-hook 'lsp-deferred)
-(add-hook 'js3-mode-hook 'lsp-deferred)
-(add-hook 'rjsx-mode 'lsp-deferred)
-(add-hook 'java-mode 'lsp-deferred)
+(my/map-key "s-l")
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
 (with-eval-after-load 'lsp-mode
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+  (setq lsp-eldoc-render-all t)
+  (setq lsp-idle-delay 0.6)
+  (setq lsp-rust-analyzer-cargo-watch-command "clippy")
+  (setq lsp-rust-analyzer-server-display-inlay-hints t)
+  (setq lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  (setq lsp-rust-analyzer-display-chaining-hints t)
+  (setq lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  (setq lsp-rust-analyzer-display-closure-return-type-hints t)
+  (setq lsp-rust-analyzer-display-parameter-hints nil)
+  (setq lsp-rust-analyzer-display-reborrow-hints nil)
+  (setq treemacs-no-delete-other-windows nil))
+(with-eval-after-load 'lsp-ui-mode
+  (setq lsp-ui-peek-always-show t)
+  (setq lsp-ui-sideline-show-hover t)
+  (setq lsp-ui-doc-enable nil))
+(with-eval-after-load 'lsp-clangd
+  ;; (add-to-list 'lsp-clients-clangd-args "--query-driver=**")
+  (advice-add 'lsp-clients--clangd-command :around
+              'my/update-lsp-clangd-args-with-compile-commands-dir)
+  (advice-add 'lsp-clients--clangd-command :around
+              'my/update-lsp-clangd-args-with-query-driver))
+(add-hook 'c-mode-hook 'lsp-deferred)
+(add-hook 'c++-mode-hook 'lsp-deferred)
+(add-hook 'java-mode 'lsp-deferred)
+(add-hook 'js-mode-hook 'lsp-deferred)
+(add-hook 'js3-mode-hook 'lsp-deferred)
+(add-hook 'python-mode 'lsp-deferred)
+(add-hook 'rjsx-mode 'lsp-deferred)
+(add-hook 'rust-mode 'lsp-deferred)
+(add-hook 'rustic-mode 'lsp-deferred)
+(add-hook 'typescript-mode-hook 'lsp-deferred)
+(add-hook 'vue-mode-hook 'lsp-deferred)
 
 
-(require 'cquery)
-(defun my/cquery-enable ()
-  "Enable cquery with no errors."
-  (condition-case nil
-      (progn
-        (lsp)
-        (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
-        (setq cquery-extra-init-params '(:completion (:detailedLabel t))))
-    (user-error nil)))
+;; (require 'cquery)
+;; (defun my/cquery-enable ()
+;;   "Enable cquery with no errors."
+;;   (condition-case nil
+;;       (progn
+;;         (lsp)
+;;         (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil)
+;;         (setq cquery-extra-init-params '(:completion (:detailedLabel t))))
+;;     (user-error nil)))
 ;; (add-hook 'c-mode-common-hook #'my/cquery-enable)
 
 (setq-default rtags-autostart-diagnostics t)
@@ -538,5 +566,9 @@
 (add-hook 'c++-mode-hook #'my/rtags-setup)
 (add-hook 'objc-mode-hook #'my/rtags-setup)
 
+;; (require 'eglot)
+;; (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
+;; (add-hook 'c-mode-hook 'eglot-ensure)
+;; (add-hook 'c++-mode-hook 'eglot-ensure)
 
 ;;; .emacs ends here
