@@ -128,6 +128,90 @@ PREFIX or SUFFIX can wrap the key when passing to `define-key'."
    (t nil)))
 
 
+(defvar my/lsp-clangd-build-dir-globs '("build*" "out*")
+  "Globs under `lsp-workspace-root' for candidate build directories.")
+
+(defvar my/lsp-clangd-build-dir-find-ascending nil
+  "Ascend from the current buffer's directory to find candidate build directories.
+Terminates at `lsp-workspace-root'.  If nil, only `lsp-workspace-root' is used.")
+
+(defvar my/lsp-clangd-build-dir-find-max-depth 2
+  "Maximum depth to descend into candidate build directories.")
+
+(defvar my/lsp-clangd--workspace-build-dirs (make-hash-table :test #'equal)
+  "Hash table `lsp-workspace-root' -> selected build directory.")
+
+(defun my/lsp-clangd--find-compile-commands-dir ()
+  "Find the full directory path that contains compile_commands.json.
+Descend into directories that match one of `my/lsp-clangd-build-dir-globs'
+until `my/lsp-clangd-build-dir-find-max-depth'.  If nothing is found in
+`lsp-workspace-root' and `my/lsp-clangd-build-dir-find-ascending' is non-nil,
+ascend from buffer directory to `lsp-workspace-root' checking at each level.
+Return nil if nothing is found."
+  ;; TODO optionally ascend from (file-name-directory buffer-file-name) to (lsp-workspace-root). only if nothing found in root, or return all for user choice?
+  (if-let ((workspace-root (lsp-workspace-root))
+           (initial-dir (if my/lsp-clangd-build-dir-find-ascending
+                            (file-name-directory buffer-file-name)
+                          workspace-root)))
+      (--mapcat (let ((candidate-depth (f-depth it)))
+                  (directory-files-recursively it "\\`compile_commands\\.json\\'"
+                                               nil
+                                               (lambda (dir) (let ((depth (- (f-depth dir) candidate-depth)))
+                                                               (<= depth my/lsp-clangd-build-dir-find-max-depth)))))
+                (--mapcat (f-glob it initial-dir) my/lsp-clangd-build-dir-globs))
+    (progn
+      (lsp--warn "lsp-workspace-root is not set yet")
+      nil)))
+
+(defun my/lsp-clangd--select-compile-commands-dir ()
+  "Select the full directory path that contains compile_commands.json.
+Prompt user for multiple matches or return nil if not found."
+  (or (gethash (lsp-workspace-root) my/lsp-clangd--workspace-build-dirs)
+      (puthash (lsp-workspace-root)
+               (let ((candidate-dirs (my/lsp-clangd--find-compile-commands-dir)))
+                 (pcase candidate-dirs
+                   ('nil nil)
+                   (`(,unique-compile-commands-dir) (file-name-directory unique-compile-commands-dir))
+                   (multiple-dirs (file-name-directory (completing-read
+                                                        "Found compile_commands.json in several directories. Consider setting lsp-clients-clangd-args to avoid this lookup in the future. Which one do you want to use? "
+                                                        multiple-dirs)))))
+               my/lsp-clangd--workspace-build-dirs)))
+
+(defun my/update-lsp-clangd-args-with-compile-commands-dir (orig-fun &rest args)
+  "Modify `lsp-clients-clang-args' to locate compile_commands.json if necessary.
+If --compile-commands-dir is already set, trust it.
+Otherwise run a potentially interactive search for the directory
+that contains compile_commands.json and then modify the variable during advice."
+  (if-let ((not-already-set (--none? (s-starts-with? "--compile-commands-dir=" it) lsp-clients-clangd-args))
+           (selected-dir (my/lsp-clangd--select-compile-commands-dir))
+           (lsp-clients-clangd-args (cons (concat "--compile-commands-dir=" selected-dir) lsp-clients-clangd-args)))
+      (progn
+        (lsp--info "using compile commands from %s" selected-dir)
+        (apply orig-fun args))
+    (progn
+      ;; (or (not-already-set (lsp--info "--compile-commands-dir set in lsp-clients-clangd-args")))
+      ;; (or (selected-dir (lsp--warn "clangd without compile commands might not be able to handle complex projects")))
+      (let ((lsp-clients-clangd-args lsp-clients-clangd-args))
+        (apply orig-fun args)))))
+
+(defun my/update-lsp-clangd-args-with-query-driver (orig-fun &rest args)
+  "Modify `lsp-clients-clang-args' to locate compile_commands.json if necessary.
+If --query-driver is already set, trust it.
+Otherwise add CONDA_PREFIX/bin/* to it."
+  ;; TODO allow adding to the comma-separated list
+  (if-let ((not-already-set (--none? (s-starts-with? "--query-driver=" it) lsp-clients-clangd-args))
+           (conda-prefix (getenv "CONDA_PREFIX"))
+           (conda-env-bin-glob (f-join conda-prefix "bin" "*"))
+           (lsp-clients-clangd-args (cons (concat "--query-driver=" conda-env-bin-glob) lsp-clients-clangd-args)))
+      (progn
+        (lsp--info "using query drivers %s" conda-env-bin-glob)
+        (apply orig-fun args))
+    (progn
+      ;; (or (not-already-set (lsp--info "--query-driver set in lsp-clients-clangd-args")))
+      ;; (or (conda-env (lsp--info "not in a conda environment")))
+      (let ((lsp-clients-clangd-args lsp-clients-clangd-args))
+        (apply orig-fun args)))))
+
 (defun my/remove-all-advice (symbol)
   "Remove all advice from SYMBOL."
   (advice-mapc
