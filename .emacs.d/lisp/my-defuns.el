@@ -226,6 +226,28 @@ Otherwise add CONDA_PREFIX/bin/* to it."
               ((equal it (s-downcase project-name)) t))
              (conda-env-candidates))))
 
+(defun my/jedi-fix-environment (&optional no-reset)
+  "Restart Jedi server with correct Python environment."
+  (progn
+    (jedi:stop-server)
+    (unless no-reset
+      (setq conda-project-env-path nil))
+    (conda-env-activate-for-buffer)
+    (setq jedi:server-args nil)
+    (jedi:import-python-el-settings-setup)
+    (jedi:start-server)
+    (jedi-mode 1)))
+
+(defun my/lsp-clangd-restart-if-conda-env ()
+  "Look for a matching conda environment, activate it and restart lsp."
+  (if-let ((env (my/conda-env-for-project-dir (lsp-workspace-root))))
+      (progn
+        (conda-env-activate env)
+        ;; https://github.com/emacs-lsp/lsp-mode/issues/2932
+        ;; (setq lsp--session nil)
+        ;; (setq lsp--request-cleanup-hooks (ht))
+        (lsp-workspace-restart (lsp--read-workspace)))))
+
 (defun my/remove-all-advice (symbol)
   "Remove all advice from SYMBOL."
   (advice-mapc
