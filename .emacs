@@ -261,6 +261,7 @@
   (setq-default jedi:complete-on-dot t)
   (setq-default jedi:get-in-function-call-delay 400)
   (setq-default jedi:use-shortcuts t)
+  (advice-add 'conda--infer-env-from-buffer :filter-return (apply-partially 'my/conda--infer-env-from-buffer "scratch"))
 
   ;; (traad-open default-directory) ;; https://github.com/abingham/emacs-traad/pull/11
   (local-set-key (kbd "C-c t r") 'traad-rename)
