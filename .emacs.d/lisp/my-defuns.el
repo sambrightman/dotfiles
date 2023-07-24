@@ -128,5 +128,13 @@ PREFIX or SUFFIX can wrap the key when passing to `define-key'."
    (t nil)))
 
 
+(defun my/remove-all-advice (symbol)
+  "Remove all advice from SYMBOL."
+  (advice-mapc
+   (lambda (advice properties)
+     (advice-remove symbol advice))
+   symbol))
+
+
 (provide 'my-defuns)
 ;;; my-defuns.el ends here
