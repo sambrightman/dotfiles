@@ -3,6 +3,10 @@
 ;;
 ;;; Code:
 
+(require 'git)
+(require 'shut-up)
+(require 's)
+
 (defun my/cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
 Including indent-buffer, which should not be called automatically on save."
@@ -57,7 +61,6 @@ One prefix argument to FORCE, two prefix arguments to prompt for PATH and FORCE.
 
 (defun my/git-branch-or-tag (path)
   "Current branch of working tree PATH if not detached, or else current tag."
-  (require 'git)
   (when (git-repo? path)
     (condition-case err
         (let* ((git-repo path)
@@ -72,7 +75,6 @@ One prefix argument to FORCE, two prefix arguments to prompt for PATH and FORCE.
 
 (defun my/function--shut-up (func &rest args)
   "Silence FUNC(ARGS) with advice."
-  (require 'shut-up)
   (shut-up
     (apply func args)))
 
@@ -92,7 +94,7 @@ PREFIX or SUFFIX can wrap the key when passing to `define-key'."
   (apply 'my/map-and-set-key (current-global-map) args))
 
 (defun my/map-key (key)
-  "Map KEY from escape sequence \"\e[emacs-KEY\."
+  "Map KEY from escape sequence \"\e[emacs-KEY\"."
   (define-key function-key-map (concat "\e[emacs-" key) (kbd key)))
 
 ;; currently doesn't really work, because of argument list mis-match

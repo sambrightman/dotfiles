@@ -27,10 +27,9 @@
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'dash)
-  (require 's)
-  (require 'virtualenvwrapper))
+(require 'dash)
+(require 's)
+(require 'virtualenvwrapper)
 
 (defvar penv-location
   (expand-file-name (or (getenv "PWORKON_HOME") "~/.pvirtualenvs/"))
@@ -46,7 +45,7 @@ virtualenvs are kept.")
 
 ;;;###autoload
 (defun penv-workon (&optional name)
-  "Switch to penv NAME.  Prompts for NAME if called interactively."
+  "Switch to penv NAME.  Prompt for NAME if called interactively."
   (interactive)
   (let ((venv-location penv-location))
     (venv-workon name)
@@ -63,15 +62,16 @@ virtualenvs are kept.")
     (venv-deactivate)))
 
 (defun path-join (paths)
-  "Join list PATHS using `path-separator'."
+  "Join list PATHS using variable `path-separator'."
   (s-join path-separator paths))
 
 (defun path-split (paths)
-  "Split string PATHS using `path-separator'."
+  "Split string PATHS using variable `path-separator'."
   (s-split path-separator paths))
 
 (defun add-to-env-path-variable (subdir variable)
-  "Add SUBDIR of current virtual environment to environment path variable VARIABLE if not already present."
+  "Add SUBDIR of current virtual environment to environment variable VARIABLE.
+Not added if already present."
   (let ((current-value (getenv variable)))
     (unless (and current-value
                  (-contains? (path-split current-value) subdir))
