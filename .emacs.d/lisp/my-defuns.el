@@ -212,6 +212,20 @@ Otherwise add CONDA_PREFIX/bin/* to it."
       (let ((lsp-clients-clangd-args lsp-clients-clangd-args))
         (apply orig-fun args)))))
 
+(defun my/conda--infer-env-from-buffer (fallback result)
+  "Fallback to guessing Conda environment name from project directory, or FALLBACK."
+  (if (equal result "base")
+      (or (my/conda-env-for-project-dir (project-root (project-current))) fallback result)
+    result))
+
+(defun my/conda-env-for-project-dir (project-root)
+  "Find a matching Conda environment for a given PROJECT-ROOT."
+  (let ((project-name (f-filename project-root)))
+    (--first (cond
+              ((equal it project-name) t)
+              ((equal it (s-downcase project-name)) t))
+             (conda-env-candidates))))
+
 (defun my/remove-all-advice (symbol)
   "Remove all advice from SYMBOL."
   (advice-mapc
