@@ -6,20 +6,14 @@ fi
 
 if [[ "${OSTYPE}" == "darwin"* ]]; then
     export HOMEBREW_PREFIX="/opt/homebrew";
-    export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
-    export HOMEBREW_REPOSITORY="/opt/homebrew";
-    export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
-    export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
-    export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
-elif [ -f "/etc/redhat-release" ]; then
-    PATH=$HOME/.linuxbrew-centos/bin:$PATH
-    export MANPATH=$HOME/.linuxbrew-centos/share/man:$MANPATH
-    export INFOPATH=$HOME/.linuxbrew-centos/share/info:$INFOPATH
+elif [ -d "$HOME/.linuxbrew-centos" ]; then
+    export HOMEBREW_PREFIX="$HOME/.linuxbrew-centos"
+elif [ -d "$HOME/.linuxbrew" ]; then
+    export HOMEBREW_PREFIX="$HOME/.linuxbrew"
 else
-    PATH=$HOME/.linuxbrew/bin:$PATH
-    export MANPATH=$HOME/.linuxbrew/share/man:$MANPATH
-    export INFOPATH=$HOME/.linuxbrew/share/info:$INFOPATH
+    export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
 fi
+eval "$(${HOMEBREW_PREFIX}/bin/brew shellenv)"
 
 function require() {
     filename=${1:?usage: require filename [command=source]} && shift
