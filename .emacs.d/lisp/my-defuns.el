@@ -119,11 +119,11 @@ PREFIX or SUFFIX can wrap the key when passing to `define-key'."
 ;; platform-specific
 (defun my/dash-at-point ()
   "Run `dash-at-point' or `zeal-at-point' depending on platform."
-  (interactive "P")
+  (interactive)
   (cond
    ((eq system-type 'darwin)
     (dash-at-point))
-   ((eq system-type 'linux)
+   ((eq system-type 'gnu/linux)
     (zeal-at-point))
    (t nil)))
 
