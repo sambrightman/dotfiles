@@ -78,12 +78,17 @@
                                 local initial_commit=$(git -C ${prev_path} rev-list --reverse HEAD -- ${sub_path} | head -1); \
                                 git -C ${prev_path} bisect start --no-checkout --term-bad=containing HEAD ${initial_commit} -- ${sub_path}; \
                                 git -C ${prev_path} bisect run sh -c \"git -C ${sub_path} merge-base --is-ancestor ${commit} \\$(git rev-parse BISECT_HEAD:${sub_path}); exit_code=\\$?; if [ \\${exit_code} -lt 2 ]; then exit \\$((1 - \\${exit_code})); else exit \\${exit_code}; fi\" || exit 1; \
-                                commit=$(git -C ${prev_path} rev-parse bisect/containing); \
-                                echo; \
-                                echo found ${commit}, contained in tags:; \
-                                echo; \
-                                git -C ${prev_path} tag --contains $(git -C ${prev_path} bisect view --format='%H'); \
-                                git -C ${prev_path} bisect reset; \
+                                if git -C ${prev_path}/${sub_path} merge-base --is-ancestor ${commit} $(git -C ${prev_path} rev-parse BISECT_HEAD:${sub_path}); then \
+                                    commit=$(git -C ${prev_path} rev-parse bisect/containing); \
+                                    echo; \
+                                    echo found ${commit}, contained in tags:; \
+                                    echo; \
+                                    git -C ${prev_path} tag --contains $(git -C ${prev_path} bisect view --format='%H'); \
+                                    git -C ${prev_path} bisect reset; \
+                                else \
+                                    echo not actually found, ran out of commits; \
+                                    break; \
+                                fi; \
                             fi; \
                         fi; \
                     done; \
