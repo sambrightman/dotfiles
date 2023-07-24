@@ -79,6 +79,7 @@
 (my/global-map-and-set-key "H-o" 'describe-symbol)
  ;; need to unbind from tab switching
 (my/global-map-and-set-key "H-1" 'delete-other-windows)
+(my/map-key "C-M-SPC")
 
 (defun my/cycle-spacing ()
   "Call `cycle-spacing' in fast mode with newline chomping."
