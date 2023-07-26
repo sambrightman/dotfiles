@@ -33,7 +33,7 @@
 	cpc = cherry-pick --continue
 	dc = diff --cached
 	ds = diff --stat
-	du = !"diff_upstream() { local branch=${1:-}; git diff --pretty=authoneline --reverse $(git ub ${branch})..${branch}; }; diff_upstream"
+	du = !"diff_upstream() { local branch=${1:-}; git diff --pretty=authoneline --reverse $(git ub ${branch})..${branch} \"$@\"; }; diff_upstream"
 	ffm = merge --ff-only
 	fu = commit --amend --no-edit
 	fuc = commit --fixup
@@ -49,7 +49,7 @@
 	lsall = !"list_all() { git log --all --pretty=format: --name-only --diff-filter=A \"$@\" | grep . | sort -u; }; list_all"
 	ma = merge --abort
 	me = !"git lg --author=\"$(git config user.name)\""
-	pp = !"git lgu; echo; git du --stat"
+	pp = !"git lgu; echo; git du HEAD --stat"
 	pr = pull --rebase
 	prp = !git pr && git push
 	pf = push --force-with-lease
