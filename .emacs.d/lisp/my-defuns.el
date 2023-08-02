@@ -6,6 +6,7 @@
 (require 'git)
 (require 'shut-up)
 (require 's)
+(require 'conda)
 
 (defun my/cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
