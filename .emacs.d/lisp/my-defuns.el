@@ -259,6 +259,28 @@ Otherwise add CONDA_PREFIX/bin/* to it."
      (advice-remove symbol advice))
    symbol))
 
+(defun my/lsp-procs ()
+  "Build a hash of LSP process to buffer names."
+  (let ((all-buffers (buffer-list))
+        (proc-to-buffers (make-hash-table :test 'equal)))
+    (while all-buffers
+      (with-current-buffer (car all-buffers)
+        (progn
+          (if lsp--buffer-workspaces
+              (let* ((proc (process-name (lsp--workspace-proc (car lsp--buffer-workspaces))))
+                     (buffers (gethash proc proc-to-buffers))
+                     (name (buffer-name)))
+                (if buffers
+                    (setcdr buffers (cons name (cdr buffers)))
+                  (puthash proc (list name) proc-to-buffers))))
+          (setq all-buffers (cdr all-buffers)))))
+    proc-to-buffers))
+
+(defun my/show-lsp-procs ()
+  "Print `lsp-procs'."
+  (maphash (lambda (k v)
+             (message "%s -> %s" k v))
+           (my/lsp-procs)))
 
 (provide 'my-defuns)
 ;;; my-defuns.el ends here
