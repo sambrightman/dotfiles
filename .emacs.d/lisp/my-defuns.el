@@ -216,7 +216,10 @@ Otherwise add CONDA_PREFIX/bin/* to it."
 (defun my/conda--infer-env-from-buffer (fallback result)
   "Fallback to guessing Conda environment name from project directory, or FALLBACK."
   (if (equal result "base")
-      (or (my/conda-env-for-project-dir (project-root (project-current))) fallback result)
+      (and (project-current)
+           (or (my/conda-env-for-project-dir (project-root (project-current)))
+               fallback
+               result))
     result))
 
 (defun my/conda-env-for-project-dir (project-root)
