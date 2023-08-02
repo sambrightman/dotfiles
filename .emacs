@@ -84,8 +84,12 @@
 (defun my/cycle-spacing ()
   "Call `cycle-spacing' in fast mode with newline chomping."
   (interactive)
-  (cycle-spacing -1 t "fast"))
-(substitute-key-definition 'just-one-space 'my/cycle-spacing (current-global-map))
+  (if (boundp 'cycle-spacing-actions)
+      (cycle-spacing -1)
+    (cycle-spacing -1 t "fast")))
+(if (boundp 'cycle-spacing-actions)
+    (substitute-key-definition 'cycle-spacing 'my/cycle-spacing (current-global-map))
+  (substitute-key-definition 'just-one-space 'my/cycle-spacing (current-global-map)))
 
 (setq custom-file (my/join-path user-emacs-directory "custom.el"))
 (shut-up
