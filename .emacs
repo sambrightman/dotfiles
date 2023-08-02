@@ -242,7 +242,7 @@
   (local-set-key (kbd "M-C-q") 'my/cperl-indent-exp))
 (add-hook 'cperl-mode-hook 'my/cperl-mode-hook)
 (my/map-key "C-M-|") ;; cperl-lineup
-(setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format))
+(setq-default mode-line-format (cons '(venv-current-name ("venv:" venv-current-name " ")) mode-line-format))
 (require 'penvwrapper)
 
 
