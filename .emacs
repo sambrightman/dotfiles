@@ -262,11 +262,12 @@
   (setq-default flycheck-python-pylint-executable "python")
   (setq-default flycheck-python-flake8-executable "python")
   (setq-default flycheck-flake8rc ".flake8")
-  (jedi:setup)
+  (conda--switch-buffer-auto-activate)
+  (setq-default jedi:setup-keys t)
+  (setq-default jedi:use-shortcuts t)
   (setq-default jedi:complete-on-dot t)
   (setq-default jedi:get-in-function-call-delay 400)
-  (setq-default jedi:use-shortcuts t)
-  (advice-add 'conda--infer-env-from-buffer :filter-return (apply-partially 'my/conda--infer-env-from-buffer "scratch"))
+  (jedi:setup)
 
   ;; (traad-open default-directory) ;; https://github.com/abingham/emacs-traad/pull/11
   (local-set-key (kbd "C-c t r") 'traad-rename)
@@ -281,6 +282,13 @@
   (local-set-key (kbd "C-c t /") 'traad-display-implementations) ;; broken?
   )
 (add-hook 'python-mode-hook 'my/python-mode-hook)
+
+
+;; Conda
+(with-eval-after-load 'conda
+  (setq-default conda-message-on-environment-switch nil)
+  (advice-add 'conda--infer-env-from-buffer :filter-return (apply-partially 'my/conda--infer-env-from-buffer "scratch"))
+  (setq-default mode-line-format (cons '(conda-env-current-name ("conda:" conda-env-current-name " ")) mode-line-format)))
 
 
 ;; Ruby
