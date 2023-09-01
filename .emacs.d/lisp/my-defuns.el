@@ -129,7 +129,7 @@ PREFIX or SUFFIX can wrap the key when passing to `define-key'."
    (t nil)))
 
 
-(defvar my/lsp-clangd-build-dir-globs '("build*" "out*")
+(defvar my/lsp-clangd-build-dir-globs '("build*" "out*" ".")
   "Globs under `lsp-workspace-root' for candidate build directories.")
 
 (defvar my/lsp-clangd-build-dir-find-ascending nil
