@@ -213,6 +213,7 @@ Otherwise add CONDA_PREFIX/bin/* to it."
       (let ((lsp-clients-clangd-args lsp-clients-clangd-args))
         (apply orig-fun args)))))
 
+;; FIXME do we always want fallback when no project? refactor conditionals
 (defun my/conda--infer-env-from-buffer (fallback result)
   "Fallback to guessing Conda environment name from project directory, or FALLBACK."
   (if (equal result "base")
@@ -220,7 +221,7 @@ Otherwise add CONDA_PREFIX/bin/* to it."
            (or (my/conda-env-for-project-dir (project-root (project-current)))
                fallback
                result))
-    result))
+    (or fallback result)))
 
 (defun my/conda-env-for-project-dir (project-root)
   "Find a matching Conda environment for a given PROJECT-ROOT."
