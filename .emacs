@@ -585,4 +585,14 @@
 ;; (add-hook 'c-mode-hook 'eglot-ensure)
 ;; (add-hook 'c++-mode-hook 'eglot-ensure)
 
+(with-eval-after-load 'git-link
+  (progn
+    (add-to-list 'git-link-remote-alist
+                 '("git\\.drwholdings\\.com" git-link-github))
+    (add-to-list 'git-link-commit-remote-alist
+                 '("git\\.drwholdings\\.com" git-link-commit-github))
+    (add-to-list 'git-link-homepage-remote-alist
+                 '("git\\.drwholdings\\.com" git-link-homepage-github))
+    (setq-default git-link-default-remote "upstream")))
+
 ;;; .emacs ends here
