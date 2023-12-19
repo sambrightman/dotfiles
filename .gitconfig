@@ -105,6 +105,7 @@
 	bb = !echo $(git cb)_bb
 	cb = rev-parse --abbrev-ref HEAD
 	ub = !"upstream_branch() { local branch=${1:-}; git rev-parse --abbrev-ref --symbolic-full-name ${branch}@{upstream}; }; upstream_branch"
+	up = git branch --set-upstream-to
 	qb = !git br $(git bb)
 	qd = !git br -D $(git bb)
 	db = !git diff $(git bb)
