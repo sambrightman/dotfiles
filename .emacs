@@ -382,7 +382,8 @@
   (c-set-offset 'innamespace 0)
   (c-set-offset 'inlambda 0)
   (c-set-offset 'stream-op '+)
-  (c-set-offset 'case-label '+))
+  (c-set-offset 'case-label '+)
+  (conda--switch-buffer-auto-activate))
 (add-hook 'c++-mode-hook #'my/c++-mode-hook)
 (defun my/likely-c++-header ()
   "Check if the current buffer is likely to be a C++ header."
