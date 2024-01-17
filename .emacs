@@ -524,6 +524,7 @@
   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
   (setq lsp-eldoc-render-all t)
   (setq lsp-idle-delay 0.6)
+  (setq lsp-enable-dap-auto-configure nil)
   (setq lsp-rust-analyzer-cargo-watch-command "clippy")
   (setq lsp-rust-analyzer-server-display-inlay-hints t)
   (setq lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
