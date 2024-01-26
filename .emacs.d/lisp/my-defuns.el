@@ -130,50 +130,61 @@ PREFIX or SUFFIX can wrap the key when passing to `define-key'."
 
 
 (defvar my/lsp-clangd-build-dir-globs '("build*" "out*" ".")
-  "Globs under `lsp-workspace-root' for candidate build directories.")
+  "Globs for candidate build directories under each search directory.
+Do not descend children of \".\" if present.")
 
-(defvar my/lsp-clangd-build-dir-find-ascending nil
-  "Ascend from the current buffer's directory to find candidate build directories.
-Terminates at `lsp-workspace-root'.  If nil, only `lsp-workspace-root' is used.")
+(defvar my/lsp-clangd-build-dir-find-ascending 'fallback
+  "When to ascend from the current buffer's directory.
+\\='always, \\='fallback to check `lsp-workspace-root' first, or \\='never.
+Terminate at `lsp-workspace-root'.")
 
 (defvar my/lsp-clangd-build-dir-find-max-depth 2
   "Maximum depth to descend into candidate build directories.")
 
 (defvar my/lsp-clangd--workspace-build-dirs (make-hash-table :test #'equal)
-  "Hash table `lsp-workspace-root' -> selected build directory.")
+  "Hash table `lsp-workspace-root' -> user-selected build directory.")
+
+(defun my/lsp-clangd--find-compile-commands-dir-in (base-dir)
+  "Find the directory that contains compile_commands.json under BASE-DIR.
+Descend into directories that match any of `my/lsp-clangd-build-dir-globs'
+until `my/lsp-clangd-build-dir-find-max-depth'.  If \".\" is a glob,
+only examine files in BASE-DIR itself (without descent).
+Return nil if nothing is found."
+  (when base-dir
+    (--mapcat (let ((candidate-depth (f-depth it))
+                    (max-depth (if (f-same-p it base-dir) 0
+                                 my/lsp-clangd-build-dir-find-max-depth)))
+                (directory-files-recursively it "\\`compile_commands\\.json\\'"
+                                             nil
+                                             (lambda (dir) (let ((depth (- (f-depth dir) candidate-depth)))
+                                                             (<= depth max-depth)))))
+              (--mapcat (f-glob it base-dir) my/lsp-clangd-build-dir-globs))))
 
 (defun my/lsp-clangd--find-compile-commands-dir (workspace-root)
-  "Find the directory that contains compile_commands.json in WORKSPACE-ROOT.
-Descend into directories that match one of `my/lsp-clangd-build-dir-globs'
-until `my/lsp-clangd-build-dir-find-max-depth'.  If nothing is found in
-`lsp-workspace-root' and `my/lsp-clangd-build-dir-find-ascending' is non-nil,
-ascend from buffer directory to `lsp-workspace-root' checking at each level.
+  "Find the directory that contains compile_commands.json under WORKSPACE-ROOT.
+Choose base directories according to `my/lsp-clangd-build-dir-find-ascending'.
+If \\='never, only include WORKSPACE-ROOT.  If \\='fallback and nothing is found
+in WORKSPACE-ROOT, ascend from buffer directory to WORKSPACE-ROOT including each
+level.  If \\='always, do not check WORKSPACE-ROOT first.  Use
+ `my/lsp-clangd--find-compile-commands-dir-in' to search compile_commands.json.
 Return nil if nothing is found."
-  ;; TODO optionally ascend from (file-name-directory buffer-file-name) to (lsp-workspace-root). only if nothing found in root, or return all for user choice?
-  (if-let ((workspace-root)
-           (initial-dir (if my/lsp-clangd-build-dir-find-ascending
-                            (file-name-directory buffer-file-name)
-                          workspace-root)))
-      (-distinct
-       (--mapcat (let ((candidate-depth (f-depth it))
-                       (max-depth (if (f-same-p it initial-dir)
-                                      0
-                                    my/lsp-clangd-build-dir-find-max-depth)))
-                   (directory-files-recursively it "\\`compile_commands\\.json\\'"
-                                                nil
-                                                (lambda (dir) (let ((depth (- (f-depth dir) candidate-depth)))
-                                                                (<= depth max-depth)))))
-                 (--mapcat (f-glob it initial-dir) my/lsp-clangd-build-dir-globs)))
-    (progn
-      (lsp--warn "lsp-workspace-root is not set yet")
-      nil)))
+  (let ((initial-dirs (unless (eq my/lsp-clangd-build-dir-find-ascending 'always)
+                        (my/lsp-clangd--find-compile-commands-dir-in workspace-root))))
+    (-distinct (or initial-dirs
+                   (--mapcat (my/lsp-clangd--find-compile-commands-dir-in it)
+                             (my/lsp-clangd--extra-base-dirs workspace-root))))))
 
-(defun my/lsp-clangd--get-compile-commands-dir ()
-  "Get the (possibly cached) directory that contains compile_commands.json.
-Prompt user if there are multiple matches or return nil if not found."
-  (let ((workspace-root (lsp-workspace-root)))
-    (or (gethash workspace-root my/lsp-clangd--workspace-build-dirs)
-        (puthash workspace-root (my/lsp-clangd--select-compile-commands-dir workspace-root) my/lsp-clangd--workspace-build-dirs))))
+(defun my/lsp-clangd--extra-base-dirs (workspace-root)
+  "Find base directories under WORKSPACE-ROOT that don't short-circuit search."
+  (let ((base-dirs nil))
+    (unless (eq my/lsp-clangd-build-dir-find-ascending 'never)
+      (f--traverse-upwards (let ((at-root (f-same-p it workspace-root)))
+                             (when (or (not at-root)
+                                       (eq my/lsp-clangd-build-dir-find-ascending 'always))
+                               (push it base-dirs))
+                             at-root)
+                           (file-name-directory buffer-file-name)))
+    (nreverse base-dirs)))
 
 (defun my/lsp-clangd--select-compile-commands-dir (workspace-root)
   "Select the directory that contains compile_commands.json in WORKSPACE-ROOT.
@@ -183,13 +194,23 @@ Prompt user for multiple matches or return nil if not found."
       ('nil nil)
       (`(,unique-compile-commands-dir) (file-name-directory unique-compile-commands-dir))
       (multiple-dirs (file-name-directory (completing-read
-                                           "Found compile_commands.json in several directories. Consider setting lsp-clients-clangd-args to avoid this lookup in the future. Which one do you want to use? "
+                                           "Found compile_commands.json in several directories. Set lsp-clients-clangd-args to avoid this lookup in the future. Which one do you want to use? "
                                            multiple-dirs))))))
+
+(defun my/lsp-clangd--get-compile-commands-dir ()
+  "Get the (possibly cached) directory that contains compile_commands.json.
+Prompt user if there are multiple matches or return nil if not found."
+  (if-let ((workspace-root (lsp-workspace-root)))
+      (or (gethash workspace-root my/lsp-clangd--workspace-build-dirs)
+          (puthash workspace-root (my/lsp-clangd--select-compile-commands-dir workspace-root) my/lsp-clangd--workspace-build-dirs))
+    (progn
+      (lsp--warn "lsp-workspace-root is not set yet")
+      nil)))
 
 (defun my/update-lsp-clangd-args-with-compile-commands-dir (orig-fun &rest args)
   "Modify `lsp-clients-clang-args' to locate compile_commands.json if necessary.
 If --compile-commands-dir is already set, trust it.
-Otherwise run a potentially interactive search for the directory
+Otherwise run a (potentially interactive) search for the directory
 that contains compile_commands.json and then modify the variable during advice."
   (if-let ((not-already-set (--none? (s-starts-with? "--compile-commands-dir=" it) lsp-clients-clangd-args))
            (selected-dir (my/lsp-clangd--get-compile-commands-dir))
