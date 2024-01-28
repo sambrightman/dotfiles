@@ -139,6 +139,8 @@
 	path = .gitconfig_bullshit
 	path = .gitconfig_shared
 	path = .gitconfig_work
+[includeIf "gitdir:~/dev/"]
+    path = .gitconfig_user_home
 [branch]
 	autosetupmerge = always
 	autosetuprebase = always
