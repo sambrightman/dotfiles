@@ -80,10 +80,11 @@
 
 (defun solarized-apply-definitions (definitions theme)
   "Apply face DEFINITIONS to THEME."
-  (apply 'custom-theme-set-faces
-	 theme
-	 (mapcar (lambda (face) (apply 'create-face-spec face))
-		 definitions)))
+  (let ((custom--inhibit-theme-enable nil))
+    (apply 'custom-theme-set-faces
+	       theme
+	       (mapcar (lambda (face) (append (apply 'create-face-spec face) '(t)))
+		           definitions))))
 
 (defvar my/solarized-extra-definitions)
 (setq-default my/solarized-extra-definitions
