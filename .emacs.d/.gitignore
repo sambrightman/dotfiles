@@ -14,3 +14,9 @@
 /.cache/
 /.dap-breakpoints
 /forge-database.sqlite
+/amx-items
+/eclipse.jdt.ls/
+/eln-cache/
+/eshell/
+/projects
+/workspace/
