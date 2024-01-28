@@ -423,6 +423,7 @@ See URL `https://github.com/any-json/any-json'."
   (c-set-offset 'innamespace 0)
   (c-set-offset 'inlambda 0)
   (c-set-offset 'stream-op '+)
+  (c-set-offset 'substatement-open 0)
   (c-set-offset 'case-label '+)
   (conda--switch-buffer-auto-activate))
 (add-hook 'c++-mode-hook #'my/c++-mode-hook)
