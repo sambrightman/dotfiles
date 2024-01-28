@@ -87,6 +87,7 @@
 (depends-on "ghub+" "0.3")
 (depends-on "git")
 (depends-on "git-commit")
+(depends-on "git-modes")
 (depends-on "git-link")
 (depends-on "glsl-mode")
 (depends-on "gnu-elpa-keyring-update")
