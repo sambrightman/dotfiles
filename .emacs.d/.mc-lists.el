@@ -27,6 +27,7 @@
         isearch-printing-char
         kill-region
         markdown-outdent-or-delete
+        mc--replace-region-strings-1
         mwim-beginning-of-code-or-line
         mwim-end-of-code-or-line
         my/cycle-spacing
@@ -45,8 +46,10 @@
       '(
         describe-key
         ido-switch-buffer
+        mc/mark-next-lines
         scroll-other-window
         smex
         suspend-frame
+        xref-find-definitions
         yas-expand
         ))
