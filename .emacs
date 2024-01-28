@@ -216,6 +216,43 @@
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
+;; JSON
+(flycheck-define-checker json-python-json5
+  "A JSON syntax checker using Python json5.tool module.
+
+See URL `https://github.com/dpranke/pyjson5'."
+  :command ("python3" "-m" "json5.tool" source
+            ;; Send the pretty-printed output to the null device
+            null-device)
+  :error-patterns
+  ((error line-start
+          (message) ": line " line " column " column
+          ;; Ignore the rest of the line which shows the char position.
+          (one-or-more not-newline)
+          line-end))
+  :modes (json-mode js-json-mode json-ts-mode)
+  ;; The JSON parser chokes if the buffer is empty and has no JSON inside
+  :predicate flycheck-buffer-nonempty-p)
+(add-to-list 'flycheck-checkers 'json-python-json5)
+
+(flycheck-define-checker json-any-json
+  "A JSON syntax checker using any-json json5 parsing.
+
+See URL `https://github.com/any-json/any-json'."
+  :command ("any-json" "--input-format" "json5" source
+            ;; Send the pretty-printed output to the null device
+            null-device)
+  :error-patterns
+  ((error line-start
+          (message) "at line " line " column " column
+          ;; Ignore the rest of the line which shows the char position.
+          (one-or-more not-newline)
+          line-end))
+  :modes (json-mode js-json-mode json-ts-mode)
+  ;; The JSON parser chokes if the buffer is empty and has no JSON inside
+  :predicate flycheck-buffer-nonempty-p)
+(add-to-list 'flycheck-checkers 'json-any-json)
+(add-to-list 'auto-mode-alist `(,(expand-file-name "~/code/Configuration/.*\\.tmpl$") . json-mode))
 
 ;; YAML
 (defun my/yaml-mode-hook ()

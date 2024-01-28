@@ -1,0 +1,4 @@
+{
+    // Disable "Unexpected comma":
+    "-W094": false,
+}
