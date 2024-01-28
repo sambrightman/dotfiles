@@ -136,6 +136,9 @@
 (advice-add 'semantic-symref-derive-find-filepatterns
             :filter-return #'my/filepatterns--include-compressed)
 
+(with-eval-after-load 'rg
+  (rg-enable-menu))
+
 ;; Nyquist
 (add-to-list 'auto-mode-alist '("\\.ny" . lisp-mode))
 
