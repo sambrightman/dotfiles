@@ -418,9 +418,9 @@
   (add-to-list 'company-backends 'company-latex-commands)
   (add-to-list 'company-backends 'company-math-symbols-latex)
   (add-to-list 'company-backends 'company-math-symbols-unicode)
-  (add-to-list 'company-backends 'company-racer)
+  ;; (add-to-list 'company-backends 'company-racer)
   (add-to-list 'company-backends 'company-robe)
-  (add-to-list 'company-backends 'company-rtags)
+  ;; (add-to-list 'company-backends 'company-rtags)
   (company-flx-mode)
   (setq-default company-tooltip-limit 20)
   (setq-default company-idle-delay .2)
@@ -574,18 +574,18 @@
 ;;     (user-error nil)))
 ;; (add-hook 'c-mode-common-hook #'my/cquery-enable)
 
-(setq-default rtags-autostart-diagnostics t)
-(setq-default rtags-completions-enabled t)
-(defun my/rtags-setup ()
-  "Customization for `rtags'."
-  (rtags-enable-standard-keybindings)
-  (require 'flycheck-rtags)
-  (flycheck-select-checker 'rtags)
-  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays?
-  (setq-local flycheck-check-syntax-automatically nil))
-(add-hook 'c-mode-hook #'my/rtags-setup)
-(add-hook 'c++-mode-hook #'my/rtags-setup)
-(add-hook 'objc-mode-hook #'my/rtags-setup)
+;; (setq-default rtags-autostart-diagnostics t)
+;; (setq-default rtags-completions-enabled t)
+;; (defun my/rtags-setup ()
+;;   "Customization for `rtags'."
+;;   (rtags-enable-standard-keybindings)
+;;   (require 'flycheck-rtags)
+;;   (flycheck-select-checker 'rtags)
+;;   (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays?
+;;   (setq-local flycheck-check-syntax-automatically nil))
+;; (add-hook 'c-mode-hook #'my/rtags-setup)
+;; (add-hook 'c++-mode-hook #'my/rtags-setup)
+;; (add-hook 'objc-mode-hook #'my/rtags-setup)
 
 ;; (require 'eglot)
 ;; (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
