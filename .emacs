@@ -151,7 +151,6 @@
 (setq-default magit-repository-directories (list
                                             (getenv "CODE_DIR")
                                             (getenv "DEV_DIR")))
-(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
 
 ;; Ido
 (require 'ido)
