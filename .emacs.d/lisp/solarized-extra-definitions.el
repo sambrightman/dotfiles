@@ -93,6 +93,11 @@
       (cperl-array-face (,@fg-blue))
       (cperl-hash-face (,@fg-blue))
       (cperl-nonoverridable-face (,@fg-magenta))
+      ;; modify diff
+      (diff-added (,@fg-green ,@bg-back))
+      (diff-changed (,@fg-yellow ,@bg-back))
+      (diff-removed (,@fg-red ,@bg-back))
+      (diff-refine-change (,@fg-blue ,@bg-back))
       ;; magit
       (magit-branch-current (,@fg-violet))
       (magit-branch-local (,@fg-blue))
