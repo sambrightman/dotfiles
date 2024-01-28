@@ -157,16 +157,21 @@
 (require 'ido)
 (ido-mode 1)
 (setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
+(ido-everywhere 1)
+(ido-ubiquitous-mode 1)
+(setq ido-use-faces t)
+(ido-vertical-mode 1)
+(set-face-attribute 'ido-vertical-first-match-face nil
+                    :background "black"
+                    :inherit nil)
+(setq ido-vertical-define-keys 'C-n-C-p-up-and-down)
 (setq ido-use-filename-at-point 'guess)
 (setq ido-ignore-extensions t)
 (setq ido-auto-merge-delay-time 2)
 (flx-ido-mode 1)
-(setq ido-use-faces nil)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-
+(amx-mode 1)
+(global-set-key (kbd "M-X") 'amx-major-mode-commands)
 
 ;; which-key
 (which-key-mode)
