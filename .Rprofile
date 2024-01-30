@@ -9,5 +9,5 @@ options(
      Version = "0.0.0.9000"
   ),
   usethis.protocol  = "ssh",
-  Ncpus = max(1, parallel::detectCores(logical = TRUE) %/% 2 - 1)
+  Ncpus = max(1, parallel::detectCores(logical = TRUE) %/% 4 - 1)
 )
