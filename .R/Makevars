@@ -1,1 +1,1 @@
-MAKEFLAGS = -j 2
+MAKEFLAGS = -j 4
