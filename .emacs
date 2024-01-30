@@ -152,6 +152,8 @@
   (magit-define-popup-action 'magit-push-popup ?P
     'magit-push-implicitly--desc
     'magit-push-implicitly ?p t))
+(with-eval-after-load 'magit
+  (require 'forge))
 (setq-default magit-repository-directories (list
                                             (getenv "CODE_DIR")
                                             (getenv "DEV_DIR")))
