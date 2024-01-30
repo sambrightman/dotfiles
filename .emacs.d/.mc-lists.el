@@ -47,6 +47,7 @@
         describe-key
         ido-switch-buffer
         mc/mark-next-lines
+        rg-rerun-change-files
         scroll-other-window
         smex
         suspend-frame
