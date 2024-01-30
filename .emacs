@@ -13,6 +13,7 @@
 (require 'my-packaging)
 (require 'my-defuns)
 (require 'my-theme)
+(require 'my-work)
 
 ;; theme loaded before compiling extra definitions (no after-theme-hook)
 (shut-up
