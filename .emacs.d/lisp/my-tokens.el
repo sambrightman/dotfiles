@@ -3,7 +3,8 @@
 ;;
 ;;; Code:
 
-;; (setq-default gh-auth-alist '(("github" :username "sambrightman" :token "")))
+;; ignore locally by doing:
+;; git -C ~/.emacs.d/lisp update-index --assume-unchanged my-tokens.el
 
 (provide 'my-tokens)
 ;;; my-tokens.el ends here
