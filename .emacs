@@ -64,8 +64,16 @@
 (setq diff-switches "-u")
 (setq vc-follow-symlinks t)
 (my/silence-function 'vc-refresh-state)
-(setq gc-cons-threshold (* 80 (* 1024 1024)))
 (setq read-process-output-max (* 1024 1024))
+
+(defun my/minibuffer-setup-hook ()
+  (setq my/gc-cons-threshold-original gc-cons-threshold)
+  (setq gc-cons-threshold most-positive-fixnum))
+(defun my/minibuffer-exit-hook ()
+  (setq gc-cons-threshold my/gc-cons-threshold-original)
+  (makunbound 'my/gc-cons-threshold-original))
+(add-hook 'minibuffer-setup-hook #'my/minibuffer-setup-hook)
+(add-hook 'minibuffer-exit-hook #'my/minibuffer-exit-hook)
 
 (defun my/help-mode-revert-buffer--noconfirm (&rest args)
   "Don't confirm when reverting *Help* buffers with ARGS."
