@@ -429,7 +429,6 @@ See URL `https://github.com/any-json/any-json'."
   (c-set-offset 'innamespace 0)
   (c-set-offset 'inlambda 0)
   (c-set-offset 'stream-op '+)
-  (c-set-offset 'substatement-open 0)
   (c-set-offset 'case-label '+)
   (conda--switch-buffer-auto-activate))
 (add-hook 'c++-mode-hook #'my/c++-mode-hook)
@@ -634,15 +633,5 @@ See URL `https://github.com/any-json/any-json'."
 ;; (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
 ;; (add-hook 'c-mode-hook 'eglot-ensure)
 ;; (add-hook 'c++-mode-hook 'eglot-ensure)
-
-(with-eval-after-load 'git-link
-  (progn
-    (add-to-list 'git-link-remote-alist
-                 '("git\\.drwholdings\\.com" git-link-github))
-    (add-to-list 'git-link-commit-remote-alist
-                 '("git\\.drwholdings\\.com" git-link-commit-github))
-    (add-to-list 'git-link-homepage-remote-alist
-                 '("git\\.drwholdings\\.com" git-link-homepage-github))
-    (setq-default git-link-default-remote "upstream")))
 
 ;;; .emacs ends here
