@@ -33,7 +33,8 @@
 	cpc = cherry-pick --continue
 	dc = diff --cached
 	ds = diff --stat
-	du = !"diff_upstream() { local branch=${1:-}; git diff --pretty=authoneline --reverse $(git ub ${branch})..${branch} \"$@\"; }; diff_upstream"
+	du = !"diff_upstream() { local branch=$1; test -n \"$1\" && shift; git diff --pretty=authoneline --reverse $(git ub ${branch})..${branch} \"$@\"; }; diff_upstream"
+	dus = du HEAD --stat
 	ffm = merge --ff-only
 	fu = commit --amend --no-edit
 	fuc = commit --fixup
@@ -49,7 +50,7 @@
 	lsall = !"list_all() { git log --all --pretty=format: --name-only --diff-filter=A \"$@\" | grep . | sort -u; }; list_all"
 	ma = merge --abort
 	me = !"git lg --author=\"$(git config user.name)\""
-	pp = !"git lgu; echo; git du HEAD --stat"
+	pp = !"git lgu; echo; git dus"
 	pr = pull --rebase
 	prp = !git pr && git push
 	pf = push --force-with-lease
@@ -81,7 +82,7 @@
                           git describe --tags --match \"${release_pattern}\" --abbrev=0; \
                       }; custom_release"
 	renametag = !"renametag() { local oldtag=$1 && shift; local newtag=$1 && shift; if [[ -z \"$oldtag\" || -z \"$newtag\" ]]; then echo \"usage: git renametag oldtag newtag\"; return 1; fi; git tag $newtag $(git cat-file -p $oldtag | sed \"s/^tag $oldtag$/tag $newtag/\" | git mktag) && git tag -d $oldtag; }; renametag"
-	raf = !"add_fork() { local remote=$1 && shift; local org=${1:-${remote}} && shift; local original_remote=${1:-origin} && shift; if [[ -z \"${remote}\" || -z \"${org}\" ]]; then echo \"usage: git raf remote org [original_remote]\"; git remotes; return 1; else local remote_url=$(git url ${remote}); if [[ -n \"${remote_url}\" ]]; then echo \"${remote} already exists with URL ${remote_url}\"; else local fork_url=$(git forkurl ${org} ${original_remote}); echo \"adding ${remote} -> ${fork_url}\"; git remote add ${remote} ${fork_url}; fi; fi; }; add_fork"
+	raf = !"add_fork() { local remote=$1 && shift; local org=${2:-${remote}}; local original_remote=${3:-origin}; if [[ -z \"${remote}\" || -z \"${org}\" ]]; then echo \"usage: git raf remote [org] [original_remote]\"; git remotes; return 1; else local remote_url=$(git url ${remote}); if [[ -n \"${remote_url}\" ]]; then echo \"${remote} already exists with URL ${remote_url}\"; else local fork_url=$(git forkurl ${org} ${original_remote}); echo \"adding ${remote} -> ${fork_url}\"; git remote add ${remote} ${fork_url}; fi; fi; }; add_fork"
 	remotes = !"show_remotes() { local remote; for remote in $(git remote show); do printf \"%-20s %s\n\" ${remote} $(git url ${remote}); done; }; show_remotes"
 	rso = remote show origin
 	rv = revert --no-commit
@@ -119,7 +120,7 @@
 	contains = branch -a --contains
 	ignored = ls-files --others --exclude-standard --ignored
 	untracked = ls-files --others --exclude-standard
-	alias = !"some_filter() { if [ $# -gt 0 ]; then grep $*; else cat; fi; }; git config --list | grep alias | some_filter"
+	alias = !"show_alias() { if [ $# -gt 0 ]; then git config alias.${1}; else git config --get-regexp ^alias; fi; }; show_alias"
 [pretty]
 	graphtight = %C(bold red)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)- %an%C(reset)%C(bold yellow)%d%C(reset)
 	graphloose = %C(bold red)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n          %C(white)%s%C(reset) %C(bold white)- %an%C(reset)
