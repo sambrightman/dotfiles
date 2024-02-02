@@ -142,7 +142,7 @@
 [includeIf "gitdir:~/dev/"]
     path = .gitconfig_user_home
 [branch]
-	autosetupmerge = always
+	autosetupmerge = inherit
 	autosetuprebase = always
 [color]
 	ui = true
