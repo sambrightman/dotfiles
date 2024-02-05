@@ -93,6 +93,7 @@ export PATH=~/bin:~/.local/bin:${PATH}
 export GOPATH=${DEV_DIR}/go
 export PATH=${PATH}:${GOPATH}/bin
 
+export PATH="$(brew --prefix python)/libexec/bin:$PATH"
 PATH=$HOME/.evm/bin:$PATH
 PATH=$HOME/.cask/bin:$PATH
 PATH=$HOME/.rvm/bin:$PATH
