@@ -25,6 +25,11 @@ function require() {
     fi
 }
 
+# workaround for silly completion
+function nvm() {
+    :
+}
+
 require "$(brew --prefix)/etc/bash_completion"
 
 # for Solarized in emacs
