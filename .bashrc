@@ -1,3 +1,7 @@
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
 function require() {
     filename=${1:?usage: require filename [command=source]} && shift
     func=${1:-source}
@@ -8,7 +12,7 @@ function require() {
     fi
 }
 
-require "$(/usr/local/bin/brew --prefix)/etc/bash_completion"
+#require "$(/usr/local/bin/brew --prefix)/etc/bash_completion"
 
 function proxy() {
     local proxy_url=$1 && shift
@@ -67,3 +71,21 @@ PATH=$HOME/.rvm/bin:$PATH
 
 require ~/.fzf.bash
 require ~/.travis/travis.sh
+
+export SDKMAN_DIR=~/.sdkman
+require ${SDKMAN_DIR}/bin/sdkman-init.sh
+
+if [[ "${OSTYPE}" == "darwin"* ]]; then
+    export HOMEBREW_PREFIX="/opt/homebrew";
+    export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
+    export HOMEBREW_REPOSITORY="/opt/homebrew";
+    export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
+    export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
+    export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+else
+    PATH=$HOME/.linuxbrew/bin:$PATH
+    export MANPATH=$HOME/.linuxbrew/share/man:$MANPATH
+    export INFOPATH=$HOME/.linuxbrew/share/info:$INFOPATH
+fi
+
+require ~/.bash_tower

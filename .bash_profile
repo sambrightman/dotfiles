@@ -4,7 +4,7 @@ source ~/.bashrc
 # for Solarized in emacs
 export TERM=xterm-16color
 export TERMINFO="$(brew --prefix ncurses)/share/terminfo"
-export SHELL=/usr/local/bin/bash
+#export SHELL=/usr/local/bin/bash
 
 export EDITOR=~/bin/emacswrapper
 function emacs() {
@@ -28,7 +28,7 @@ function lsemacs() {
 
 export LESS='-FRX'
 alias grep='grep --color'
-alias ls='gls --color'
+alias ls='ls --color'
 alias la='ls -lart'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -38,9 +38,20 @@ alias em='emacs ~/.emacs'
 alias f='find . -name'
 alias ff='find . -iname'
 
-function dircolors() { gdircolors "$@"; }
+if [[ "${OSTYPE}" == "darwin"* ]]; then
+    function ls() { gls "$@"; }
+    function dircolors() { gdircolors "$@"; }
+
+    # makes Ctrl-O C-o work
+    stty discard undef
+else
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
+fi
+
 eval "$(require ~/.dircolors dircolors)"
 
+require /usr/share/doc/git/contrib/completion/git-prompt.sh
 export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWSTASHSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
@@ -370,18 +381,22 @@ function an() {
     awk -F"${field_sep:- }" "{ print \$${field_num} }" "$@"
 }
 
-export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/7:${DYLD_LIBRARY_PATH}
+#export DYLD_LIBRARY_PATH=/usr/local/lib/gcc/7:${DYLD_LIBRARY_PATH}
 
 require ~/.cargo/env
 export NVM_DIR=~/.nvm
-require "$(brew --prefix nvm)/nvm.sh"
+require "${NVM_DIR}/nvm.sh"
 require "$HOME/.opam/opam-init/init.sh"
 require "$HOME/.rvm/scripts/rvm"
 
 export MONO_GAC_PREFIX="/usr/local"
 export FZF_DEFAULT_OPTS='--extended-exact --multi --select-1'
 
-require /usr/local/bin/virtualenvwrapper.sh
+if [[ "${OSTYPE}" == "darwin"* ]]; then
+    require $(brew --prefix)/bin/virtualenvwrapper.sh
+else
+    require ~/.local/bin/virtualenvwrapper.sh
+fi
 export PROJECT_HOME=$HOME/dev
 
 function jvm() {
@@ -401,7 +416,7 @@ function jvm() {
     fi
 }
 
-jvm 8
+#jvm 8
 
 alias reload_prefs='killall cfprefsd'
 
@@ -414,13 +429,9 @@ alias svnd='svn diff -c'
 
 require ~/.bash_tokens
 
-# makes Ctrl-O C-o work
-stty discard undef
-
 # for snipcap
-
 function mydate() {
-    if [[ "$OSTYPE" == "darwin"* ]]; then
+    if [[ "${OSTYPE}" == "darwin"* ]]; then
         gdate "$@"
     else
         date "$@"
