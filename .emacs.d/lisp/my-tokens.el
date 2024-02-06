@@ -4,7 +4,7 @@
 ;;; Code:
 
 ;; ignore locally by doing:
-;; git -C ~/.emacs.d/lisp update-index --assume-unchanged my-tokens.el
+;; git -C ~/.emacs.d/lisp update-index --skip-worktree my-tokens.el
 
 (provide 'my-tokens)
 ;;; my-tokens.el ends here
