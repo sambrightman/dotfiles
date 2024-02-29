@@ -61,7 +61,7 @@
 	ri = rebase --interactive
 	rl = reflog --pretty=refonelinefull
 	rsh = reset HEAD
-	rsa = reset --hard
+	rsa = reset --keep
 	rsp = reset --patch
 	rss = reset --soft
 	rssh = reset --soft HEAD~1
