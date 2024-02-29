@@ -33,6 +33,7 @@
         my/cycle-spacing
         phi-search
         phi-search-backward
+        python-indent-shift-left
         skeleton-pair-insert-maybe
         upcase-region
         vr/isearch-forward
@@ -44,6 +45,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        amx
         describe-key
         ido-switch-buffer
         mc/mark-next-lines
