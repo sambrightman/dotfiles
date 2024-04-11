@@ -2,7 +2,7 @@
 init-hook="from pylint_venv import inithook; inithook()"
 
 [FORMAT]
-max-line-length=120
+max-line-length=135
 
 [MESSAGES CONTROL]
 disable=missing-docstring
