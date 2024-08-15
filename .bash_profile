@@ -382,6 +382,10 @@ require "$HOME/.rvm/scripts/rvm"
 export MONO_GAC_PREFIX="/usr/local"
 export FZF_DEFAULT_OPTS='--extended-exact --multi --select-1'
 
+function fzf_file_context() {
+    fzf --delimiter : --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' --preview-window 'up,+{2}-/2'
+}
+
 if [[ "${OSTYPE}" == "darwin"* ]]; then
     require $(brew --prefix)/bin/virtualenvwrapper.sh
 else
