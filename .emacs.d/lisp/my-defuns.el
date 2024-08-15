@@ -250,7 +250,7 @@ Otherwise add CONDA_PREFIX/bin/* to it."
            (or (my/conda-env-for-project-dir (project-root (project-current)))
                fallback
                result))
-    (or fallback result)))
+    (or result fallback)))
 
 (defun my/conda-env-for-project-dir (project-root)
   "Find a matching Conda environment for a given PROJECT-ROOT."
