@@ -2,6 +2,7 @@
 source ~/.bashrc
 
 export EDITOR=~/bin/emacswrapper
+export LSP_USE_PLISTS=true
 function emacs() {
     eval $EDITOR "$@"
 }
