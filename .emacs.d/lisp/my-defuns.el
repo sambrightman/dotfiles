@@ -312,5 +312,15 @@ Otherwise add CONDA_PREFIX/bin/* to it."
              (message "%s -> %s" k v))
            (my/lsp-procs)))
 
+(defun my/kill-minibuffers ()
+  "Might fix recursive minibuffer problem."
+  (--each (buffer-list)
+    (let ((name (buffer-name it)))
+      (when (s-starts-with? " *Minibuf" name)
+        (message "killing %s" name)
+        (if (kill-buffer it)
+            (message "killed %s" name)
+          (message "failed to kill %s" name))))))
+
 (provide 'my-defuns)
 ;;; my-defuns.el ends here
