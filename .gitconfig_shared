@@ -1,5 +1,5 @@
 [alias]
-	url = !"remote_url() { local remote=${1:-origin}; test -n \"$1\" && shift; git remote get-url ${remote} \"$@\"; }; remote_url"
+	url = !"remote_url() { local remote=${1:-$(git remote | grep upstream || echo origin)}; test -n \"$1\" && shift; git remote get-url ${remote} \"$@\"; }; remote_url"
 	reponame = !"repo_name() { \
                      local url; \
                      for remote in upstream origin; do \
