@@ -149,7 +149,7 @@
   (rg-enable-menu))
 
 ;; Nyquist
-(add-to-list 'auto-mode-alist '("\\.ny" . lisp-mode))
+(add-to-list 'auto-mode-alist '("\\.ny\\'" . lisp-mode))
 
 ;; Magit
 (require 'magit)
@@ -196,7 +196,7 @@
 
 
 ;; Web
-(add-to-list 'auto-mode-alist '(".*\.tmpl\\'" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.tmpl\\'" . nxml-mode))
 (with-eval-after-load 'nxml-mode
   (setq-default nxml-child-indent 4))
 
@@ -266,7 +266,7 @@ See URL `https://github.com/any-json/any-json'."
   ;; The JSON parser chokes if the buffer is empty and has no JSON inside
   :predicate flycheck-buffer-nonempty-p)
 (add-to-list 'flycheck-checkers 'json-any-json)
-(add-to-list 'auto-mode-alist `(,(expand-file-name "~/code/Configuration/.*\\.tmpl$") . json-mode))
+(add-to-list 'auto-mode-alist `(,(expand-file-name "~/code/Configuration/.*\\.tmpl\\'") . json-mode))
 
 ;; YAML
 (defun my/yaml-mode-hook ()
@@ -274,8 +274,8 @@ See URL `https://github.com/any-json/any-json'."
   (interactive)
   (local-set-key (kbd "C-m") 'newline-and-indent))
 (add-hook 'yaml-mode-hook 'my/yaml-mode-hook)
-(add-to-list 'auto-mode-alist `(,(expand-file-name "~/code/eel/.*\\.conf$") . yaml-mode))
-(add-to-list 'auto-mode-alist `(,(expand-file-name "~/code/ox/.*\\.conf$") . yaml-mode))
+(add-to-list 'auto-mode-alist `(,(expand-file-name "~/code/eel/.*\\.conf\\'") . yaml-mode))
+(add-to-list 'auto-mode-alist `(,(expand-file-name "~/code/ox/.*\\.conf\\'") . yaml-mode))
 
 
 ;; Perl
@@ -365,7 +365,7 @@ See URL `https://github.com/any-json/any-json'."
 ;; Shell
 (setq-default sh-indent-comment t)
 (setq-default sh-basic-offset 4)
-(add-to-list 'auto-mode-alist '("\\.bash.*" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.bash[^/]+\\'" . sh-mode))
 
 
 ;; MATLAB
