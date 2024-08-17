@@ -165,6 +165,7 @@
 (setq-default magit-repository-directories (list
                                             (getenv "CODE_DIR")
                                             (getenv "DEV_DIR")))
+(add-to-list 'auto-mode-alist '("\\.gitconfig[^/]+\\'" . gitconfig-mode))
 
 ;; Ido
 (require 'ido)
