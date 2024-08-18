@@ -22,6 +22,7 @@
 	fixauthor = -c rebase.instructionFormat='%s%nexec GIT_COMMITTER_DATE="%cD" GIT_AUTHOR_DATE="%aD" git commit --amend --no-edit --reset-author' rebase -f
 	ce = config --global --edit
 	co = checkout
+	cop = checkout --patch
 	cob = checkout -b
 	cocs = !"checkout_clean_submodules() { git co $1; git smu; git cfd; git smc; }; checkout_clean_submodules"
 	cfd = clean -ffd
