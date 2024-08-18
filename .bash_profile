@@ -387,9 +387,9 @@ function fzf_file_context() {
 }
 
 if [[ "${OSTYPE}" == "darwin"* ]]; then
-    require $(brew --prefix)/bin/virtualenvwrapper.sh
+    require $(brew --prefix)/bin/virtualenvwrapper_lazy.sh
 else
-    require ~/.local/bin/virtualenvwrapper.sh
+    require ~/.local/bin/virtualenvwrapper_lazy.sh
 fi
 export PROJECT_HOME=$HOME/dev
 
