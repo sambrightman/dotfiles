@@ -3,11 +3,12 @@
 # https://askubuntu.com/questions/160945/is-there-a-way-to-disable-a-laptops-internal-keyboard
 
 # TODO: error check keyboard name/id
+# FIXME type is no longer shown when disabled, and device is "floating". figure out how to handle properly.
 
 function ids() {
     local name=$1 && shift
     local type=$2 && shift
-    xinput list | perl -lne "/↳ ${name}\s+id=([0-9]+)\s+\[(master|slave)\s+${type}\s/ && print \$1"
+    xinput list | perl -lne "/(?:∼ |↳ )${name}\s+id=([0-9]+)\s+\[(?:floating )?(?:master|slave)(?:\s+${type}\s)?/ && print \$1"
 }
 
 function mouse_ids() {
