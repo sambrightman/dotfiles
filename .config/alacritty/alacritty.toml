@@ -1,0 +1,76 @@
+[shell]
+program = "/bin/bash"
+args = ["--login"]
+
+[font]
+normal = { family = "Inconsolata SemiCondensed" }#, style = "Regular" }
+size = 16.0
+
+
+# colors note: can set TERM in env section
+
+# Solarized Light
+# [colors.primary]
+# background = '0xfdf6e3'
+# foreground = '0x586e75'
+
+# [colors.normal]
+# black = '0xeee8d5'
+# red = '0xdc322f'
+# green = '0x859900'
+# yellow = '0xb58900'
+# blue = '0x268bd2'
+# magenta = '0xd33682'
+# cyan = '0x2aa198'
+# white = '0x073642'
+
+# [colors.bright]
+# black = '0xfdf6e3'
+# red = '0xcb4b16'
+# green = '0x93a1a1'
+# yellow = '0x839496'
+# blue = '0x657b83'
+# magenta = '0x6c71c4'
+# cyan = '0x586e75'
+# white = '0x002b36'
+
+# Solarized Dark
+[colors.primary]
+background = "0x002b36"
+foreground = "0x839496"
+
+[colors.normal]
+black = "0x073642"
+blue = "0x268bd2"
+cyan = "0x2aa198"
+green = "0x859900"
+magenta = "0xd33682"
+red = "0xdc322f"
+white = "0xeee8d5"
+yellow = "0xb58900"
+
+[colors.bright]
+black = "0x002b36"
+blue = "0x839496"
+cyan = "0x93a1a1"
+green = "0x586e75"
+magenta = "0x6c71c4"
+red = "0xcb4b16"
+white = "0xfdf6e3"
+yellow = "0x657b83"
+
+
+[keyboard]
+bindings = [
+         { key = "Period", mods = "Control", chars = "\u001B[emacs-C-." },
+         { key = "Comma", mods = "Control", chars = "\u001B[emacs-C-," },
+         { key = ">", mods = "Control|Shift", chars = "\u001B[emacs-C->" },
+         { key = "<", mods = "Control|Shift", chars = "\u001B[emacs-C-<" },
+         { key = "'", mods = "Control", chars = "\u001B[emacs-C-'" },
+         { key = ";", mods = "Control", chars = "\u001B[emacs-C-;" },
+         { key = "Space", mods = "Control|Command", chars = "\u001B[emacs-C-H-SPC" },
+         { key = "O", mods = "Command", chars = "\u001B[emacs-H-o" },
+         { key = "P", mods = "Command", chars = "\u001B[emacs-H-p" },
+         { key = "1", mods = "Command", chars = "\u001B[emacs-H-1" },
+         { key = "=", mods = "Control", chars = "\u001B[emacs-C-=" },
+]
