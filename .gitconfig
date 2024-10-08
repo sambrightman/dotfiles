@@ -177,3 +177,5 @@
 	workers = 0
 [fetch]
 	parallel = 0
+[advice]
+	skippedCherryPicks = false
