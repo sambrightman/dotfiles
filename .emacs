@@ -201,7 +201,8 @@
 ;; Web
 (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . nxml-mode))
 (with-eval-after-load 'nxml-mode
-  (setq-default nxml-child-indent 4))
+  (setq-default nxml-child-indent 4)
+  (setq-default nxml-attribute-indent 4))
 
 
 ;; JavaScript
