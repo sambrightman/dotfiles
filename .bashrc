@@ -1,7 +1,7 @@
 export HOMEBREW_TEMP=~/tmp
-export HOMEBREW_NO_INSTALL_CLEANUP=0
-export HOMEBREW_NO_AUTO_UPDATE=0
-export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=0
+export HOMEBREW_NO_INSTALL_CLEANUP=
+export HOMEBREW_NO_AUTO_UPDATE=
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=
 if [[ "$(hostname -s)" == "asgardstudy1" || "$(hostname -s)" == "asgardstudy2" ]]; then
     export HOMEBREW_FORCE_BREWED_CURL=1
 fi
