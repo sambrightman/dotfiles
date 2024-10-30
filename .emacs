@@ -67,7 +67,7 @@
 (setq read-process-output-max (* 1024 1024))
 
 (setq garbage-collection-messages t)
-(setq gc-cons-threshold (* 100 (* 1024 1024)))
+(setq gc-cons-threshold (* 120 (* 1024 1024)))
 (defun my/minibuffer-setup-hook ()
   (setq my/gc-cons-threshold-original gc-cons-threshold)
   (setq gc-cons-threshold most-positive-fixnum))
