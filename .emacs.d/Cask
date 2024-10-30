@@ -147,7 +147,6 @@
 (depends-on "nginx-mode")
 (depends-on "package-build")
 (depends-on "package-lint")
-(depends-on "packed")
 (depends-on "page-break-lines")
 (depends-on "paradox")
 (depends-on "paredit")
