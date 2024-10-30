@@ -457,6 +457,50 @@ See URL `https://github.com/any-json/any-json'."
 (add-hook 'd-mode-hook 'company-dcd-mode)
 
 
+;; TeX
+;; AUCTeX
+(setq-default TeX-auto-save t)
+(setq-default TeX-parse-self t)
+(setq-default TeX-master nil)
+;; RefTeX
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(add-hook 'latex-mode-hook 'turn-on-reftex)
+(setq-default reftex-plug-into-AUCTeX t)
+;; CDLaTeX
+(add-hook 'LaTeX-mode-hook #'turn-on-cdlatex)
+(add-hook 'latex-mode-hook #'turn-on-cdlatex)
+;; Tectonic integration with AUCTeX
+(setq-default LaTeX-command-style '(("" "%(latex)")))
+(setq-default TeX-process-asynchronous t)
+(setq-default TeX-check-TeX nil)
+(setq-default TeX-engine 'tectonic)
+(with-eval-after-load 'tex
+  (add-to-list 'TeX-engine-alist '(tectonic
+                                   "Tectonic"
+                                   ;; sabr: need -pk for AUCTeX to consider the run successful
+                                   ;; "tectonic -X compile -f plain %T"
+                                   "tectonic -X compile -pk -f plain %T"
+                                   ;; sabr: original uses build, need compile when outside a project.
+                                   ;; "tectonic -X watch"
+                                   ;; sabr: uses build, need compile when outside a project.
+                                   ;; "tectonic -X watch -x build -pk"
+                                   ;; sabr: watch compile keeps recompiling...
+                                   ;; "tectonic -X watch -x 'compile -pk -f latex %T'"
+                                   ;; sabr: doesn't watch
+                                   "tectonic -X compile -pk -f latex %T"
+                                   nil))
+  (let ((tex-list (assoc "TeX" TeX-command-list))
+        (latex-list (assoc "LaTeX" TeX-command-list)))
+    (setf (cadr tex-list) "%(tex)"
+          (cadr latex-list) "%l")))
+(add-hook 'after-change-major-mode-hook
+          (lambda ()
+            (when-let ((project-name (project-current))
+                       (project-root (project-root project-name)))
+              (when (file-exists-p (expand-file-name "Tectonic.toml" project-root))
+                (setq-local TeX-output-dir (expand-file-name "build/index" project-root))))))
+
+
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
