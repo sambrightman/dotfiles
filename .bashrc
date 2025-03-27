@@ -106,6 +106,7 @@ PATH=$HOME/.cask/bin:$PATH
 PATH=$HOME/.rvm/bin:$PATH
 
 require ~/.fzf.bash
+require ${DEV_DIR}/fzf-tab-completion/bash/fzf-bash-completion.sh
 require ~/.travis/travis.sh
 
 # https://github.com/moby/moby/issues/25450
