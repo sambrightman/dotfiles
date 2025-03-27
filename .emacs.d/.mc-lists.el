@@ -47,6 +47,7 @@
       '(
         amx
         describe-key
+        handle-switch-frame
         ido-switch-buffer
         mc/mark-next-lines
         rg-rerun-change-files
