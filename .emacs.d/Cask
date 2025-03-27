@@ -87,7 +87,6 @@
 (depends-on "ghub")
 (depends-on "ghub+")
 (depends-on "git")
-(depends-on "git-commit")
 (depends-on "git-link")
 (depends-on "git-modes")
 (depends-on "glsl-mode")
