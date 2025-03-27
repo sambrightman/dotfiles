@@ -202,6 +202,7 @@
 (depends-on "treemacs")
 (depends-on "treepy")
 (depends-on "tt-mode")
+(depends-on "typescript-mode")
 (depends-on "virtualenvwrapper")
 (depends-on "visual-regexp")
 (depends-on "visual-regexp-steroids")
