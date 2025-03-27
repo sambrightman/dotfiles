@@ -95,6 +95,7 @@
 	sd = stash drop
 	sl = stash list --pretty=stashoneline
 	sm = submodule
+	smf = submodule foreach --recursive
 	smc = submodule foreach --recursive git clean -ffd
 	sms = submodule foreach --recursive git status
 	smi = submodule update --init --recursive
