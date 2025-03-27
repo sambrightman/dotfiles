@@ -148,7 +148,10 @@
             :filter-return #'my/filepatterns--include-compressed)
 
 (with-eval-after-load 'rg
-  (rg-enable-menu))
+  (rg-enable-menu)
+  (setq-default rg-prioritized-type-aliases '("cpp")))
+(require 'rg)
+
 
 ;; Nyquist
 (add-to-list 'auto-mode-alist '("\\.ny\\'" . lisp-mode))
