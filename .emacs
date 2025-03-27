@@ -152,6 +152,14 @@
   (setq-default rg-prioritized-type-aliases '("cpp")))
 (require 'rg)
 
+;; does not seem to work due to missing sqlite, but not in melpa
+(with-eval-after-load 'browser-hist
+  (setq-default browser-hist-default-browser 'firefox)
+  (setq-default browser-hist-cache-timeout 10)
+  ;; unclear if this needs changing upstream
+  (if (eq system-type 'gnu/linux)
+      (add-to-list 'browser-hist-db-paths '(firefox . "$HOME/.mozilla/firefox/*.default-release/places.sqlite"))))
+
 
 ;; Nyquist
 (add-to-list 'auto-mode-alist '("\\.ny\\'" . lisp-mode))
