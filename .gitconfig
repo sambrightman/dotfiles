@@ -58,6 +58,7 @@
 	pf = push --force-with-lease
 	ra = rebase --abort
 	rb = rebase
+	rbb = !"post_smu_rbb() { local branch=$1 && shift; local upstream_ref=$1 && shift; git rebase $(git merge-base ${upstream_ref} ${branch}) ${branch} --onto HEAD; }; post_smu_rbb"
 	rc = rebase --continue
 	rs = rebase --skip
 	ri = rebase --interactive
