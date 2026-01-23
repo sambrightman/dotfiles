@@ -59,6 +59,7 @@
 	ra = rebase --abort
 	rb = rebase
 	rbb = !"post_smu_rbb() { local branch=$1 && shift; local upstream_ref=$1 && shift; git rebase $(git merge-base ${upstream_ref} ${branch}) ${branch} --onto HEAD; }; post_smu_rbb"
+	rbs = rebase --show-current-patch
 	rc = rebase --continue
 	rs = rebase --skip
 	ri = rebase --interactive
@@ -99,8 +100,7 @@
 	smf = submodule foreach --recursive
 	smc = submodule foreach --recursive git clean -ffd
 	sms = submodule foreach --recursive git status
-	smi = submodule update --init --recursive
-	smu = submodule update --recursive
+	smu = submodule update --init --recursive
 	sp = stash pop
 	sr = !"renamestash() { local number=$1 && shift; local message=$1 && shift; if [[ -z \"${number}\" || -z \"${message}\" ]]; then echo \"usage: git sr number name\"; git stash list; return 1; else local stash=\"stash@{$number}\"; local rev=$(git rev-parse \"${stash}\"); git stash drop \"${stash}\" || return 1; git stash store -m \"${message}\" \"${rev}\" || return 1; git stash list; fi }; renamestash"
 	ss = stash show --patch
