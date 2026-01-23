@@ -246,6 +246,7 @@
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
 ;; JSON
+(add-hook 'json-mode-hook #'hs-minor-mode)
 (flycheck-define-checker json-python-json5
   "A JSON syntax checker using Python json5.tool module.
 
