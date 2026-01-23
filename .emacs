@@ -39,6 +39,8 @@
 (global-page-break-lines-mode)
 (setq-default custom-unlispify-menu-entries nil)
 (setq-default custom-unlispify-tag-names nil)
+(setq-default server-kill-new-buffers nil)
+(setq-default server-temp-file-regexp "^/tmp/Re\\|/.git/\\|/draft$")
 (my/setup-emacs-source-directory)
 
 ;; after-init-hook prevents a warning about advice redefinition
