@@ -13,3 +13,4 @@ bin/python
 .DS_Store
 \#*\#
 *~
+/.emacs.d/recentf
