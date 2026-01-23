@@ -84,6 +84,7 @@
 (advice-add 'help-mode-revert-buffer :filter-args #'my/help-mode-revert-buffer--noconfirm)
 
 (global-set-key (kbd "C-M-w") 'er/expand-region)
+(my/global-map-and-set-key "C-=" 'er/expand-region)
 (global-set-key (kbd "C-c d") 'my/dash-at-point)
 ;; remove if zeal-at-point is updated, maybe add some intelligence
 (with-eval-after-load 'zeal-at-point
