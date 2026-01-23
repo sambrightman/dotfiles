@@ -4,7 +4,44 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(typescript-mode browser-hist auctex cdlatex sqlite3 cquery dap-mode lsp-docker lsp-haskell lsp-java lsp-javacomp lsp-mode lsp-treemacs lsp-ui git-modes amx rg ido-completing-read+ ido-vertical-mode git-link json-mode xref pythonic csharp-mode conda shut-up git eglot rustic font-lock-studio nginx-mode which-key flycheck-raku magit-popup forge solarized-theme gruvbox-theme color-theme-modern color-theme-sanityinc-solarized gnu-elpa-keyring-update rtags-xref homebrew-mode vue-mode company-lsp docker-compose-mode dockerfile-mode company-glsl glsl-mode cask-mode robe python-docstring magit-lfs realgud auto-virtualenvwrapper pycoverage pip-requirements traad julia-mode cython-mode highlight-indentation pymacs clang-format flycheck-rtags rtags company-rtags company-c-headers company-cmake company-dcd company-flx company-jedi company-math company-racer cpanfile-mode py-autopep8 flyspell-correct-popup flyspell-correct go-flycheck dash-at-point page-break-lines erlang paradox hydra ensime sbt-mode paredit pcre2el visual-regexp-steroids phi-search rainbow-delimiters ace-window yaml-mode virtualenvwrapper tt-mode toml-mode smex scala-mode sass-mode racer puppet-mode php-mode pallet mwim multiple-cursors matlab-mode markdown-mode magit-gerrit less-css-mode jump-char js2-mode highlight-chars groovy-mode gradle-mode go-errcheck go-eldoc gitignore-mode gitconfig-mode gitattributes-mode flycheck-rust flycheck-pyflakes flycheck-perl6 flycheck-package flycheck-ocaml flycheck-haskell flycheck-google-cpplint flycheck-clojure flycheck-cask flx-ido expand-region ess d-mode company-go color-theme-solarized coffee-mode cmake-mode clojurescript-mode clojure-snippets cargo auto-complete auto-compile ace-jump-mode))
+   '(ace-jump-mode ace-window amx auctex auto-compile auto-complete
+                   auto-virtualenvwrapper browser-hist cargo cask-mode
+                   cdlatex clang-format clojure-snippets
+                   clojurescript-mode cmake-mode coffee-mode
+                   color-theme-modern color-theme-sanityinc-solarized
+                   color-theme-solarized company-c-headers
+                   company-cmake company-dcd company-flx company-glsl
+                   company-go company-jedi company-lsp company-math
+                   company-racer company-rtags conda cpanfile-mode
+                   cquery csharp-mode cython-mode d-mode dap-mode
+                   dash-at-point docker-compose-mode dockerfile-mode
+                   eglot ensime erlang ess expand-region flx-ido
+                   flycheck-cask flycheck-clojure
+                   flycheck-google-cpplint flycheck-haskell
+                   flycheck-ocaml flycheck-package flycheck-perl6
+                   flycheck-pyflakes flycheck-raku flycheck-rtags
+                   flycheck-rust flyspell-correct
+                   flyspell-correct-popup font-lock-studio forge fzf
+                   git git-link git-modes gitattributes-mode
+                   gitconfig-mode gitignore-mode glsl-mode
+                   gnu-elpa-keyring-update go-eldoc go-errcheck
+                   go-flycheck gradle-mode groovy-mode gruvbox-theme
+                   highlight-chars highlight-indentation homebrew-mode
+                   hydra ido-completing-read+ ido-vertical-mode
+                   js2-mode json-mode julia-mode jump-char
+                   less-css-mode lsp-docker lsp-haskell lsp-java
+                   lsp-javacomp lsp-mode lsp-treemacs lsp-ui
+                   magit-gerrit magit-lfs magit-popup markdown-mode
+                   matlab-mode multiple-cursors mwim nginx-mode
+                   page-break-lines pallet paradox paredit pcre2el
+                   phi-search php-mode pip-requirements puppet-mode
+                   py-autopep8 pycoverage pymacs python-docstring
+                   pythonic racer rainbow-delimiters realgud rg robe
+                   rtags rtags-xref rustic sass-mode sbt-mode
+                   scala-mode shut-up smex solarized-theme sqlite3
+                   toml-mode traad tt-mode typescript-mode
+                   virtualenvwrapper visual-regexp-steroids vue-mode
+                   which-key xref yaml-mode))
  '(paradox-automatically-star nil)
  '(paradox-github-token t)
  '(safe-local-variable-values

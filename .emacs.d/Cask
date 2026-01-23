@@ -83,6 +83,7 @@
 (depends-on "flyspell-correct-popup")
 (depends-on "font-lock-studio")
 (depends-on "forge")
+(depends-on "fzf")
 (depends-on "gh")
 (depends-on "ghub")
 (depends-on "ghub+")
