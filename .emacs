@@ -28,6 +28,7 @@
 (setq require-final-newline 'query)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 (column-number-mode)
 (show-paren-mode)
 (setq-default show-paren-style 'mixed)
