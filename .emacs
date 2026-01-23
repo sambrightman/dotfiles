@@ -37,6 +37,8 @@
 (setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 (global-hi-lock-mode)
 (global-page-break-lines-mode)
+(recentf-mode)
+(setq-default recentf-max-saved-items 200)
 (setq-default custom-unlispify-menu-entries nil)
 (setq-default custom-unlispify-tag-names nil)
 (setq-default server-kill-new-buffers nil)
