@@ -46,6 +46,7 @@
 (depends-on "conda")
 (depends-on "cpanfile-mode")
 (depends-on "cquery")
+(depends-on "crux")
 (depends-on "ctable")
 (depends-on "cython-mode")
 (depends-on "d-mode")

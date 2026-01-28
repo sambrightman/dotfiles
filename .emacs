@@ -89,6 +89,8 @@
 
 (global-set-key (kbd "C-M-w") 'er/expand-region)
 (my/global-map-and-set-key "C-=" 'er/expand-region)
+(my/global-map-and-set-key "C-c M-d" 'crux-duplicate-current-line-or-region)
+(my/global-map-and-set-key "C-c M-c" 'crux-duplicate-and-comment-current-line-or-region)
 (global-set-key (kbd "C-c d") 'my/dash-at-point)
 ;; remove if zeal-at-point is updated, maybe add some intelligence
 (with-eval-after-load 'zeal-at-point

@@ -13,7 +13,7 @@
                    company-cmake company-dcd company-flx company-glsl
                    company-go company-jedi company-lsp company-math
                    company-racer company-rtags conda cpanfile-mode
-                   cquery csharp-mode cython-mode d-mode dap-mode
+                   cquery crux csharp-mode cython-mode d-mode dap-mode
                    dash-at-point docker-compose-mode dockerfile-mode
                    eglot ensime erlang ess expand-region flx-ido
                    flycheck-cask flycheck-clojure
