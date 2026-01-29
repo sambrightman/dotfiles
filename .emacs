@@ -471,7 +471,7 @@ See URL `https://github.com/any-json/any-json'."
     (and (string-match-p "\\.h\\'" filename)
          (file-exists-p source-filename))))
 (add-to-list 'magic-mode-alist '(my/likely-c++-header . c++-mode))
-
+(add-to-list 'auto-mode-alist '("\\.tcc\\'" . c-mode))
 
 ;; D
 (add-hook 'd-mode-hook 'company-dcd-mode)
