@@ -94,7 +94,7 @@
 (global-set-key (kbd "C-c d") 'my/dash-at-point)
 ;; remove if zeal-at-point is updated, maybe add some intelligence
 (with-eval-after-load 'zeal-at-point
-  (add-to-list 'zeal-at-point-mode-alist '(python-mode . ("python3" "numpy" "scipy" "pandas" "polars"))))
+  (add-to-list 'zeal-at-point-mode-alist '(python-mode . ("python3" "numpy" "scipy"))))
 (my/global-map-and-set-key "H-o" 'describe-symbol)
  ;; need to unbind from tab switching
 (my/global-map-and-set-key "H-1" 'delete-other-windows)
