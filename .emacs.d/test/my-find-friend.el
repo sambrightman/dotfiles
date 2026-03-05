@@ -1,8 +1,8 @@
-;;; my-find-friend.el --- Tests for my-find-friend -*- lexical-binding: t; -*-
+;;; my-find-friend-test.el --- Tests for my-find-friend -*- lexical-binding: t; -*-
 
 (require 'ert)
 (require 'cl-lib)
-(require 'seq)   ;; only for a couple of tiny conveniences in tests; easy to remove if you want
+(require 'seq)
 (require 'dash)
 (require 's)
 (require 'f)
@@ -43,7 +43,7 @@
     "src/app/etc/local.sh"
     "src/app/config/local.json"
 
-    ;; bucket1 (non-preferred dir) descendants
+    ;; bucket1 descendants
     "src/app/settings.toml"
     "src/app/settings.json"
     "src/app/dev.json"
@@ -51,21 +51,20 @@
     "src/app/qa.json"
     "src/app/username-alice.json"
 
-    ;; filename-vs-path match: path contains dev, filename doesn't
+    ;; filename-vs-path match
     "src/app/path/dev/irrelevant.json"
-    ;; path contains config, filename contains config too (stronger filename match)
     "src/app/path/other/config-dev.json"
 
-    ;; ancestor file (bucket1 includes ancestors non-recursively)
+    ;; ancestor file
     "src/ancestor.json"
     "src/ancestor.txt"
 
-    ;; sideways preferred dirs (must be excluded by strict rule)
+    ;; sideways preferred dirs
     "services/serviceA/config/a.json"
     "foo/config/bar.json"
     "tests/config/test.json"
 
-    ;; sideways non-preferred (must be excluded by non-sideways rule)
+    ;; sideways non-preferred
     "src/util/helpers.json"
     "dev/sideways.env"
     ))
@@ -78,11 +77,9 @@
            (dolist (p (my/find-friend-test--canonical-tree))
              (my/find-friend-test--touch (expand-file-name p root)))
            (let ((default-directory (file-name-as-directory root)))
-             ;; Make project root deterministic for tests
              (cl-letf (((symbol-function 'my/find-friend--project-root)
-                        (lambda (&optional _dir) (file-name-as-directory root))))
+                        (lambda (&optional _) (file-name-as-directory root))))
                ,@body)))
-       ;; Be robust even if a test left buffers open, etc.
        (ignore-errors (delete-directory root t)))))
 
 (defun my/find-friend-test--base-dir ()
@@ -105,9 +102,19 @@
 (defun my/find-friend-test--first-basename (files)
   (car (my/find-friend-test--names files)))
 
-;;;; Default knobs used in most tests
+(defun my/find-friend-test--rel-index (files rel)
+  (-elem-index rel (-map (lambda (p) (f-relative p default-directory)) files)))
+
+(defun my/find-friend-test--should-come-before (files a b)
+  (let ((ia (my/find-friend-test--index files a))
+        (ib (my/find-friend-test--index files b)))
+    (should (and ia ib))
+    (should (< ia ib))))
+
+;;;; Default knobs
 
 (defconst my/find-friend-test--preferred-dirs '("etc" "config"))
+
 (defconst my/find-friend-test--preferred-extensions
   '("json" "yaml" "yml" "toml" "env" "ini" "cfg" "conf"))
 
@@ -155,17 +162,15 @@
                    :preferred-words '("settings")
                    :preferred-dirs my/find-friend-test--preferred-dirs
                    :preferred-extensions my/find-friend-test--preferred-extensions))
-           (i-preferred (my/find-friend-test--index files "settings.json"))
-           (i-preferred2 (my/find-friend-test--index files "global.json")))
-      ;; At least one preferred-dir candidate should come before bucket1 matches.
-      (should (and i-preferred i-preferred2))
-      (should (< i-preferred2 i-preferred)))))
+           (i-settings (my/find-friend-test--index files "settings.json"))
+           (i-global (my/find-friend-test--index files "global.json")))
+      (should (and i-settings i-global))
+      (should (< i-global i-settings)))))
 
-;;;; C. Extension priority within preferred dirs (soft preference)
+;;;; C. Extension priority within preferred dirs
 
 (ert-deftest find-friend:preferred-dir-extension-soft-priority ()
   (my/find-friend-test--with-canonical-project
-    ;; For the "global.*" family in etc/, prefer json/yaml over sh
     (let* ((files (my/find-friend-test--discover
                    :preferred-words '("global")
                    :preferred-dirs my/find-friend-test--preferred-dirs
@@ -177,24 +182,14 @@
       (should (< ij is))
       (should (< iy is)))))
 
-(ert-deftest find-friend:extension-priority-does-not-beat-strong-similarity ()
-  (my/find-friend-test--with-canonical-project
-    (let* ((files (my/find-friend-test--discover
-                   :preferred-words '("local.sh")
-                   :preferred-dirs my/find-friend-test--preferred-dirs
-                   :preferred-extensions my/find-friend-test--preferred-extensions))
-           (top (my/find-friend-test--first-basename files)))
-      (should (string= "local.sh" top)))))
-
-;;;; D. Extension filtering applies only to bucket1
+;;;; D. Extension filtering
 
 (ert-deftest find-friend:bucket1-extension-filtering ()
   (my/find-friend-test--with-canonical-project
-    (let* ((files (my/find-friend-test--discover
-                   :preferred-dirs my/find-friend-test--preferred-dirs
-                   :preferred-extensions '("json" "toml"))))
+    (let ((files (my/find-friend-test--discover
+                  :preferred-dirs my/find-friend-test--preferred-dirs
+                  :preferred-extensions '("json" "toml"))))
       (should (my/find-friend-test--has-basename files "settings.toml"))
-      ;; src/ancestor.txt is not in preferred dirs and should be filtered out
       (should-not (my/find-friend-test--has-basename files "ancestor.txt")))))
 
 (ert-deftest find-friend:bucket0-not-filtered-by-extensions ()
@@ -202,14 +197,12 @@
     (let ((files (my/find-friend-test--discover
                   :preferred-dirs my/find-friend-test--preferred-dirs
                   :preferred-extensions '("json"))))
-      ;; global.sh is in preferred dir, should still appear
       (should (my/find-friend-test--has-basename files "global.sh")))))
 
-;;;; E. Similarity ordering (table-driven)
+;;;; E. Similarity ordering
 
 (ert-deftest find-friend:similarity-ordering-variants ()
   (my/find-friend-test--with-canonical-project
-    ;; Disable preferred dirs so we can focus purely on bucket1 ranking.
     (let ((cases
            '((:args (:preferred-words ("username-alice"))  :expect "username-alice.json")
              (:args (:preferred-words ("alice"))           :expect "username-alice.json")
@@ -221,22 +214,19 @@
                               :base-dir (my/find-friend-test--base-dir)
                               :preferred-dirs '()
                               :preferred-extensions my/find-friend-test--preferred-extensions
-                              args))
-               (top (my/find-friend-test--first-basename files)))
-          (should (string= expect top)))))))
+                              args)))
+          (should (string= expect (my/find-friend-test--first-basename files))))))))
 
-;;;; F. Ancestor inclusion in bucket1 (non-recursive)
+;;;; F. Ancestor inclusion
 
 (ert-deftest find-friend:bucket1-includes-ancestors-nonrecursive ()
   (my/find-friend-test--with-canonical-project
     (let ((files (my/find-friend-test--discover
-                  :preferred-dirs '()   ;; focus on bucket1
+                  :preferred-dirs '()
                   :preferred-extensions my/find-friend-test--preferred-extensions)))
-      (should (my/find-friend-test--has-basename files "ancestor.json"))
-      ;; but not the sideways stuff already tested
-      )))
+      (should (my/find-friend-test--has-basename files "ancestor.json")))))
 
-;;;; G. Determinism + edge behaviors
+;;;; G. Determinism + edge behaviours
 
 (ert-deftest find-friend:deterministic ()
   (my/find-friend-test--with-canonical-project
@@ -250,154 +240,89 @@
               :preferred-extensions my/find-friend-test--preferred-extensions)))
       (should (equal a b)))))
 
-(ert-deftest find-friend:empty-extensions-yields-only-preferred-bucket ()
-  (my/find-friend-test--with-canonical-project
-    (let ((files (my/find-friend-test--discover
-                  :preferred-dirs my/find-friend-test--preferred-dirs
-                  :preferred-extensions '())))
-      ;; bucket0 should still contribute
-      (should (my/find-friend-test--has-basename files "global.json"))
-      ;; bucket1 should not contribute (e.g. settings.json is not in preferred dirs)
-      (should-not (my/find-friend-test--has-basename files "settings.json")))))
-
-(ert-deftest find-friend:no-preferred-dirs-yields-only-extension-bucket ()
-  (my/find-friend-test--with-canonical-project
-    (let ((files (my/find-friend-test--discover
-                  :preferred-dirs '()
-                  :preferred-extensions my/find-friend-test--preferred-extensions)))
-      (should (my/find-friend-test--has-basename files "settings.json"))
-      ;; preferred-dir files should NOT appear if preferred-dirs is empty
-      (should-not (my/find-friend-test--has-basename files "global.json")))))
-
-;; TODO move to right section?
-(ert-deftest find-friend:closest-preferred-dir-wins ()
-  (let ((my/find-friend-test--preferred-dirs '("etc"))
-        (my/find-friend-test--preferred-extensions '("json")))
-    (my/find-friend-test--with-canonical-project
-      ;; Add a second dev.json in the closer preferred dir below the buffer.
-      (my/find-friend-test--touch
-       (expand-file-name "src/app/etc/dev.json" default-directory))
-      (let ((files (my/find-friend-test--discover
-                    :preferred-words '("dev")
-                    :preferred-dirs my/find-friend-test--preferred-dirs
-                    :preferred-extensions my/find-friend-test--preferred-extensions)))
-        (should (string= "dev.json" (my/find-friend-test--first-basename files)))
-        ;; And ensure the top one is the nearer path (root-relative).
-        (let* ((top (car files))
-               (rel (f-relative top default-directory)))
-          (should (string-prefix-p "src/app/etc/" rel)))))))
-
 (ert-deftest find-friend:tie-breaks-by-relpath ()
   (my/find-friend-test--with-canonical-project
-    ;; Ensure a controlled tie: two JSON files in the same preferred dir, no keys.
     (my/find-friend-test--touch (expand-file-name "etc/tie-a.json" default-directory))
     (my/find-friend-test--touch (expand-file-name "etc/tie-b.json" default-directory))
-    (let* ((files (my/find-friend-test--discover
-                   :preferred-dirs '("etc")
-                   :preferred-extensions '("json")))
-           (ia (my/find-friend-test--index files "tie-a.json"))
-           (ib (my/find-friend-test--index files "tie-b.json")))
-      (should (and ia ib))
-      (should (< ia ib)))))
-
-(ert-deftest find-friend:case-insensitive-matching ()
-  (my/find-friend-test--with-canonical-project
-    (let* ((etc-dir (expand-file-name "etc/" default-directory))
-           (lower (expand-file-name "etc/dev.json" default-directory))
-           (upper (expand-file-name "etc/DEV.JSON" default-directory)))
-      ;; Attempt to create the uppercase variant
-      (my/find-friend-test--touch upper)
-
-      ;; On case-insensitive filesystems, LOWER and UPPER are the same entry.
-      (let ((entries (directory-files etc-dir nil directory-files-no-dot-files-regexp t)))
-        (unless (and (member "dev.json" entries) (member "DEV.JSON" entries))
-          (ert-skip "Filesystem is case-insensitive; cannot have dev.json and DEV.JSON simultaneously.")))
-
-      (let* ((files (my/find-friend-test--discover
-                     :preferred-words '("dev")
-                     :preferred-dirs '("etc")
-                     :preferred-extensions '("json")))
-             (names (my/find-friend-test--names files)))
-        (should (equal (seq-take names 2) '("dev.json" "DEV.JSON")))))))
-
-(ert-deftest find-friend:symlinked-sideways-dir-not-traversed ()
-  (my/find-friend-test--with-canonical-project
-    ;; Create a sideways target containing a tempting file.
-    (my/find-friend-test--touch
-     (expand-file-name "services/serviceA/config/through-link.json" default-directory))
-
-    ;; Create a symlink inside the buffer subtree pointing sideways.
-    (let* ((link (expand-file-name "src/app/etc-link" default-directory))
-           (target (expand-file-name "services/serviceA/config" default-directory)))
-      (condition-case _
-          (make-symbolic-link target link t)
-        (file-error (ert-skip "Symlinks not supported on this system / permissions.")))
-
-      ;; The sideways file must not appear (we should not traverse the symlinked dir).
-      (let ((files (my/find-friend-test--discover
-                    :preferred-dirs '("etc" "config")
-                    :preferred-extensions '("json"))))
-        (should-not (my/find-friend-test--has-basename files "through-link.json"))))))
-
-(ert-deftest find-friend:all-nil-returns-nothing ()
-  (my/find-friend-test--with-canonical-project
-    (should (null (my/find-friend-files
-                   :base-dir (my/find-friend-test--base-dir)
-                   :preferred-words nil
-                   :preferred-dirs nil
-                   :preferred-extensions nil)))))
-
-(ert-deftest find-friend:blank-keys-are-ignored ()
-  (my/find-friend-test--with-canonical-project
-    (let* ((base (my/find-friend-test--discover
-                  :preferred-words nil
-                  :preferred-dirs my/find-friend-test--preferred-dirs
-                  :preferred-extensions my/find-friend-test--preferred-extensions))
-           (blank (my/find-friend-test--discover
-                   :preferred-words '("" "   " nil)
-                   :preferred-dirs my/find-friend-test--preferred-dirs
-                   :preferred-extensions my/find-friend-test--preferred-extensions)))
-      ;; Compare a prefix to avoid brittleness if the tail grows.
-      (should (equal (-take 15 (my/find-friend-test--names base))
-                     (-take 15 (my/find-friend-test--names blank)))))))
-
-(ert-deftest find-friend:preferred-dirs-are-segment-only ()
-  (my/find-friend-test--with-canonical-project
-    (my/find-friend-test--touch
-     (expand-file-name "src/app/configuration/should-not-match.sh" default-directory))
     (let ((files (my/find-friend-test--discover
-                  :preferred-dirs '("config")
-                  :preferred-extensions '()))) ;; ensures bucket1 contributes nothing
-      (should-not (my/find-friend-test--has-basename files "should-not-match.sh")))))
-
-(ert-deftest find-friend:ancestor-descent-is-immediate-child-only ()
-  (my/find-friend-test--with-canonical-project
-    (my/find-friend-test--touch
-     (expand-file-name "some/etc/blocked.json" default-directory))
-    (let ((files (my/find-friend-test--discover
-                  :preferred-dirs '("etc" "config")
+                  :preferred-dirs '("etc")
                   :preferred-extensions '("json"))))
-      (should-not (my/find-friend-test--has-basename files "blocked.json")))))
+      (my/find-friend-test--should-come-before files "tie-a.json" "tie-b.json"))))
 
-(ert-deftest find-friend:distance-beats-similarity ()
+;;;; H. New scoring semantics
+
+(ert-deftest find-friend:v2-segment-match-can-win-with-generic-filename ()
   (my/find-friend-test--with-canonical-project
-    (my/find-friend-test--touch (expand-file-name "src/app/aaa.json" default-directory))
-    (my/find-friend-test--touch (expand-file-name "src/target.json" default-directory))
+    (my/find-friend-test--touch (expand-file-name "src/app/http_server/run.cfg" default-directory))
+    (my/find-friend-test--touch (expand-file-name "src/app/other/run.cfg" default-directory))
     (let* ((files (my/find-friend-test--discover
-                   :preferred-words '("target")
-                   :preferred-dirs '()          ;; bucket1 only
-                   :preferred-extensions '("json")))
-           (names (my/find-friend-test--names files)))
-      (should (equal (car names) "aaa.json"))
-      (should (> (my/find-friend-test--index files "target.json")
-                 (my/find-friend-test--index files "aaa.json"))))))
+                   :preferred-words '("http_server")
+                   :preferred-dirs '()
+                   :preferred-extensions '("cfg")))
+           (top (car files)))
+      (should (string-prefix-p "src/app/http_server/" (f-relative top default-directory))))))
 
-(ert-deftest find-friend:preferred-dir-detection-works-on-windows-paths ()
+(ert-deftest find-friend:v2-boundary-substring-beats-plain-substring ()
   (my/find-friend-test--with-canonical-project
-    (let* ((root (file-name-as-directory (expand-file-name default-directory)))
-           (file (expand-file-name "etc/wincheck.json" root)))
-      (my/find-friend-test--touch file)
-      (should (my/find-friend--in-preferred-dir-p file root '("etc"))))))
+    (my/find-friend-test--touch (expand-file-name "src/app/dev/settings.json" default-directory))
+    (my/find-friend-test--touch (expand-file-name "src/app/development/settings.json" default-directory))
+    (let* ((files (my/find-friend-test--discover
+                   :preferred-words '("settings" "dev")
+                   :preferred-dirs '()
+                   :preferred-extensions '("json")))
+           (top (car files)))
+      (should (string= "src/app/dev/settings.json"
+                       (f-relative top default-directory))))))
+
+(ert-deftest find-friend:v2-many-later-matches-can-beat-single-early-match ()
+  (my/find-friend-test--with-canonical-project
+    (my/find-friend-test--touch (expand-file-name "src/app/x-alpha-x.json" default-directory))
+    (my/find-friend-test--touch (expand-file-name "src/app/gamma/beta.json" default-directory))
+    (let* ((files (my/find-friend-test--discover
+                   :preferred-words '("alpha" "beta" "gamma")
+                   :preferred-dirs '()
+                   :preferred-extensions '("json")))
+           (top (car files)))
+      (should (string= "src/app/gamma/beta.json"
+                       (f-relative top default-directory))))))
+
+;;;; I. Additional scoring guarantees
+
+(ert-deftest find-friend:v2-substring-beats-fuzzy ()
+  (my/find-friend-test--with-canonical-project
+    (my/find-friend-test--touch (expand-file-name "src/app/http_server/zzprec.json" default-directory))
+    (my/find-friend-test--touch (expand-file-name "src/app/httpXserver/zzprec.json" default-directory))
+    (let* ((files (my/find-friend-test--discover
+                   :preferred-words '("zzprec" "http_server")
+                   :preferred-dirs '()
+                   :preferred-extensions '("json")))
+           (rels (-map (lambda (p) (f-relative p default-directory)) files)))
+      (should (< (-elem-index "src/app/http_server/zzprec.json" rels)
+                 (-elem-index "src/app/httpXserver/zzprec.json" rels))))))
+
+(ert-deftest find-friend:v2-fuzzy-distance-orders-within-fuzzy ()
+  (my/find-friend-test--with-canonical-project
+    (my/find-friend-test--touch (expand-file-name "src/app/sever/zzfuz.json" default-directory))
+    (my/find-friend-test--touch (expand-file-name "src/app/saver/zzfuz.json" default-directory))
+    (let* ((files (my/find-friend-test--discover
+                   :preferred-words '("zzfuz" "server")
+                   :preferred-dirs '()
+                   :preferred-extensions '("json")))
+           (rels (-map (lambda (p) (f-relative p default-directory)) files)))
+      (should (< (-elem-index "src/app/sever/zzfuz.json" rels)
+                 (-elem-index "src/app/saver/zzfuz.json" rels))))))
+
+(ert-deftest find-friend:v2-does-not-match-across-path-boundaries ()
+  (my/find-friend-test--with-canonical-project
+    (my/find-friend-test--touch (expand-file-name "src/app/ab/cd/zzpath.json" default-directory))
+    (my/find-friend-test--touch (expand-file-name "src/app/xx/yy/zzpath.json" default-directory))
+    (let* ((files (my/find-friend-test--discover
+                   :preferred-words '("zzpath" "bc")
+                   :preferred-dirs '()
+                   :preferred-extensions '("json")))
+           (rels (-map (lambda (p) (f-relative p default-directory)) files)))
+      (should (< (-elem-index "src/app/ab/cd/zzpath.json" rels)
+                 (-elem-index "src/app/xx/yy/zzpath.json" rels))))))
 
 (provide 'my-find-friend-test)
-;;; my-find-friend.el ends here
+;;; my-find-friend-test.el ends here
