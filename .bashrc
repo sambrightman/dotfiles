@@ -107,6 +107,7 @@ export PATH="$(brew --prefix python)/libexec/bin:$PATH"
 PATH=$HOME/.evm/bin:$PATH
 PATH=$HOME/.cask/bin:$PATH
 PATH=$HOME/.rvm/bin:$PATH
+PATH=$HOME/.pixi/bin:$PATH
 
 require ~/.travis/travis.sh
 

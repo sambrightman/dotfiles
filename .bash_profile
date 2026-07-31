@@ -400,6 +400,8 @@ require ~/.fzf.bash
 require ${DEV_DIR}/fzf-tab-completion/bash/fzf-bash-completion.sh
 bind -x '"\t": fzf_bash_completion'
 
+eval "$(zoxide init bash)"
+
 if [[ "${OSTYPE}" == "darwin"* ]]; then
     require $(brew --prefix)/bin/virtualenvwrapper_lazy.sh
 else
