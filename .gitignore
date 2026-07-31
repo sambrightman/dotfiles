@@ -14,3 +14,6 @@ bin/python
 \#*\#
 *~
 /.emacs.d/recentf
+.claude/
+CLAUDE.md
+AGENTS.md
