@@ -380,14 +380,25 @@ require "$HOME/.opam/opam-init/init.sh"
 require "$HOME/.rvm/scripts/rvm"
 
 export MONO_GAC_PREFIX="/usr/local"
+
+export FZF_DEFAULT_COMMAND='fd --follow --hidden --exclude .git --exclude .hg --exclude .svn'
+export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
+export FZF_ALT_C_COMMAND="${FZF_DEFAULT_COMMAND} --type d"
 export FZF_DEFAULT_OPTS='--extended-exact --multi --select-1'
 export FZF_COMPLETION_AUTO_COMMON_PREFIX=true
 export FZF_COMPLETION_AUTO_COMMON_PREFIX_PART=true
-bind -x '"\t": fzf_bash_completion'
-
+function _fzf_compgen_path() {
+  eval "${FZF_CTRL_T_COMMAND}" . "$1"
+}
+function _fzf_compgen_dir() {
+  eval "${FZF_ALT_C_COMMAND}" . "$1"
+}
 function fzf_file_context() {
     fzf --delimiter : --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' --preview-window 'up,+{2}-/2'
 }
+require ~/.fzf.bash
+require ${DEV_DIR}/fzf-tab-completion/bash/fzf-bash-completion.sh
+bind -x '"\t": fzf_bash_completion'
 
 if [[ "${OSTYPE}" == "darwin"* ]]; then
     require $(brew --prefix)/bin/virtualenvwrapper_lazy.sh
