@@ -509,4 +509,70 @@ function profile_bash() {
     paste "${timing_file}" "${trace_file}" | less
 }
 
+# declare -i __BASHARG_CMD_INDEX=0
+# declare -i __BASHARG_ARG_INDEX
+# declare -i __BASHARG_ARG_TARGET_INDEX=0
+# declare -i __BASHARG_ARG_MAX_INDEX=0
+# declare -i __BASHARG_INSERT_START=0
+# declare -i __BASHARG_INSERT_END=0
+# declare -i __BASHARG_PREV_POINT=0
+
+# __basharg_insert() {
+#     # local cmd args
+#     local arg
+
+#     # cmd=$(fc -ln ${__BASHARG_CMD_INDEX} ${__BASHARG_CMD_INDEX})
+#     # args=($cmd)
+#     # __BASHARG_ARG_MAX_INDEX=$((${#args[@]} - 1))
+
+#     __BASHARG_ARG_MAX_INDEX=0
+#     while history -p \!${__BASHARG_CMD_INDEX}:$((__BASHARG_ARG_MAX_INDEX + 1)) >/dev/null 2>&1; do
+#         ((__BASHARG_ARG_MAX_INDEX++))
+#     done
+
+#     __BASHARG_ARG_TARGET_INDEX=${__BASHARG_ARG_INDEX:-${__BASHARG_ARG_MAX_INDEX}}
+#     __BASHARG_ARG_INDEX=$((__BASHARG_ARG_TARGET_INDEX > __BASHARG_ARG_MAX_INDEX ? __BASHARG_ARG_MAX_INDEX : __BASHARG_ARG_TARGET_INDEX))
+#     arg=$(history -p \!${__BASHARG_CMD_INDEX}:${__BASHARG_ARG_INDEX})
+
+#     if ((__BASHARG_INSERT_END == 0 || READLINE_POINT != __BASHARG_PREV_POINT)); then
+#         __BASHARG_INSERT_START=$READLINE_POINT
+#     fi
+
+#     READLINE_LINE="${READLINE_LINE:0:__BASHARG_INSERT_START}${arg}${READLINE_LINE:__BASHARG_INSERT_END}"
+#     __BASHARG_INSERT_END=$((__BASHARG_INSERT_START + ${#arg}))
+#     READLINE_POINT=${__BASHARG_INSERT_END}
+#     __BASHARG_PREV_POINT=${READLINE_POINT}
+# }
+
+# __basharg_command_cycle_prev() {
+#     ((__BASHARG_CMD_INDEX--))
+#     __BASHARG_ARG_INDEX=${__BASHARG_ARG_TARGET_INDEX}
+#     __basharg_insert
+# }
+
+# __basharg_command_cycle_next() {
+#     __BASHARG_CMD_INDEX=$((__BASHARG_CMD_INDEX < -1 ? __BASHARG_CMD_INDEX + 1 : __BASHARG_CMD_INDEX))
+#     __BASHARG_ARG_INDEX=${__BASHARG_ARG_TARGET_INDEX}
+#     __basharg_insert
+# }
+
+# __basharg_argument_cycle() {
+#     __BASHARG_ARG_INDEX=${__BASHARG_ARG_INDEX:+$(((__BASHARG_ARG_INDEX + __BASHARG_ARG_MAX_INDEX) % (__BASHARG_ARG_MAX_INDEX + 1)))}
+#     __basharg_insert
+# }
+
+# __basharg_disable() {
+#     bind -r '\e.'
+#     bind -r '\e,'
+#     bind -r '\e>'
+#     bind '"\e.": insert-last-argument'
+#     bind '"\e.": yank-last-arg'
+# }
+
+# bind -x '"\e.": __basharg_command_cycle_prev'
+# bind -x '"\e>": __basharg_command_cycle_next'
+# bind -x '"\e,": __basharg_argument_cycle'
+
+# PROMPT_COMMAND+='unset __BASHARG_ARG_INDEX; __BASHARG_CMD_INDEX=0; __BASHARG_ARG_TARGET_INDEX=0; __BASHARG_ARG_MAX_INDEX=0; __BASHARG_INSERT_START=0; __BASHARG_INSERT_END=0; __BASHARG_PREV_POINT=0'
+
 require ~/.bash_work
