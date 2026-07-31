@@ -15,8 +15,8 @@
                    company-racer company-rtags conda cpanfile-mode
                    cquery crux csharp-mode cython-mode d-mode dap-mode
                    dash-at-point docker-compose-mode dockerfile-mode
-                   eglot ensime erlang ess expand-region flx-ido
-                   flycheck-cask flycheck-clojure
+                   dumb-jump eglot ensime erlang ess expand-region
+                   flx-ido flycheck-cask flycheck-clojure
                    flycheck-google-cpplint flycheck-haskell
                    flycheck-ocaml flycheck-package flycheck-perl6
                    flycheck-pyflakes flycheck-raku flycheck-rtags
@@ -30,18 +30,19 @@
                    hydra ido-completing-read+ ido-vertical-mode
                    js2-mode json-mode julia-mode jump-char
                    less-css-mode lsp-docker lsp-haskell lsp-java
-                   lsp-javacomp lsp-mode lsp-treemacs lsp-ui
-                   magit-gerrit magit-lfs magit-popup markdown-mode
-                   matlab-mode multiple-cursors mwim nginx-mode
-                   page-break-lines pallet paradox paredit pcre2el
-                   phi-search php-mode pip-requirements puppet-mode
-                   py-autopep8 pycoverage pymacs python-docstring
-                   pythonic racer rainbow-delimiters realgud rg robe
-                   rtags rtags-xref rustic sass-mode sbt-mode
-                   scala-mode shut-up smex solarized-theme sqlite3
-                   toml-mode traad tt-mode typescript-mode
-                   virtualenvwrapper visual-regexp-steroids vue-mode
-                   which-key xref yaml-mode))
+                   lsp-javacomp lsp-mode lsp-pyright lsp-treemacs
+                   lsp-ui magit-gerrit magit-lfs magit-popup
+                   markdown-mode matlab-mode multiple-cursors mwim
+                   nginx-mode page-break-lines pallet paradox paredit
+                   pcre2el phi-search php-mode pip-requirements
+                   puppet-mode py-autopep8 pycoverage pymacs
+                   python-docstring pythonic racer rainbow-delimiters
+                   realgud rg robe rtags rtags-xref rustic sass-mode
+                   sbt-mode scala-mode shut-up smex solarized-theme
+                   sqlite3 thrift toml-mode traad tt-mode
+                   typescript-mode virtualenvwrapper
+                   visual-regexp-steroids vue-mode which-key
+                   whole-line-or-region xref yaml-mode))
  '(paradox-automatically-star nil)
  '(paradox-github-token t)
  '(safe-local-variable-values
