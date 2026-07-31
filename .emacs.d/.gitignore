@@ -21,3 +21,5 @@
 /projects
 /workspace/
 /forge-database-*.sqlite
+/dap-ui-repl-python-history
+/tramp
