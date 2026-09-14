@@ -39,7 +39,7 @@
                    python-docstring pythonic racer rainbow-delimiters
                    realgud rg robe rtags rtags-xref rustic sass-mode
                    sbt-mode scala-mode shut-up smex solarized-theme
-                   sqlite3 thrift toml-mode traad tt-mode
+                   sqlite3 thrift toml toml-mode traad tt-mode
                    typescript-mode virtualenvwrapper
                    visual-regexp-steroids vue-mode which-key
                    whole-line-or-region xref yaml-mode))

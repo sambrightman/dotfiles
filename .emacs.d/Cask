@@ -205,6 +205,7 @@
 (depends-on "ssass-mode")
 (depends-on "test-simple")
 (depends-on "thrift")
+(depends-on "toml")
 (depends-on "toml-mode")
 (depends-on "traad")
 (depends-on "transient" "0.3.0")
