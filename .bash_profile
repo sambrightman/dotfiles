@@ -396,7 +396,7 @@ function _fzf_compgen_dir() {
 function fzf_file_context() {
     fzf --delimiter : --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' --preview-window 'up,+{2}-/2'
 }
-require ~/.fzf.bash
+eval "$(fzf --bash)"
 require ${DEV_DIR}/fzf-tab-completion/bash/fzf-bash-completion.sh
 bind -x '"\t": fzf_bash_completion'
 
