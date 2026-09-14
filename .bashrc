@@ -37,7 +37,7 @@ function nvm() {
     :
 }
 
-require "$(brew --prefix)/etc/bash_completion"
+require "$(brew --prefix)/etc/profile.d/bash_completion.sh"
 
 # for Solarized in emacs
 unset COLORTERM
