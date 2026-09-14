@@ -23,10 +23,12 @@ eval "$(${HOMEBREW_PREFIX}/bin/brew shellenv)"
 function require() {
     filename=${1:?usage: require filename [command=source]} && shift
     func=${1:-source}
-    if [ -f "$filename" ]; then
-        eval "$func $filename"
+    if [ ! -f "${filename}" ]; then
+        echo "require: ${filename} does not exist" >&2
+    elif ! command -v "${func}" >/dev/null; then
+        echo "require: ${func} is not executable" >&2
     else
-        echo "require: $filename does not exist"
+        eval "${func} ${filename}"
     fi
 }
 
