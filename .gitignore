@@ -14,6 +14,8 @@ bin/python
 \#*\#
 *~
 /.emacs.d/recentf
+/.emacs.d/recentf.eld
+/.emacs.d/projects.eld
 .claude/
 CLAUDE.md
 AGENTS.md
