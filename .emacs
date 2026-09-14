@@ -330,6 +330,7 @@ See URL `https://github.com/any-json/any-json'."
 (setq-default jedi:environment-virtualenv (append python-environment-virtualenv
                                                   '("--python" "python3")))
 (jedi:install-server)
+(require 'traad)
 (traad-install-server)
 (defun my/python-mode-hook ()
   "Customization for `python-mode'."
