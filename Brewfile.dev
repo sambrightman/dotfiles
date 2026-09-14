@@ -1,0 +1,14 @@
+# GNU compiler collection
+brew "gcc"
+# GNU debugger
+brew "gdb"
+# Next-gen compiler infrastructure
+brew "llvm"
+# LLVM Project Linker
+brew "lld"
+# Next generation, high-performance debugger
+brew "lldb"
+# Terminal-based AI coding assistant
+cask "claude-code"
+# OpenAI's coding agent that runs in your terminal
+cask "codex"
