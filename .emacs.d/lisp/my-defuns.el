@@ -201,8 +201,9 @@ Prompt user for multiple matches or return nil if not found."
   "Get the (possibly cached) directory that contains compile_commands.json.
 Prompt user if there are multiple matches or return nil if not found."
   (if-let* ((workspace-root (lsp-workspace-root)))
-      (or (gethash workspace-root my/lsp-clangd--workspace-build-dirs)
-          (puthash workspace-root (my/lsp-clangd--select-compile-commands-dir workspace-root) my/lsp-clangd--workspace-build-dirs))
+      (let ((cache-dir (gethash workspace-root my/lsp-clangd--workspace-build-dirs)))
+        (or (and cache-dir (file-directory-p cache-dir) cache-dir)
+            (puthash workspace-root (my/lsp-clangd--select-compile-commands-dir workspace-root) my/lsp-clangd--workspace-build-dirs)))
     (progn
       (lsp--warn "lsp-workspace-root is not set yet")
       nil)))
