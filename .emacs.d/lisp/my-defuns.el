@@ -200,7 +200,7 @@ Prompt user for multiple matches or return nil if not found."
 (defun my/lsp-clangd--get-compile-commands-dir ()
   "Get the (possibly cached) directory that contains compile_commands.json.
 Prompt user if there are multiple matches or return nil if not found."
-  (if-let ((workspace-root (lsp-workspace-root)))
+  (if-let* ((workspace-root (lsp-workspace-root)))
       (or (gethash workspace-root my/lsp-clangd--workspace-build-dirs)
           (puthash workspace-root (my/lsp-clangd--select-compile-commands-dir workspace-root) my/lsp-clangd--workspace-build-dirs))
     (progn
@@ -212,9 +212,9 @@ Prompt user if there are multiple matches or return nil if not found."
 If --compile-commands-dir is already set, trust it.
 Otherwise run a (potentially interactive) search for the directory
 that contains compile_commands.json and then modify the variable during advice."
-  (if-let ((not-already-set (--none? (s-starts-with? "--compile-commands-dir=" it) lsp-clients-clangd-args))
-           (selected-dir (my/lsp-clangd--get-compile-commands-dir))
-           (lsp-clients-clangd-args (cons (concat "--compile-commands-dir=" selected-dir) lsp-clients-clangd-args)))
+  (if-let* ((not-already-set (--none? (s-starts-with? "--compile-commands-dir=" it) lsp-clients-clangd-args))
+            (selected-dir (my/lsp-clangd--get-compile-commands-dir))
+            (lsp-clients-clangd-args (cons (concat "--compile-commands-dir=" selected-dir) lsp-clients-clangd-args)))
       (progn
         (lsp--info "using compile commands from %s" selected-dir)
         (apply orig-fun args))
@@ -229,10 +229,10 @@ that contains compile_commands.json and then modify the variable during advice."
 If --query-driver is already set, trust it.
 Otherwise add CONDA_PREFIX/bin/* to it."
   ;; TODO allow adding to the comma-separated list
-  (if-let ((not-already-set (--none? (s-starts-with? "--query-driver=" it) lsp-clients-clangd-args))
-           (conda-prefix (getenv "CONDA_PREFIX"))
-           (conda-env-bin-glob (f-join conda-prefix "bin" "*"))
-           (lsp-clients-clangd-args (cons (concat "--query-driver=" conda-env-bin-glob) lsp-clients-clangd-args)))
+  (if-let* ((not-already-set (--none? (s-starts-with? "--query-driver=" it) lsp-clients-clangd-args))
+            (conda-prefix (getenv "CONDA_PREFIX"))
+            (conda-env-bin-glob (f-join conda-prefix "bin" "*"))
+            (lsp-clients-clangd-args (cons (concat "--query-driver=" conda-env-bin-glob) lsp-clients-clangd-args)))
       (progn
         (lsp--info "using query drivers %s" conda-env-bin-glob)
         (apply orig-fun args))
@@ -274,7 +274,7 @@ Otherwise add CONDA_PREFIX/bin/* to it."
 
 (defun my/lsp-clangd-restart-if-conda-env ()
   "Look for a matching conda environment, activate it and restart lsp."
-  (if-let ((env (my/conda-env-for-project-dir (lsp-workspace-root))))
+  (if-let* ((env (my/conda-env-for-project-dir (lsp-workspace-root))))
       (progn
         (conda-env-activate env)
         ;; https://github.com/emacs-lsp/lsp-mode/issues/2932
