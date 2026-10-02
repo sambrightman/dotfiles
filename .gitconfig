@@ -35,7 +35,7 @@
 	cpc = cherry-pick --continue
 	dc = diff --cached
 	ds = diff --stat
-	du = !"diff_upstream() { local branch=$1; test -n \"$1\" && shift; git diff --pretty=authoneline --reverse $(git ub ${branch})..${branch} \"$@\"; }; diff_upstream"
+	du = !"diff_upstream() { local branch=${1:-$(git cb)}; test -n \"$1\" && shift; git diff --pretty=authoneline --reverse $(git ub ${branch})..${branch} \"$@\"; }; diff_upstream"
 	dus = du HEAD --stat
 	ffm = merge --ff-only
 	fu = commit --amend --no-edit
@@ -45,8 +45,9 @@
 	lgf = log --pretty=authonelinefull
 	lgs = !"log_summary() { git log -n1 --format=%s HEAD~${1:-0}; }; log_summary"
 	lgb = !"log_body() { git log -n1 --format=%b HEAD~${1:-0}; }; log_body"
-	lgi = !"log_incoming() { local branch=${1:-}; git log --pretty=authoneline ${branch}..$(git ub ${branch}); }; log_incoming"
-	lgu = !"log_upstream() { local branch=${1:-}; git log --pretty=authoneline --reverse $(git ub ${branch})..${branch}; }; log_upstream"
+	lgi = !"log_incoming() { local branch=${1:-$(git cb)}; git log --pretty=authoneline ${branch}..$(git ub ${branch}); }; log_incoming"
+	lgu = !"log_upstream() { local branch=${1:-$(git cb)}; git log --pretty=authoneline --reverse $(git ub ${branch})..${branch} \"$@\"; }; log_upstream"
+	lguf = !"git lgu $(git cb) --pretty=authonelinefull \"$@\""
 	lgus = !git lgu --stat
 	lgut = !git lgu | tail
 	lsall = !"list_all() { git log --all --pretty=format: --name-only --diff-filter=A \"$@\" | grep . | sort -u; }; list_all"
