@@ -5,6 +5,7 @@
 
 (setq-default package--init-file-ensured t) ;; removed in Emacs 27
 (setq-default warning-suppress-log-types '((package reinitialization)))
+(setq-default package-install-upgrade-built-in t)
 (require 'cask (my/join-path "~" ".cask" "cask.el"))
 ;; cask and epl can be edited to (setq package--initialized nil) before (package-initialize)
 (cask-initialize)
