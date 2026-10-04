@@ -12,6 +12,8 @@ brew "fd"
 brew "fzf"
 # Interpreted, interactive, object-oriented programming language
 brew "python"
+# Execute binaries from Python packages in isolated environments
+brew "pipx"
 # GNU awk utility
 brew "gawk"
 # GitHub command-line tool
@@ -26,5 +28,3 @@ brew "grep"
 brew "jq"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
-cargo "cargo-update"
-cargo "ripgrep"
