@@ -170,6 +170,25 @@ function grepsrc() {
     grep -r --color --exclude-dir=.svn --exclude-dir=.git --exclude-dir=target "$@"
 }
 
+function with_color() {
+    "$@" --color=always
+}
+# trailing space expands aliases in the next word
+alias with_color='with_color '
+
+function toggle_prefix() {
+    local prefix="$1 " && shift
+
+    if [[ $READLINE_LINE == "${prefix}"* ]]; then
+        READLINE_LINE=${READLINE_LINE#"${prefix}"}
+        (( READLINE_POINT = READLINE_POINT > ${#prefix} ? READLINE_POINT - ${#prefix} : 0 ))
+    else
+        READLINE_LINE="${prefix}$READLINE_LINE"
+        (( READLINE_POINT += ${#prefix} ))
+    fi
+}
+bind -x '"\C-xc": toggle_prefix with_color'
+
 function rgl() {
     rg -L "$@"
 }
