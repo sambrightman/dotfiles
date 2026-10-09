@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# replaced by python nautilus extension
+
+ok=0; fail=0; errors=""
+for f in "$@"; do
+    [[ "${f,,}" == *.msg ]] || continue
+    f=$(realpath -- "$f")
+    if err=$(cd "$(dirname -- "$f")" && msgconvert "$f" 2>&1 >/dev/null); then
+        ok=$((ok+1))
+    else
+        fail=$((fail+1))
+        errors+="$(basename -- "$f"): ${err:-unknown error}"$'\n'
+    fi
+done
+
+if [ $fail -gt 0 ]; then
+    notify-send -u critical -i dialog-error "msg2eml: $ok converted, $fail failed" "$errors"
+else
+    notify-send -i mail-message "msg2eml" "Converted $ok file(s)"
+fi
