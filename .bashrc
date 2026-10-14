@@ -4,6 +4,7 @@ export DEV_DIR="$HOME/dev"
 export HOMEBREW_TEMP=~/tmp
 export HOMEBREW_NO_INSTALL_CLEANUP=
 export HOMEBREW_NO_AUTO_UPDATE=
+export HOMEBREW_AUTO_UPDATE_SECS=86400
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=
 if [[ "$(hostname -s)" == "asgardstudy1" || "$(hostname -s)" == "asgardstudy2" ]]; then
     export HOMEBREW_FORCE_BREWED_CURL=1
