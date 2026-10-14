@@ -73,14 +73,10 @@
 
 (setq garbage-collection-messages t)
 (setq gc-cons-threshold (* 120 (* 1024 1024)))
-(defun my/minibuffer-setup-hook ()
-  (setq my/gc-cons-threshold-original gc-cons-threshold)
-  (setq gc-cons-threshold most-positive-fixnum))
-(defun my/minibuffer-exit-hook ()
-  (setq gc-cons-threshold my/gc-cons-threshold-original)
-  (makunbound 'my/gc-cons-threshold-original))
-(add-hook 'minibuffer-setup-hook #'my/minibuffer-setup-hook)
-(add-hook 'minibuffer-exit-hook #'my/minibuffer-exit-hook)
+(defun my/read-from-minibuffer-high-gc (orig &rest args)
+  (let ((gc-cons-threshold most-positive-fixnum))
+    (apply orig args)))
+(advice-add 'read-from-minibuffer :around #'my/read-from-minibuffer-high-gc)
 
 (defun my/help-mode-revert-buffer--noconfirm (&rest args)
   "Don't confirm when reverting *Help* buffers with ARGS."
