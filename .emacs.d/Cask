@@ -171,6 +171,7 @@
 (depends-on "pos-tip")
 (depends-on "posframe")
 (depends-on "project" "0.3.0")
+(depends-on "projectile")
 (depends-on "protobuf-mode")
 (depends-on "puppet-mode")
 (depends-on "py-autopep8")

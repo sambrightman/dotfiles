@@ -12,37 +12,40 @@
                    color-theme-solarized company-c-headers
                    company-cmake company-dcd company-flx company-glsl
                    company-go company-jedi company-lsp company-math
-                   company-racer company-rtags conda cpanfile-mode
-                   cquery crux csharp-mode cython-mode d-mode dap-mode
-                   dash-at-point docker-compose-mode dockerfile-mode
-                   dumb-jump eglot ensime erlang ess expand-region
-                   flx-ido flycheck-cask flycheck-clojure
+                   company-racer company-rtags compat conda
+                   cpanfile-mode cquery crux csharp-mode cython-mode
+                   d-mode dap-mode dash-at-point docker-compose-mode
+                   dockerfile-mode dumb-jump editorconfig eglot eldoc
+                   ensime erc erlang ess expand-region faceup flx-ido
+                   flycheck-cask flycheck-clojure
                    flycheck-google-cpplint flycheck-haskell
                    flycheck-ocaml flycheck-package flycheck-perl6
                    flycheck-pyflakes flycheck-raku flycheck-rtags
-                   flycheck-rust flyspell-correct
+                   flycheck-rust flymake flyspell-correct
                    flyspell-correct-popup font-lock-studio forge fzf
                    git git-link git-modes gitattributes-mode
                    gitconfig-mode gitignore-mode glsl-mode
                    gnu-elpa-keyring-update go-eldoc go-errcheck
                    go-flycheck gradle-mode groovy-mode gruvbox-theme
                    highlight-chars highlight-indentation homebrew-mode
-                   hydra ido-completing-read+ ido-vertical-mode
-                   js2-mode json-mode julia-mode jump-char
-                   less-css-mode lsp-docker lsp-haskell lsp-java
-                   lsp-javacomp lsp-mode lsp-pyright lsp-treemacs
-                   lsp-ui magit-gerrit magit-lfs magit-popup
-                   markdown-mode matlab-mode multiple-cursors mwim
-                   nginx-mode page-break-lines pallet paradox paredit
-                   pcre2el phi-search php-mode pip-requirements
-                   puppet-mode py-autopep8 pycoverage pymacs
-                   python-docstring pythonic racer rainbow-delimiters
-                   realgud rg robe rtags rtags-xref rustic sass-mode
-                   sbt-mode scala-mode shut-up smex solarized-theme
-                   sqlite3 thrift toml toml-mode traad tt-mode
-                   typescript-mode virtualenvwrapper
+                   hydra idlwave ido-completing-read+
+                   ido-vertical-mode js2-mode json-mode jsonrpc
+                   julia-mode jump-char less-css-mode lsp-docker
+                   lsp-haskell lsp-java lsp-javacomp lsp-mode
+                   lsp-pyright lsp-treemacs lsp-ui magit magit-gerrit
+                   magit-lfs magit-popup magit-section markdown-mode
+                   matlab-mode multiple-cursors mwim nginx-mode org
+                   page-break-lines pallet paradox paredit pcre2el peg
+                   phi-search php-mode pip-requirements project
+                   projectile puppet-mode py-autopep8 pycoverage
+                   pymacs python python-docstring pythonic racer
+                   rainbow-delimiters realgud rg robe rtags rtags-xref
+                   rustic sass-mode sbt-mode scala-mode shut-up smex
+                   solarized-theme sqlite3 thrift toml-mode traad
+                   track-changes tramp transient tt-mode
+                   typescript-mode verilog-mode virtualenvwrapper
                    visual-regexp-steroids vue-mode which-key
-                   whole-line-or-region xref yaml-mode))
+                   whole-line-or-region window-tool-bar xref yaml-mode))
  '(paradox-automatically-star nil)
  '(paradox-github-token t)
  '(safe-local-variable-values
