@@ -682,6 +682,39 @@ See URL `https://github.com/any-json/any-json'."
 (add-hook 'vue-mode-hook 'lsp-deferred)
 
 
+;; DAP
+(with-eval-after-load 'dap-mode
+    (setq-default dap-python-debugger 'debugpy)
+    (add-to-list 'dap-auto-configure-features 'repl)
+    (setopt dap-auto-configure-mode t)
+    (add-hook 'dap-stopped-hook
+                    (lambda (arg) (call-interactively #'dap-hydra))))
+
+
+;; dump-jump
+(with-eval-after-load 'dumb-jump
+  (add-to-list 'dumb-jump-language-file-exts
+               '(:language "xml"           :ext "xml"           :agtype "xml"       :rgtype "xml"))
+  (add-to-list 'dumb-jump-language-file-exts
+               '(:language "dtd"           :ext "dtd"           :agtype "xml"       :rgtype "xml"))
+  (add-to-list 'dumb-jump-language-file-exts
+               '(:language "xsl"           :ext "xsl"           :agtype "xml"       :rgtype "xml"))
+  (add-to-list 'dumb-jump-language-file-exts
+               '(:language "xslt"          :ext "xslt"          :agtype "xml"       :rgtype "xml"))
+  (add-to-list 'dumb-jump-language-file-exts
+               '(:language "xsd"           :ext "xsd"           :agtype "xml"       :rgtype "xml"))
+  (add-to-list 'dumb-jump-language-comments
+               '(:comment "<!--" :language "xml"))
+  (add-to-list 'dumb-jump-find-rules
+               '(:language "xml" :type "variable"
+                           :supports ("ag" "rg" "git-grep" "grep")
+                           :regex "<JJJ\b"
+                           :tests ("<test>"
+                                   "<test foo=bar>"
+                                   "<test>foo</test>"
+                                   "<test/>")
+                           :not ("<foo test=bar"))))
+
 ;; (require 'cquery)
 ;; (defun my/cquery-enable ()
 ;;   "Enable cquery with no errors."
