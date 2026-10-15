@@ -60,6 +60,7 @@
 	ra = rebase --abort
 	rb = rebase
 	rbb = !"post_smu_rbb() { local branch=$1 && shift; local upstream_ref=$1 && shift; git rebase $(git merge-base ${upstream_ref} ${branch}) ${branch} --onto HEAD; }; post_smu_rbb"
+	rbbt = !"post_smu_rbbt() { unset $(git rev-parse --local-env-vars); local branch=${1:-$(git rev-parse --abbrev-ref @{-1})}; local super_dir=$(git rev-parse --show-superproject-working-tree); local upstream_ref=${2:-$(git -C ${super_dir} rev-parse :$(realpath $(git rev-parse --show-toplevel) --relative-to=${super_dir}))}; git rebase $(git merge-base ${upstream_ref} ${branch}) ${branch} --onto HEAD; }; post_smu_rbbt"
 	rbs = rebase --show-current-patch
 	rc = rebase --continue
 	rs = rebase --skip
