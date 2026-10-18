@@ -266,8 +266,8 @@ Otherwise add CONDA_PREFIX/bin/* to it."
   (progn
     (jedi:stop-server)
     (unless no-reset
-      (setq conda-project-env-path nil))
-    (conda-env-activate-for-buffer)
+      (setq conda-project-env-path nil)
+      (conda-env-activate-for-buffer))
     (setq jedi:server-args nil)
     (jedi:import-python-el-settings-setup)
     (jedi:start-server)
