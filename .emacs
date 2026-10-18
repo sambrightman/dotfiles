@@ -164,6 +164,22 @@
   (if (eq system-type 'gnu/linux)
       (add-to-list 'browser-hist-db-paths '(firefox . "$HOME/.mozilla/firefox/*.default-release/places.sqlite"))))
 
+;; tramp
+(with-eval-after-load 'tramp
+  (setq remote-file-name-inhibit-locks t
+        tramp-use-scp-direct-remote-copying t
+        remote-file-name-inhibit-auto-save-visited t
+        tramp-default-method "rsync"
+        tramp-copy-size-limit (* 1024 1024)
+        tramp-verbose 3)
+  (connection-local-set-profile-variables
+   'remote-direct-async-process
+   '((tramp-direct-async-process . t)))
+  (connection-local-set-profiles
+   '(:application tramp :protocol "scp")
+   'remote-direct-async-process)
+  (setq magit-tramp-pipe-stty-settings 'pty))
+
 
 ;; Nyquist
 (add-to-list 'auto-mode-alist '("\\.ny\\'" . lisp-mode))
