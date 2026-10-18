@@ -681,6 +681,14 @@ See URL `https://github.com/any-json/any-json'."
               'my/update-lsp-clangd-args-with-compile-commands-dir)
   (advice-add 'lsp-clients--clangd-command :around
               'my/update-lsp-clangd-args-with-query-driver))
+
+(with-eval-after-load 'lsp-pyright
+  (setq-default lsp-pyright-langserver-command "basedpyright")
+  (setq-default lsp-pyright-type-checking-mode "off")
+  (defun my/lsp-pyright-python-search-conda-env ()
+    (and (boundp 'conda-env-current-path) conda-env-current-path))
+  (add-to-list 'lsp-pyright-python-search-functions 'my/lsp-pyright-python-search-conda-env))
+
 (add-hook 'c-mode-hook 'lsp-deferred)
 (add-hook 'c++-mode-hook 'lsp-deferred)
 (add-hook 'java-mode 'lsp-deferred)
