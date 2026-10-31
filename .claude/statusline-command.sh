@@ -109,20 +109,43 @@ fi
 
 # --- Usage limits: the 5-hour and 7-day windows, and when each resets -----
 # Only claude.ai Pro and Max accounts get them, after the first reply.
+# Each is followed by where it would end at the rate it has been used this
+# window, "↗104%", and when that passes 100% with more than a tenth of the
+# window still to go, how long it would then be out until the reset, in
+# red: "(↗ out 1h 20m)". No projection in a window's first twentieth, when
+# a few minutes' use would say too much.
+percent_colour() {  # percentage -> its colour
+  if [ "$1" -ge 90 ]; then echo "$red"; elif [ "$1" -ge 70 ]; then echo "$yellow"; else echo "$green"; fi
+}
 limits_part=""
-while read -r label used resets; do
+while read -r label used resets projected out; do
   [ -z "$label" ] && continue
-  colour=$green
-  if [ "$used" -ge 90 ]; then colour=$red; elif [ "$used" -ge 70 ]; then colour=$yellow; fi
   when=""
   [ "$resets" != "-" ] && when="${dim} ↻$(until_reset "$resets")${reset}"
-  limits_part+=" ${dim}·${reset} ${colour}${label} ${used}%${reset}${when}"
-done < <(echo "$input" | jq -r '
+  projection=""
+  if [ "$projected" != "-" ] && [ "$projected" -gt "$used" ]; then
+    projection=" $(percent_colour "$projected")↗${projected}%${reset}"
+  fi
+  [ "$out" != "-" ] && projection+=" ${red}(↗ out $(until_reset $((now + out))))${reset}"
+  limits_part+=" ${dim}·${reset} $(percent_colour "$used")${label} ${used}%${reset}${projection}${when}"
+done < <(echo "$input" | jq -r --argjson now "$now" '
   .rate_limits // {} | to_entries[]
   | select(.key == "five_hour" or .key == "seven_day")
+  | (if .key == "five_hour" then 18000 else 604800 end) as $window
+  | (.value.used_percentage // 0) as $used
+  | .value.resets_at as $reset
+  | (if $reset == null then null else $window - ($reset - $now) end) as $elapsed
+  | (if $elapsed != null and $elapsed >= $window / 20 and $used > 0
+     then $used / $elapsed else null end) as $rate
+  | (if $rate == null then null else $used + $rate * ($reset - $now) end) as $projected
+  | (if $projected != null and $projected > 100
+     then $reset - ($now + (100 - $used) / $rate) else null end) as $out
   | [(if .key == "five_hour" then "5h" else "7d" end),
-     (.value.used_percentage // 0 | round | tostring),
-     (.value.resets_at // "-" | tostring)] | join(" ")' 2>/dev/null)
+     ($used | round | tostring),
+     ($reset // "-" | tostring),
+     (if $projected == null then "-" else ($projected | round | tostring) end),
+     (if $out != null and $out > $window / 10 then ($out | floor | tostring) else "-" end)]
+  | join(" ")' 2>/dev/null)
 
 # No nyan cat: Claude Code lays the status line out cell by cell and keeps
 # only colours and links from the script's output, so a picture cannot be
