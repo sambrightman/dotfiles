@@ -56,8 +56,8 @@ LOCK_TIMEOUT = 300
 
 XCODE_CLOUD_HOURS = 25  # included with the Apple Developer Program, a month
 FREE_MINUTES = {"free": 2000, "pro": 3000, "team": 3000}  # private repositories, a month
-# Included minutes go further on Linux: Windows uses them twice as fast, macOS ten times.
-MINUTE_MULTIPLIER = {"linux": 1, "windows": 2, "macos": 10}
+# What a Linux minute costs, when the report has no Linux line to read it from.
+LINUX_MINUTE_PRICE = 0.006
 
 RESET, DIM, BOLD = "\033[0m", "\033[2m", "\033[1m"
 RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN = (f"\033[{n}m" for n in range(31, 37))
@@ -244,27 +244,40 @@ def fetch_billing():
     login = user.get("login")
     plan = ((user.get("plan") or {}).get("name") or "").lower()
     now = dt.datetime.now(dt.timezone.utc)
-    summary = gh(f"users/{login}/settings/billing/usage/summary?year={now.year}&month={now.month}", token)
-    if summary is None:
+    # The day-by-day report, as it names each line's repository: minutes in a
+    # public repository are free, and don't come out of the allowance.
+    report = gh(f"users/{login}/settings/billing/usage?year={now.year}&month={now.month}", token)
+    if report is None:
         raise PermissionError("the token cannot read billing")
-    summary = summary or {}
-    minutes = free_used = spent = 0.0
-    for item in summary.get("usageItems") or []:
+    private = {}  # repository name -> whether it's private, asked once each
+    minutes = free_amount = spent = 0.0
+    billed = False  # any minutes paid for, so the allowance is used up
+    linux_price = LINUX_MINUTE_PRICE
+    for item in (report or {}).get("usageItems") or []:
         if (item.get("product") or "").lower() != "actions":
             continue
         spent += item.get("netAmount") or 0
-        if item.get("unitType", "").lower() != "minutes":
+        if (item.get("unitType") or "").lower() != "minutes":
             continue
-        quantity = item.get("grossQuantity") or 0
-        minutes += quantity
-        # The free part GitHub reports is in each system's own minutes, but the
-        # allowance counts in Linux minutes, so a macOS one uses ten.
-        sku = (item.get("sku") or "").lower()
-        multiplier = next((m for os_, m in MINUTE_MULTIPLIER.items() if os_ in sku), 1)
-        free = item.get("discountQuantity")
-        free_used += (quantity if free is None else free) * multiplier
-    return {"minutes": minutes, "freeUsed": free_used, "spent": spent,
-            "freeTotal": FREE_MINUTES.get(plan, FREE_MINUTES["free"])}
+        if "linux" in (item.get("sku") or "").lower() and item.get("pricePerUnit"):
+            linux_price = item["pricePerUnit"]
+        name = item.get("repositoryName")
+        if name and name not in private:
+            info = gh(f"repos/{login}/{name}")  # gh's own login, which can see them
+            private[name] = bool(info and info.get("private"))
+        if name and not private[name]:
+            continue
+        minutes += item.get("quantity") or 0
+        free_amount += item.get("discountAmount") or 0
+        billed = billed or (item.get("netAmount") or 0) > 0
+    # The allowance is so many Linux minutes, and other systems' minutes use
+    # it up as fast as their price says (a macOS minute is 10.3 Linux ones),
+    # so what it has given is its dollars at the Linux price.
+    free_total = FREE_MINUTES.get(plan, FREE_MINUTES["free"])
+    free_used = free_amount / linux_price
+    if billed:  # GitHub rounds to whole minutes, so the sum can fall a little short
+        free_used = max(free_used, free_total)
+    return {"minutes": minutes, "freeUsed": min(free_used, free_total), "spent": spent, "freeTotal": free_total}
 
 
 # --- App Store Connect ------------------------------------------------------
