@@ -29,21 +29,20 @@
                    go-flycheck gradle-mode groovy-mode gruvbox-theme
                    highlight-chars highlight-indentation homebrew-mode
                    hydra idlwave ido-completing-read+
-                   ido-vertical-mode
-                   js2-mode json-mode jsonrpc julia-mode jump-char
-                   less-css-mode lsp-docker lsp-haskell lsp-java
-                   lsp-javacomp lsp-mode lsp-pyright lsp-sourcekit
-                   lsp-treemacs lsp-ui magit magit-gerrit magit-lfs
-                   magit-popup magit-section markdown-mode matlab-mode
-                   multiple-cursors mwim nginx-mode org
-                   page-break-lines pallet paradox paredit pcre2el peg
-                   phi-search php-mode pip-requirements project
-                   projectile puppet-mode py-autopep8 pycoverage
-                   pymacs python python-docstring pythonic racer
-                   rainbow-delimiters realgud rg robe rtags rtags-xref
-                   rustic sass-mode sbt-mode scala-mode shut-up smex
-                   solarized-theme sqlite3 swift-mode thrift
-                   toml toml-mode traad
+                   ido-vertical-mode js2-mode json-mode jsonrpc
+                   julia-mode jump-char less-css-mode lsp-docker
+                   lsp-haskell lsp-java lsp-javacomp lsp-mode
+                   lsp-pyright lsp-sourcekit lsp-treemacs lsp-ui magit
+                   magit-gerrit magit-lfs magit-popup magit-section
+                   markdown-mode matlab-mode multiple-cursors mwim
+                   nginx-mode org page-break-lines pallet paradox
+                   paredit pcre2el peg phi-search php-mode
+                   pip-requirements project projectile puppet-mode
+                   py-autopep8 pycoverage pymacs python
+                   python-docstring pythonic racer rainbow-delimiters
+                   realgud rg robe rtags rtags-xref rustic sass-mode
+                   sbt-mode scala-mode shut-up smex solarized-theme
+                   sqlite3 swift-mode thrift toml toml-mode traad
                    track-changes tramp transient tt-mode
                    typescript-mode verilog-mode virtualenvwrapper
                    visual-regexp-steroids vue-mode which-key
