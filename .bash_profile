@@ -400,10 +400,59 @@ require "$HOME/.rvm/scripts/rvm"
 
 export MONO_GAC_PREFIX="/usr/local"
 
-export FZF_DEFAULT_COMMAND='fd --follow --hidden --exclude .git --exclude .hg --exclude .svn'
-export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
-export FZF_ALT_C_COMMAND="${FZF_DEFAULT_COMMAND} --type d"
+function _fzf_toggle_flag() {
+    local command_variable=$1
+    local first=$2
+    local second=$3
+
+    local -a flags
+    read -r -a flags <<< "${FZF_LIST_LABEL-}"
+
+    local i
+    local found=false
+    for i in "${!flags[@]}"; do
+        case ${flags[i]} in
+            "$first")
+                flags[i]=$second
+                found=true
+                break
+                ;;
+            "$second")
+                flags[i]=$first
+                found=true
+                break
+                ;;
+        esac
+    done
+    $found || return 1
+
+    printf 'reload(%s' "${!command_variable}"
+    printf ' %q' "${flags[@]}"
+    printf ')+change-list-label(%s)\n' "${flags[*]}"
+}
+export -f _fzf_toggle_flag
+
+export FZF_IGNORE_MODE='--ignore-vcs'
+export FZF_HIDDEN_MODE='--hidden'
+export FZF_MODE_FLAGS="$FZF_HIDDEN_MODE $FZF_IGNORE_MODE"
+export FZF_BASE_COMMAND='fd --follow --exclude .git --exclude .hg --exclude .svn'
+export FZF_DEFAULT_COMMAND="$FZF_BASE_COMMAND $FZF_MODE_FLAGS"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
+export FZF_CTRL_T_RELOAD_COMMAND="$FZF_BASE_COMMAND"
+export FZF_ALT_C_RELOAD_COMMAND="$FZF_BASE_COMMAND --type d"
 export FZF_DEFAULT_OPTS='--extended-exact --multi --select-1'
+export FZF_CTRL_T_OPTS="
+  --list-label='$FZF_MODE_FLAGS'
+  --bind='alt-i:transform(_fzf_toggle_flag FZF_CTRL_T_RELOAD_COMMAND --ignore-vcs --no-ignore-vcs)'
+  --bind='alt-h:transform(_fzf_toggle_flag FZF_CTRL_T_RELOAD_COMMAND --hidden --no-hidden)'
+"
+export FZF_ALT_C_OPTS="
+  --list-label='$FZF_MODE_FLAGS'
+  --bind='alt-i:transform(_fzf_toggle_flag FZF_ALT_C_RELOAD_COMMAND --ignore-vcs --no-ignore-vcs)'
+  --bind='alt-h:transform(_fzf_toggle_flag FZF_ALT_C_RELOAD_COMMAND --hidden --no-hidden)'
+"
+
 export FZF_COMPLETION_AUTO_COMMON_PREFIX=true
 export FZF_COMPLETION_AUTO_COMMON_PREFIX_PART=true
 function _fzf_compgen_path() {
