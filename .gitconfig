@@ -183,5 +183,7 @@
 	workers = 0
 [fetch]
 	parallel = 0
+[submodule]
+	fetchJobs = 0
 [advice]
 	skippedCherryPicks = false
