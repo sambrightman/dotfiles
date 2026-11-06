@@ -42,11 +42,12 @@
                    pymacs python python-docstring pythonic racer
                    rainbow-delimiters realgud rg robe rtags rtags-xref
                    rustic sass-mode sbt-mode scala-mode shut-up smex
-                   solarized-theme sqlite3 swift-mode thrift toml
-                   toml-mode traad track-changes tramp transient
-                   tt-mode typescript-mode verilog-mode
-                   virtualenvwrapper visual-regexp-steroids vue-mode
-                   which-key whole-line-or-region window-tool-bar xref
+                   solarized-theme sqlite3 swift-mode thrift
+                   toml toml-mode traad
+                   track-changes tramp transient tt-mode
+                   typescript-mode verilog-mode virtualenvwrapper
+                   visual-regexp-steroids vue-mode which-key
+                   whole-line-or-region window-tool-bar xclip xref
                    yaml-mode))
  '(paradox-automatically-star nil)
  '(paradox-github-token t)

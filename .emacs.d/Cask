@@ -224,6 +224,7 @@
 (depends-on "wgrep")
 (depends-on "whole-line-or-region")
 (depends-on "with-editor")
+(depends-on "xclip")
 (depends-on "xref" "1.4.0")
 (depends-on "xterm-color")
 (depends-on "yaml")
