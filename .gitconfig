@@ -187,3 +187,6 @@
 	fetchJobs = 0
 [advice]
 	skippedCherryPicks = false
+[stash]
+	index = true
+	showIncludeUntracked = true
