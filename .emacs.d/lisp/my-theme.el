@@ -47,7 +47,14 @@ If FRAME is omitted or nil it defaults to `selected-frame'."
         (load-theme my/theme t))
       (setq my/theme-terminal-loaded t)))
   (require 'solarized-extra-definitions) ;; remove once re-installing the package
-  (solarized-apply-definitions my/solarized-extra-definitions 'solarized))
+  (solarized-apply-definitions my/solarized-extra-definitions 'solarized)
+  (with-eval-after-load 'lsp-ui-doc
+    (set-face-attribute 'lsp-ui-doc-background nil
+                        :background "black"))
+  (with-eval-after-load 'lsp-ui-peek
+    (set-face-attribute 'lsp-ui-peek-peek nil
+                        :background "black")))
+
 
 (defun my/after-make-frame-functions-hook (frame)
   "Customization to apply theme to new FRAME."

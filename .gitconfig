@@ -55,6 +55,7 @@
 	me = !"git lg --author=\"$(git config user.name)\""
 	pp = !"git lgu; echo; git dus"
 	pr = pull --rebase
+	prr = pull --rebase --recurse-submodules
 	prp = !git pr && git push
 	pf = push --force-with-lease
 	ra = rebase --abort
