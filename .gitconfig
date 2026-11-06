@@ -104,6 +104,7 @@
 	smc = submodule foreach --recursive git clean -ffd
 	sms = submodule foreach --recursive git status
 	smu = submodule update --init --recursive
+	smur = submodule update --remote
 	sp = stash pop
 	sr = !"renamestash() { local number=$1 && shift; local message=$1 && shift; if [[ -z \"${number}\" || -z \"${message}\" ]]; then echo \"usage: git sr number name\"; git stash list; return 1; else local stash=\"stash@{$number}\"; local rev=$(git rev-parse \"${stash}\"); git stash drop \"${stash}\" || return 1; git stash store -m \"${message}\" \"${rev}\" || return 1; git stash list; fi }; renamestash"
 	ss = stash show --patch
